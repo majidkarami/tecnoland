@@ -12,6 +12,7 @@
 */
 
 Auth::routes();
+Moossa
 
 Route::get('/home', 'HomeController@index')->name('home');
 
