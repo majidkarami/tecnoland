@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>صفحه مدیریت فروشگاه اینترنتی روکسو</title>
+    <title>صفحه مدیریت فروشگاه اینترنتی تکنولند</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
@@ -47,9 +47,9 @@
         <!-- Logo -->
         <a href="index2.html" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>A</b>LT</span>
+            <span class="logo-mini"><b>T - </b>L</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>مدیریت</b> پنل</span>
+            <span class="logo-lg"><b>پنل</b> مدیریت</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -258,7 +258,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="/admin/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">آکادمی آنلاین روکسو</span>
+                            <span class="hidden-xs">فروشگاه آنلاین تکنولند</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -315,8 +315,8 @@
                     <img src="/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-right info">
-                    <p>آکادمی آنلاین روکسو</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <p>تکنولند</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> آنلاین </a>
                 </div>
             </div>
             <!-- search form -->
@@ -383,10 +383,52 @@
                 </li>
                 <li class="treeview">
                     <a href="{{url('/administrator/orders')}}">
-                        <i class="fa fa-ticket"></i>
+                        <i class="fa fa-reorder"></i>
                         <span>سفارشات</span>
                     </a>
 
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-newspaper-o"></i>
+                        <span>وبلاگ</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('posts.index')}}"><i class="fa fa-circle-o"></i>لیست وبلاگ</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span>مدیریت کاربران</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('users.index')}}"><i class="fa fa-circle-o"></i>لیست کاربران </a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-map-marker"></i>
+                        <span>مدیریت استان و شهر</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('provinces.index')}}"><i class="fa fa-circle-o"></i>لیست استان ها </a></li>
+                    </ul>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('cities.index')}}"><i class="fa fa-circle-o"></i>لیست شهر ها </a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="{{route('settings.index')}}">
+                        <i class="fa fa-gears"></i>
+                        <span>تنظیمات</span>
+                    </a>
                 </li>
             </ul>
         </section>
@@ -400,12 +442,12 @@
 
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 2.3.3
-        </div>
-        <strong>Copyright &copy; 2015-2019 <a href="https://www.roxo.ir">Roxo Studio</a>.</strong> All rights
-        reserved.
+    <footer class="main-footer" style="text-align: center;">
+{{--        <div class="pull-right hidden-xs">--}}
+{{--            <b>Version</b> 2.3.3--}}
+{{--        </div>--}}
+        <strong><a href="https://www.techno-land.net">تکنولند</a> _</strong>
+        تمام حقوق محفوظ می باشد.
     </footer>
 
     <!-- Control Sidebar -->

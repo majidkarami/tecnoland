@@ -29,4 +29,9 @@ Route::prefix('administrator')->namespace('Backend')->group(function () {
     Route::resource('coupons', 'CouponController');
     Route::get('orders', 'OrderController@index');
     Route::get('orders/lists/{id}', 'OrderController@getOrderLists')->name('orders.lists');
+    Route::resource('users', 'UserController');
+    Route::resource('posts', 'UserController');
+    Route::resource('settings', 'UserController');
+    Route::resource('cities', 'UserController');
+    Route::resource('provinces', 'UserController');
 });

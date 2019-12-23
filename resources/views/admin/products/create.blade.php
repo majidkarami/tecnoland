@@ -81,7 +81,7 @@
     <script type="text/javascript" src="{{asset('/admin/plugins/ckeditor/ckeditor.js')}}"></script>
     <script>
         Dropzone.autoDiscover = false;
-        var photosGallery = []
+        var photosGallery = [];
         var drop = new Dropzone('#photo', {
           addRemoveLinks: true,
           url: "{{ route('photos.upload') }}",
