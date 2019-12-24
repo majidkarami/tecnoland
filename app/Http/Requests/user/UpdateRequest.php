@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'national_code' => 'required|unique:users',
+            'national_code' => 'required|unique:users|min:16',
             'birthday' => 'required',
             'gender' => 'required',
             'bank_number' => 'required',

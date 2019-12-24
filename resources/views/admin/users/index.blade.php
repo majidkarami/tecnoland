@@ -45,19 +45,45 @@
                                 <td class="text-center">{{$user->id}}</td>
                                 <td class="text-center">{{$user->name}}</td>
                                 <td class="text-center">{{$user->phone}}</td>
-                                @if($user->is_active == 0)
-                                    <td class="text-center"><span class="badge badge-danger">غیرفعال</span>
+                                @if($user->active == 0)
+                                    <td class="text-center"><span class="badge label-danger">غیرفعال</span>
                                     </td>
                                 @else
-                                    <td class="text-center"><span class="badge badge-success">فعال</span>
+                                    <td class="text-center"><span class="badge label-success">فعال</span>
                                     </td>
                                 @endif
                                 <td class="text-center">{{ verta($user->ts)->format('H:i , Y-m-d')}}</td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-warning" href="{{route('users.edit',$user->id)}}" style="color: white;">ویرایش</a>
                                     <div style="display:inline-block">
-                                        <button type="submit" onclick="del_row('{{route('users.destroy',$user->id)}}','{{Session::token()}}')" class="btn btn-sm btn-danger">حذف</button>
+                                        <button type="submit" data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-danger">حذف</button>
                                     </div>
+                                    <form method="POST" action="{{route('users.destroy',$user->id)}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <!-- modal -->
+                                            <div class="modal fade" id="modal-default">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">حذف</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>آیا از حذف آیتم مورد نظر اطمینان دارید؟</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خروج</button>
+                                                            <button type="submit" class="btn btn-primary">بلی</button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+                                            <!-- /.modal -->
+                                    </form>
                                 </td>
 
                             </tr>
