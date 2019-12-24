@@ -75,7 +75,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خروج</button>
-                                                            <button type="submit" class="btn btn-primary">بلی</button>
+                                                            <button type="submit" class="btn btn-danger">بلی</button>
                                                         </div>
                                                     </div>
                                                     <!-- /.modal-content -->
