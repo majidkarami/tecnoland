@@ -26,6 +26,12 @@ class UserController extends Controller
         return view('admin.users.create');
     }
 
+    public function show($id)
+    {
+        $user=User::findOrFail($id);
+        return view('admin.users.show',compact('user'));
+    }
+
 
     public function store(StoreRequest $request)
     {

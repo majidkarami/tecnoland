@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>صفحه مدیریت فروشگاه اینترنتی تکنولند</title>
+    <title> صفحه مدیریت فروشگاه اینترنتی تکنولند - @yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
@@ -421,6 +421,17 @@
                     </ul>
                     <ul class="treeview-menu">
                         <li><a href="{{route('cities.index')}}"><i class="fa fa-circle-o"></i>لیست شهر ها </a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-sliders"></i>
+                        <span>مدیریت اسلایدر</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('sliders.index')}}"><i class="fa fa-circle-o"></i>لیست اسلایدر </a></li>
                     </ul>
                 </li>
 

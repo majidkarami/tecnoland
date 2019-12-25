@@ -31,7 +31,8 @@ Route::prefix('administrator')->namespace('Backend')->group(function () {
     Route::get('orders/lists/{id}', 'OrderController@getOrderLists')->name('orders.lists');
     Route::resource('users', 'UserController');
     Route::resource('posts', 'UserController');
-    Route::resource('settings', 'UserController');
-    Route::resource('cities', 'UserController');
-    Route::resource('provinces', 'UserController');
+    Route::resource('settings', 'SettingController');
+    Route::resource('cities', 'CityController');
+    Route::resource('provinces', 'ProvinceController');
+    Route::resource('sliders', 'SliderController');
 });

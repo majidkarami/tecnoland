@@ -54,6 +54,13 @@
                             </tr>
                         @endforeach
                         </tbody>
+                        @if(sizeof($products)==0)
+                            <tr>
+                                <td colspan="8" style="color: #d9534f;text-align: center">رکوردی یافت
+                                    نشد
+                                </td>
+                            </tr>
+                        @endif
                     </table>
 
                     <div class="col-md-12" style="text-align: center">{{$products->links()}}</div>
