@@ -21,7 +21,7 @@ class CreatePostCommentsTable extends Migration
             $table->tinyInteger('status');
             $table->timestamps();
 
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -35,7 +35,7 @@ class CreatePostCommentsTable extends Migration
         Schema::dropIfExists('post_comments');
 
         Schema::table('post_comments', function(Blueprint $table){
-                $table->dropForeign('post_id');
+                $table->dropForeign(['post_id']);
         });
     }
 }

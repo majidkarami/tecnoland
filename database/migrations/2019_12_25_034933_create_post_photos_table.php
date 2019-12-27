@@ -17,7 +17,10 @@ class CreatePostPhotosTable extends Migration
             $table->bigIncrements('id');
             $table->string('path');
             $table->string('name');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -29,5 +32,8 @@ class CreatePostPhotosTable extends Migration
     public function down()
     {
         Schema::dropIfExists('post_photos');
+        Schema::table('post_photos', function (Blueprint $table){
+            $table->dropForeign(['user_id']);
+        });
     }
 }
