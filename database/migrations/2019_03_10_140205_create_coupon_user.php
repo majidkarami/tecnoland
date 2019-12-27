@@ -15,10 +15,10 @@ class CreateCouponUser extends Migration
     {
         Schema::create('coupon_user', function (Blueprint $table) {
           $table->unsignedBigInteger('coupon_id')->index();
-          $table->foreign(['coupon_id'])->references('id')->on('coupons')->onUpdate('cascade');;
+          $table->foreign(['coupon_id'])->references('id')->on('coupons')->onDelete('cascade')->onUpdate('cascade');
 
           $table->unsignedBigInteger('user_id')->index();
-          $table->foreign(['user_id'])->references('id')->on('users')->onUpdate('cascade');;
+          $table->foreign(['user_id'])->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -15,10 +15,10 @@ class AddPhotoProduct extends Migration
     {
         Schema::create('photo_product', function (Blueprint $table) {
           $table->unsignedBigInteger('photo_id')->index();
-          $table->foreign('photo_id')->references('id')->on('photos');
+          $table->foreign('photo_id')->references('id')->on('photos')->onDelete('cascade')->onUpdate('cascade');
 
           $table->unsignedBigInteger('product_id')->index();
-          $table->foreign(['product_id'])->references('id')->on('products')->onUpdate('cascade');;
+          $table->foreign(['product_id'])->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

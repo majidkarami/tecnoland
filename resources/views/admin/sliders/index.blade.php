@@ -1,14 +1,15 @@
 @extends('admin.layout.master')
 
-@section('title', __('لیست کاربران'))
+@section('title', __('مدیریت اسلایدر ها'))
 
 @section('content')
+
     <section class="content">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title pull-right">کاربران</h3>
+                <h3 class="box-title pull-right">لیست اسلایدر ها</h3>
                 <div class="text-left">
-                    <a class="btn btn-app" href="{{route('users.create')}}">
+                    <a class="btn btn-app" href="{{route('sliders.create')}}">
                         <i class="fa fa-plus"></i> جدید
                     </a>
                 </div>
@@ -29,53 +30,58 @@
                 <div class="table-responsive">
                     <table class="table no-margin">
                         <thead>
-                             <tr>
-                            <th class="text-center"> ردیف</th>
-                            <th class="text-center"> نام</th>
-                            <th class="text-center"> موبایل</th>
-                            <th class="text-center"> وضعیت</th>
-                            <th class="text-center"> تاریخ ایجاد</th>
+                        <tr>
+                            <th class="text-center">ردیف</th>
+                            <th class="text-center">عنوان اسلایدر</th>
+                            <th class="text-center">تصویر اسلایدر</th>
                             <th class="text-center">عملیات</th>
-
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($users as $user)
+                        @php
+                            $i = 1;
+                        @endphp
+
+                        @foreach($sliders as $slider)
                             <tr>
-                                <td class="text-center">{{$user->id}}</td>
-                                <td class="text-center">{{$user->name}}</td>
-                                <td class="text-center">{{$user->phone}}</td>
-                                @if($user->active == 0)
-                                    <td class="text-center"><span class="badge label-danger">غیرفعال</span>
+                                <td class="text-center" style="padding: 40px;">{{$i}}</td>
+                                <td class="text-center" style="padding: 40px;">{{ $slider->title }}</td>
+
+                                @if(file_exists($slider->url))
+                                    <td  class="text-center">
+                                        <img src="{{url($slider->url)}}" alt="{{$slider->img}}" title="{{$slider->img}}" style="width:20%">
                                     </td>
-                                @else
-                                    <td class="text-center"><span class="badge label-success">فعال</span>
+                                    @else
+                                    <td class="text-center">
+                                        <img src="{{ url('admin/images/img.jpg') }}" id="output" width="20%">
                                     </td>
-                                @endif
-                                <td class="text-center">{{ verta($user->ts)->format('H:i , Y-m-d')}}</td>
-                                <td class="text-center">
-                                    <a class="btn btn-sm btn-info" href="{{route('users.show',$user->id)}}" style="color: white;">مشاهده</a>
-                                    <a class="btn btn-sm btn-warning" href="{{route('users.edit',$user->id)}}" style="color: white;">ویرایش</a>
-                                    <div style="display:inline-block">
+                                    @endif
+
+                                <td class="text-center" style=" display: inline-flex;padding: 40px;">
+                                     <a style="margin-left: 10px;" class="btn btn-sm btn-warning" href="{{route('sliders.edit',$slider->id)}}">ویرایش</a>
+                                    <div>
                                         <button type="submit" data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-danger">حذف</button>
-                                    </div>
-                                    <form method="POST" action="{{route('users.destroy',$user->id)}}">
+
+                                        <form method="post" action="{{route('sliders.destroy',$slider->id)}}">
                                         @csrf
                                         @method('DELETE')
-                                             <!-- modal -->
+                                        <!-- modal -->
                                             <div class="modal fade" id="modal-default">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span></button>
                                                             <h4 class="modal-title">حذف</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <p>آیا از حذف کاربر مورد نظر اطمینان دارید؟</p>
+                                                            <p>آیا از حذف تنظیمات مورد نظر اطمینان دارید؟</p>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خروج</button>
+                                                            <button type="button" class="btn btn-default pull-left"
+                                                                    data-dismiss="modal">خروج
+                                                            </button>
                                                             <button type="submit" class="btn btn-danger">بلی</button>
                                                         </div>
                                                     </div>
@@ -84,15 +90,19 @@
                                                 <!-- /.modal-dialog -->
                                             </div>
                                             <!-- /.modal -->
-                                    </form>
+                                        </form>
+
+                                    </div>
+
                                 </td>
-
                             </tr>
-
+                            @php
+                                $i++;
+                            @endphp
                         @endforeach
 
                         </tbody>
-                        @if(sizeof($users)==0)
+                        @if(sizeof($sliders)==0)
                             <tr>
                                 <td colspan="8" style="color: #d9534f;text-align: center">رکوردی یافت
                                     نشد
@@ -101,7 +111,7 @@
                         @endif
                     </table>
 
-                    <div class="col-md-12" style="text-align: center">{{$users->links()}}</div>
+                    <div class="col-md-12" style="text-align: center">{{$sliders->links()}}</div>
 
                 </div>
                 <!-- /.table-responsive -->
@@ -109,4 +119,6 @@
         </div>
     </section>
 
+
 @endsection
+

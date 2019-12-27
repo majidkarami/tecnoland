@@ -42,7 +42,17 @@
                             </tr>
                         @endforeach
                         </tbody>
+                        @if(sizeof($orders)==0)
+                            <tr>
+                                <td colspan="8" style="color: #d9534f;text-align: center">رکوردی یافت
+                                    نشد
+                                </td>
+                            </tr>
+                        @endif
                     </table>
+
+                    <div class="col-md-12" style="text-align: center">{{$orders->links()}}</div>
+
                 </div>
                 <!-- /.table-responsive -->
             </div>

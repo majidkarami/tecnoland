@@ -26,6 +26,12 @@ class UserController extends Controller
         return view('admin.users.create');
     }
 
+    public function show($id)
+    {
+        $user=User::findOrFail($id);
+        return view('admin.users.show',compact('user'));
+    }
+
 
     public function store(StoreRequest $request)
     {
@@ -41,7 +47,7 @@ class UserController extends Controller
         $user->password = bcrypt($request->post('password'));
         $user->remember_token = Str::random(40);
         $user->save();
-        alert()->success('کاربر با موفقیت اضافه شد.', 'موفقیت');
+//        alert()->success('کاربر با موفقیت اضافه شد.', 'موفقیت');
         return redirect(route('users.index'));
 
     }
@@ -54,7 +60,7 @@ class UserController extends Controller
     }
 
 
-    public function update(UpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $user->name = $request->post('name');
@@ -69,8 +75,9 @@ class UserController extends Controller
         if (trim($request->post('password') != "")) {
             $user->password = bcrypt($request->input('password'));
         }
+
         $user->update();
-        alert()->success('کاربر با موفقیت ویرایش شد.', 'موفقیت');
+//        alert()->success('کاربر با موفقیت ویرایش شد.', 'موفقیت');
         return redirect(route('users.index'));
     }
 
@@ -78,7 +85,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        alert()->success('کاربر با موفقیت حذف شد.', 'موفقیت');
+//        alert()->success('کاربر با موفقیت حذف شد.', 'موفقیت');
         return redirect(route('users.index'));
     }
 }

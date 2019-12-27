@@ -1,14 +1,15 @@
 @extends('admin.layout.master')
 
-@section('title', __('لیست کاربران'))
+@section('title', __('لیست تنظیمات'))
 
 @section('content')
+
     <section class="content">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title pull-right">کاربران</h3>
+                <h3 class="box-title pull-right">لیست تنظیمات</h3>
                 <div class="text-left">
-                    <a class="btn btn-app" href="{{route('users.create')}}">
+                    <a class="btn btn-app" href="{{route('settings.create')}}">
                         <i class="fa fa-plus"></i> جدید
                     </a>
                 </div>
@@ -29,53 +30,63 @@
                 <div class="table-responsive">
                     <table class="table no-margin">
                         <thead>
-                             <tr>
-                            <th class="text-center"> ردیف</th>
-                            <th class="text-center"> نام</th>
-                            <th class="text-center"> موبایل</th>
-                            <th class="text-center"> وضعیت</th>
-                            <th class="text-center"> تاریخ ایجاد</th>
+                        <tr>
+                            <th class="text-center">ردیف</th>
+                            <th class="text-center">نام</th>
+                            <th class="text-center"> مقدار</th>
                             <th class="text-center">عملیات</th>
-
                         </tr>
+                        @php
+                            $i = 1;
+                        @endphp
+
                         </thead>
                         <tbody>
-                        @foreach ($users as $user)
+                        @php
+                            $i = 1;
+                        @endphp
+
+                        @foreach ($settings as $setting)
                             <tr>
-                                <td class="text-center">{{$user->id}}</td>
-                                <td class="text-center">{{$user->name}}</td>
-                                <td class="text-center">{{$user->phone}}</td>
-                                @if($user->active == 0)
-                                    <td class="text-center"><span class="badge label-danger">غیرفعال</span>
-                                    </td>
-                                @else
-                                    <td class="text-center"><span class="badge label-success">فعال</span>
-                                    </td>
-                                @endif
-                                <td class="text-center">{{ verta($user->ts)->format('H:i , Y-m-d')}}</td>
+                                <td class="text-center">{{$i}}</td>
+                                <td class="text-center">{{$setting->name}}</td>
+                                <td class="text-center">{{$setting->value}}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-info" href="{{route('users.show',$user->id)}}" style="color: white;">مشاهده</a>
-                                    <a class="btn btn-sm btn-warning" href="{{route('users.edit',$user->id)}}" style="color: white;">ویرایش</a>
+
+                                    <div style="display:inline-block">
+                                        <form method="get"
+                                              action="{{route('settings.edit',$setting->name)}}">
+                                            @csrf
+                                            <button style="color: white" type="submit" class="btn btn-sm btn-warning">
+                                                ویرایش
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                    {{-- <a class="btn btn-warning" href="{{route('adverts.edit',$advert->id)}}">ویرایش</a> --}}
                                     <div style="display:inline-block">
                                         <button type="submit" data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-danger">حذف</button>
-                                    </div>
-                                    <form method="POST" action="{{route('users.destroy',$user->id)}}">
+
+                                        <form method="post" action="{{route('settings.destroy',$setting->name)}}">
                                         @csrf
                                         @method('DELETE')
-                                             <!-- modal -->
+                                        <!-- modal -->
                                             <div class="modal fade" id="modal-default">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span></button>
                                                             <h4 class="modal-title">حذف</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <p>آیا از حذف کاربر مورد نظر اطمینان دارید؟</p>
+                                                            <p>آیا از حذف تنظیمات مورد نظر اطمینان دارید؟</p>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خروج</button>
+                                                            <button type="button" class="btn btn-default pull-left"
+                                                                    data-dismiss="modal">خروج
+                                                            </button>
                                                             <button type="submit" class="btn btn-danger">بلی</button>
                                                         </div>
                                                     </div>
@@ -84,15 +95,19 @@
                                                 <!-- /.modal-dialog -->
                                             </div>
                                             <!-- /.modal -->
-                                    </form>
+                                        </form>
+
+                                    </div>
+
                                 </td>
-
                             </tr>
-
+                            @php
+                                $i++;
+                            @endphp
                         @endforeach
 
                         </tbody>
-                        @if(sizeof($users)==0)
+                        @if(sizeof($settings)==0)
                             <tr>
                                 <td colspan="8" style="color: #d9534f;text-align: center">رکوردی یافت
                                     نشد
@@ -101,7 +116,7 @@
                         @endif
                     </table>
 
-                    <div class="col-md-12" style="text-align: center">{{$users->links()}}</div>
+                    <div class="col-md-12" style="text-align: center">{{$settings->links()}}</div>
 
                 </div>
                 <!-- /.table-responsive -->
