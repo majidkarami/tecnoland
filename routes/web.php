@@ -12,11 +12,10 @@
 */
 
 Auth::routes();
-Moossa
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::prefix('administrator')->namespace('Backend')->group(function () {
+Route::prefix('admin')->namespace('Backend')->group(function () {
     Route::get('/', 'MainController@mainPage');
     Route::resource('categories', 'CategoryController');
     Route::get('/categories/{id}/settings', 'CategoryController@indexSetting')->name('categories.indexSetting');
@@ -31,7 +30,7 @@ Route::prefix('administrator')->namespace('Backend')->group(function () {
     Route::get('orders', 'OrderController@index');
     Route::get('orders/lists/{id}', 'OrderController@getOrderLists')->name('orders.lists');
     Route::resource('users', 'UserController');
-    Route::resource('posts', 'UserController');
+    Route::resource('posts', 'PostController');
     Route::resource('settings', 'UserController');
     Route::resource('cities', 'UserController');
     Route::resource('provinces', 'UserController');

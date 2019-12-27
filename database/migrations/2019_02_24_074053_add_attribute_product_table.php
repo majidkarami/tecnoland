@@ -15,7 +15,7 @@ class AddAttributeProductTable extends Migration
     {
         Schema::create('attributeValue_product', function (Blueprint $table) {
           $table->unsignedBigInteger('attributeValue_id')->index();
-          $table->foreign(['attributeValue_id'])->references('id')->on('attributesvalue')->onUpdate('cascade');;
+          $table->foreign(['attributeValue_id'])->references('id')->on('attributesValue')->onUpdate('cascade');;
 
           $table->unsignedBigInteger('product_id')->index();
           $table->foreign(['product_id'])->references('id')->on('products')->onUpdate('cascade');;
