@@ -30,7 +30,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'last_name', 'national_code', 'birthday', 'gender', 'bank_numb', 'email','email_verified_at', 'phone',
+
+
     ];
 
     /**
@@ -44,24 +46,27 @@ class User extends Authenticatable
 
     public function photos()
     {
-      return $this->hasMany(Photo::class);
+        return $this->hasMany(Photo::class);
     }
 
     public function products()
     {
-      return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class);
     }
 
     public function addresses()
     {
-      return $this->hasMany(Address::class);
+        return $this->hasMany(Address::class);
     }
+
     public function coupons()
     {
-      return $this->belongsToMany(Coupon::class);
+        return $this->belongsToMany(Coupon::class);
     }
-    public function orders(){
-      return $this->hasMany(Order::class);
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
     public function roles()
