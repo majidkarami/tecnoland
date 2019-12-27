@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-
+@section('title', __('ویرایش محصول'))
 @section('styles')
     <link rel="stylesheet" href="{{asset('/admin/dist/css/dropzone.css')}}">
 @endsection

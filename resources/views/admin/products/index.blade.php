@@ -1,10 +1,10 @@
 @extends('admin.layout.master')
-
+@section('title', __('لیست محصولات '))
 @section('content')
     <section class="content">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title pull-right">محصولات</h3>
+                <h3 class="box-title pull-right">لیست محصولات</h3>
                 <div class="text-left">
                     <a class="btn btn-app" href="{{route('products.create')}}">
                         <i class="fa fa-plus"></i> جدید

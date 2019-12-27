@@ -35,4 +35,7 @@ Route::prefix('administrator')->namespace('Backend')->group(function () {
     Route::resource('cities', 'CityController');
     Route::resource('provinces', 'ProvinceController');
     Route::resource('sliders', 'SliderController');
+    Route::resource('comments', 'CommentController');
+    Route::resource('amazings', 'AmazingController');
+
 });
