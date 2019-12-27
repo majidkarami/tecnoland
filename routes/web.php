@@ -30,7 +30,6 @@ Route::prefix('admin')->namespace('Backend')->group(function () {
     Route::get('orders', 'OrderController@index');
     Route::get('orders/lists/{id}', 'OrderController@getOrderLists')->name('orders.lists');
     Route::resource('users', 'UserController');
-
     Route::resource('posts', 'UserController');
     Route::resource('settings', 'SettingController');
     Route::resource('cities', 'CityController');
