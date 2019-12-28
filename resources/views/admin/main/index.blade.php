@@ -69,7 +69,8 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer"><i class="fa fa-arrow-circle-left"></i> اطلاعات بیشتر </a>          </div>
+                    <a href="#" class="small-box-footer"><i class="fa fa-arrow-circle-left"></i> اطلاعات بیشتر </a>
+                </div>
             </div>
             <!-- ./col -->
         </div>
@@ -77,10 +78,48 @@
         <!-- Main row -->
         <div class="row">
             <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
+            <section class="content">
+                <div class="box box-info">
+                    <div>
+                        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto;direction:ltr"></div>
+                    </div>
+                    <div class="box-body">
 
-{{--ccccc--}}
+                        <div class="table-responsive">
+                            <table class="table">
 
+
+                        <?php
+                        $Jdf = new \App\lib\Jdf();
+                        $aa = $Jdf->tr_num($Jdf->jdate('d'));
+                        $a = ltrim($aa, '0');
+                        ?>
+                        <tr>
+                            <td style="padding-right: 200px">آمار بازدید امروز فروشگاه</td>
+
+                            <td class="text-blue" style="padding-left: 130px">{{ $total_view[$a] }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding-right: 200px">آمار بازدید یک ماه فروشگاه</td>
+                            <td class="text-blue" style="padding-left: 130px">{{ $month_year }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding-right: 200px">آمار بازدید یک سال فروشگاه</td>
+                            <td class="text-blue" style="padding-left: 130px">{{ $view_year }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding-right: 200px">آمار بازدید کل فروشگاه</td>
+                            <td class="text-blue" style="padding-left: 130px">{{ $total }}</td>
+                        </tr>
+
+                    </table>
+
+                    </div>
+                </div>
+                </div>
             </section>
             <!-- /.Left col -->
 
@@ -92,21 +131,64 @@
 @endsection
 
 @section('scripts')
-    <script src="/admin/plugins/morris/morris.min.js"></script>
-    <!-- Sparkline -->
-    <script src="/admin/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!-- jvectormap -->
-    <script src="/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="/admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="/admin/plugins/knob/jquery.knob.js"></script>
-    <!-- daterangepicker -->
-    <script src="/admin/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- datepicker -->
-    <script src="/admin/plugins/datepicker/bootstrap-datepicker.js"></script>
-    <!-- Bootstrap WYSIHTML5 -->
-    <script src="/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-    <!-- Slimscroll -->
-    <script src="/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+
+    <?php
+
+    $v = '';
+    $v_t = '';
+    $date = '';
+
+    foreach ($total_view as $key => $value) {
+        $v_t .= $value . ',';
+    }
+    foreach ($view as $key => $value) {
+        $v .= $value . ',';
+    }
+    foreach ($date_list as $key => $value) {
+        $date .= "'$value',";
+    }
+    ?>
+    <script type="text/javascript" src="{{ url('admin/js/highcharts.js') }}"></script>
+    <script>
+        Highcharts.chart('container', {
+            chart: {
+                type: 'line',
+                style: {
+                    fontFamily: 'Vazir'
+                }
+            },
+            title: {
+                text: 'نمودار آمار بازید این ماه فروشگاه'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [<?= $date ?>]
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                verticalAlign: 'top',
+                y: 30
+            },
+            tooltip: {},
+            series: [{
+                name: 'تعداد کل بازدید',
+                data: [<?= $v_t ?>],
+                color: 'red'
+            }, {
+                name: 'بازدید یکتا',
+                data: [<?= $v ?>],
+                marker: {
+                    symbol: 'circle'
+                }
+            }]
+        });
+    </script>
 
 @endsection

@@ -13,7 +13,6 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('administrator')->namespace('Backend')->group(function () {
     Route::get('/', 'MainController@mainPage');
@@ -37,5 +36,12 @@ Route::prefix('administrator')->namespace('Backend')->group(function () {
     Route::resource('sliders', 'SliderController');
     Route::resource('comments', 'CommentController');
     Route::resource('amazings', 'AmazingController');
+
+});
+
+/* امار بازدید را در اینجا قرار دهید*/
+Route::middleware(['statistics'])->group(function ()
+{
+    Route::get('/home', 'HomeController@index')->name('home');
 
 });
