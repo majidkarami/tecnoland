@@ -14,7 +14,7 @@
 Auth::routes();
 
 
-Route::prefix('administrator')->namespace('Backend')->group(function () {
+Route::prefix('admin')->namespace('Backend')->group(function () {
     Route::get('/', 'MainController@mainPage');
     Route::resource('categories', 'CategoryController');
     Route::get('/categories/{id}/settings', 'CategoryController@indexSetting')->name('categories.indexSetting');
