@@ -15,7 +15,7 @@ Auth::routes();
 
 
 Route::prefix('admin')->namespace('Backend')->group(function () {
-    Route::get('/', 'MainController@mainPage');
+    Route::get('/home', 'MainController@mainPage');
     Route::resource('categories', 'CategoryController');
     Route::get('/categories/{id}/settings', 'CategoryController@indexSetting')->name('categories.indexSetting');
     Route::post('/categories/{id}/settings', 'CategoryController@saveSetting');

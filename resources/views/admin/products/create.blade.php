@@ -14,7 +14,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
-                        <form id="myForm" method="post" action="/administrator/products">
+                        <form id="myForm" method="post" action="{{route('products.store')}}">
                             @csrf
                             <div class="form-group">
                                 <label for="title">نام</label>

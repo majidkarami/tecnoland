@@ -34,6 +34,7 @@
                             <th class="text-center"> نام</th>
                             <th class="text-center"> موبایل</th>
                             <th class="text-center"> وضعیت</th>
+                            <th class="text-center"> نقش</th>
                             <th class="text-center"> تاریخ ایجاد</th>
                             <th class="text-center">عملیات</th>
 
@@ -52,6 +53,13 @@
                                     <td class="text-center"><span class="badge label-success">فعال</span>
                                     </td>
                                 @endif
+
+                                @if(!empty($user->roles()->get()->pluck('name')->toArray()))
+                                    <td class="text-center">{{implode(',',$user->roles()->get()->pluck('name')->toArray())}}</td>
+                                @else
+                                    <td class="text-center">--</td>
+                                @endif
+
                                 <td class="text-center">{{ verta($user->ts)->format('H:i , Y-m-d')}}</td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-info" href="{{route('users.show',$user->id)}}" style="color: white;">مشاهده</a>
