@@ -13,10 +13,9 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')->namespace('Backend')->group(function () {
-    Route::get('/', 'MainController@mainPage');
+    Route::get('/home', 'MainController@mainPage');
     Route::resource('categories', 'CategoryController');
     Route::get('/categories/{id}/settings', 'CategoryController@indexSetting')->name('categories.indexSetting');
     Route::post('/categories/{id}/settings', 'CategoryController@saveSetting');
@@ -37,5 +36,12 @@ Route::prefix('admin')->namespace('Backend')->group(function () {
     Route::resource('sliders', 'SliderController');
     Route::resource('comments', 'CommentController');
     Route::resource('amazings', 'AmazingController');
+
+});
+
+/* امار بازدید را در اینجا قرار دهید*/
+Route::middleware(['statistics'])->group(function ()
+{
+    Route::get('/home', 'HomeController@index')->name('home');
 
 });

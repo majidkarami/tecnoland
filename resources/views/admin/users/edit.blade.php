@@ -65,14 +65,51 @@
                             <div class="form-group">
                                 <label>جنسیت</label>
                                 <div>
-                                    <input type="radio" name="gender" value="1" @if($user->gender == 1) checked @endif> <span
+                                    <input type="radio" name="gender" value="1"  class="flat-red" @if($user->gender == 1) checked @endif> <span
                                         class="margin-l-10">مرد</span>
-                                    <input type="radio" name="gender" value="0" @if($user->gender == 0) checked @endif> <span>زن</span>
+                                    <input type="radio" name="gender" value="0"  class="flat-red" @if($user->gender == 0) checked @endif> <span>زن</span>
                                 </div>
                                 @if($errors->has('gender'))
                                     <span style="color:red;font-size:13px">{{ $errors->first('gender') }}</span>
                                 @endif
                             </div>
+
+                            <br>
+                            <div class="form-group">
+                                <label>نقش</label>
+                                <br>
+                                @foreach($roles as $role)
+                                    <label style="font-weight: unset;">
+                                        <input type="checkbox" name="role_user[]" value="{{$role->id}}"
+                                               {{$user->hasAnyRole($role) ? 'checked' : ''}}
+                                               class="flat-red">
+                                        {{$role->name}}
+{{--                                        @if($role->name == 'admin')--}}
+{{--                                            مدیر--}}
+{{--                                        @elseif($role->name == 'author')--}}
+{{--                                            نویسنده--}}
+{{--                                        @else--}}
+{{--                                            کاربر--}}
+{{--                                        @endif--}}
+                                    </label>
+                                @endforeach
+                                @if($errors->has('role_user'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('role_user') }}</span>
+                                @endif
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label>وضعیت</label>
+                                <div>
+                                    <input type="radio" name="active" value="1" @if($user->active == 1) checked @endif class="flat-red"> <span
+                                        class="margin-l-10">فعال</span>
+                                    <input type="radio" name="active" value="0" @if($user->active == 0) checked @endif class="flat-red"> <span>غیرفعال</span>
+                                </div>
+                                @if($errors->has('active'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('active') }}</span>
+                                @endif
+                            </div>
+                            <br>
 
                             <div class="form-group">
                                 <label>شماره کارت بانکی</label>

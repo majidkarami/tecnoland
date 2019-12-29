@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\user\StoreRequest;
 use App\Http\Requests\user\UpdateRequest;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Session;
 
@@ -23,13 +25,14 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('admin.users.create');
+        $roles = Role::all();
+        return view('admin.users.create', compact('roles'));
     }
 
     public function show($id)
     {
-        $user=User::findOrFail($id);
-        return view('admin.users.show',compact('user'));
+        $user = User::findOrFail($id);
+        return view('admin.users.show', compact('user'));
     }
 
 
@@ -44,9 +47,17 @@ class UserController extends Controller
         $user->bank_number = $request->post('bank_number');
         $user->email = $request->post('email');
         $user->phone = $request->post('phone');
+
+        if ($request->post('active') == 1)
+            $user->active = 1;
+        else
+            $user->active = 0;
+
         $user->password = bcrypt($request->post('password'));
         $user->remember_token = Str::random(40);
         $user->save();
+
+        $user->roles()->sync($request->post('role_user'));
 //        alert()->success('کاربر با موفقیت اضافه شد.', 'موفقیت');
         return redirect(route('users.index'));
 
@@ -55,8 +66,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        $roles = Role::all();
         $user = User::findOrFail($id);
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
 
@@ -71,12 +83,19 @@ class UserController extends Controller
         $user->bank_number = $request->post('bank_number');
         $user->email = $request->post('email');
         $user->phone = $request->post('phone');
+        if ($request->post('active') == 1)
+            $user->active = 1;
+        else
+            $user->active = 0;
+
         $user->remember_token = Str::random(40);
         if (trim($request->post('password') != "")) {
             $user->password = bcrypt($request->input('password'));
         }
 
         $user->update();
+        $user->roles()->sync($request->post('role_user'));
+
 //        alert()->success('کاربر با موفقیت ویرایش شد.', 'موفقیت');
         return redirect(route('users.index'));
     }
