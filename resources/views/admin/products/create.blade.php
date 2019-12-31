@@ -1,7 +1,8 @@
 @extends('admin.layout.master')
 @section('title', __('ایجاد محصول جدید'))
 @section('styles')
-    <link rel="stylesheet" href="{{asset('/admin/dist/css/dropzone.css')}}">
+{{--    <link rel="stylesheet" href="{{asset('/admin/dist/css/dropzone.css')}}">--}}
+<link href="{{ url('admin/css/bootstrap-select.css') }}" rel="stylesheet" >
 @endsection
 
 @section('content')
@@ -17,51 +18,157 @@
                         <form id="myForm" method="post" action="{{route('products.store')}}">
                             @csrf
                             <div class="form-group">
-                                <label for="title">نام</label>
-                                <input type="text" name="title" class="form-control" placeholder="نام محصول را وارد کنید...">
+                                <label for="title">عنوان محصول</label>
+                                <input type="text" name="title" value="{{old('title')}}" class="form-control" placeholder="عنوان محصول را وارد کنید...">
+                                @if($errors->has('title'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('title') }}</span>
+                                @endif
                             </div>
+                            <br>
+
                             <div class="form-group">
-                                <label for="slug">نام مستعار</label>
-                                <input type="text" name="slug" class="form-control" placeholder="نام مستعار محصول را وارد کنید...">
+                                <label for="text">توضیحات محصول</label>
+                                <textarea id="textareaDescription" type="text" name="text" class="ckeditor form-control" placeholder="توضیحات محصول را وارد کنید...">{{old('text')}}</textarea>
+                                @if($errors->has('text'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('text') }}</span>
+                                @endif
                             </div>
-                            <attribute-component :brands="{{ $brands }}"></attribute-component>
+                            <br>
+
                             <div class="form-group">
-                                <label>وضعیت نشر</label>
+                                <label for="cat">دسته والد</label>
+                                <select name="cat" id="" data-live-search="true" multiple class="selectpicker form-control">
+                                    @foreach($cat_list as $key=>$value)
+                                        <option value="{{$key}}">{{$value}}</option>
+                                    @endforeach
+                                </select>
+                                @if($errors->has('cat'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('cat') }}</span>
+                                @endif
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="code">نام لاتین محصول </label>
+                                <input type="text" name="code" value="{{old('code')}}"  class="form-control" placeholder="نام لاتین محصول را وارد کنید...">
+                                @if($errors->has('code'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('code') }}</span>
+                                @endif
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="price">هزینه محصول</label>
+                                <input type="number" name="price" value="{{old('price')}}"  class="form-control" placeholder="قیمت محصول بر حسب ریال را وارد کنید...">
+                                @if($errors->has('price'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('price') }}</span>
+                                @endif
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="discounts"> تخفیف</label>
+                                <input type="number" name="discounts" value="{{old('discounts')}}"  class="form-control" placeholder="تخفیف محصول بر حسب ریال را وارد کنید...">
+                                @if($errors->has('discounts'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('discounts') }}</span>
+                                @endif
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="product_number"> تعداد محصول</label>
+                                <input type="number" name="product_number" value="{{old('number')}}"  class="form-control" placeholder="تعداد خرید محصول بر حسب ریال را وارد کنید...">
+                                @if($errors->has('product_number'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('product_number') }}</span>
+                                @endif
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="bon"> تعداد بن خرید محصول </label>
+                                <input type="number" name="bon" value="{{old('bon')}}" class="form-control" placeholder="تعداد بن خرید محصول را وارد کنید...">
+                                @if($errors->has('bon'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('bon') }}</span>
+                                @endif
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="product_status">وضعیت محصول</label>
                                 <div>
-                                    <input type="radio" name="status" value="0" checked> <span class="margin-l-10">منتشر نشده</span>
-                                    <input type="radio" name="status" value="1"> <span>منتشر شده</span>
+                                    <input type="checkbox" name="product_status" class="flat-red" value="1"> <span> موجود</span>
                                 </div>
+                                @if($errors->has('product_status'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('product_status') }}</span>
+                                @endif
                             </div>
+                            <br>
+
                             <div class="form-group">
-                                <label>قیمت</label>
-                                <input type="number" name="price" class="form-control" placeholder="قیمت محصول را وارد کنید...">
+                                <label for="show_product">نمایش محصول</label>
+                                <div>
+                                    <input type="checkbox" name="show_product" class="flat-red" value="1"> <span>نمایش داده شود</span>
+                                </div>
+                                @if($errors->has('show_product'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('show_product') }}</span>
+                                @endif
                             </div>
+                            <br>
+
                             <div class="form-group">
-                                <label>قیمت ویژه</label>
-                                <input type="number" name="discount_price" class="form-control" placeholder="قیمت ویژه محصول را وارد کنید...">
+                                <label for="special">پیشنهاد ويژه</label>
+                                <div>
+                                    <input type="checkbox" name="special" class="flat-red" value="1"> <span>نمایش داده شود</span>
+                                </div>
+                                @if($errors->has('special'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('special') }}</span>
+                                @endif
                             </div>
+                            <br>
+
+                            <!-- add color-->
                             <div class="form-group">
-                                <label>توضیحات</label>
-                                <textarea id="textareaDescription" type="text" name="description" class="ckeditor form-control" placeholder="توضیحات محصول را وارد کنید..."></textarea>
+                                <label>انتخاب رنگ</label>
                             </div>
+                            <div style="clear:both"></div>
                             <div class="form-group">
-                                <label for="photo">گالری تصاویر</label>
-                                <input type="hidden" name="photo_id[]" id="product-photo">
-                                <div id="photo" class="dropzone"></div>
+                                <input type="text" name="color_name[]" class="color_input_name">
+                                <input type="text" class="jscolor color_input_code" name="color_code[]">
                             </div>
+
+                            <div id="color_box"></div>
+
                             <div class="form-group">
-                                <label>عنوان سئو</label>
-                                <input type="text" name="meta_title" class="form-control" placeholder="عنوان سئو را وارد کنید...">
+                                <span class="fa fa-plus" style="color:red;cursor:pointer" onclick="add_color()"></span>
                             </div>
+                            <br>
+
+                            <!-- add tag-->
                             <div class="form-group">
-                                <label>توضیحات سئو</label>
-                                <textarea type="text" name="meta_desc" class="form-control" placeholder="توضیحات سئو را وارد کنید..."></textarea>
+                                <label>افزودن برچسب</label><br>
+                                <input type="text" name="tag_list" id="tag_list" class="form-control" style="float:right;width:60%">
+                                <div class="add_product_tag" onclick="add_tag()">افزودن</div>
+                                <input type="hidden" name="keywords" id="keywords">
                             </div>
+
+                            <div style="clear:both"></div>
+                            <div id="tag_box">
+
+                            </div>
+
+                            <div style="clear:both;padding-top:30px;"></div>
+
+
+                            <!-- add description-->
                             <div class="form-group">
-                                <label>کلمات کلیدی سئو</label>
-                                <input type="text" name="meta_keywords" class="form-control" placeholder="کلمات کلیدی سئو را وارد کنید...">
+                                <label for="description"> سئو (کلمات کلیدی)</label>
+                                <textarea id="textareaDescription" type="text" name="description" class="form-control" placeholder="توضیحات بیشتر محصول را وارد کنید...">{{old('description')}}</textarea>
+                                @if($errors->has('description'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('description') }}</span>
+                                @endif
                             </div>
-                            <button type="submit" onclick="productGallery()" class="btn btn-success pull-left">ذخیره</button>
+
+                            <button type="submit" class="btn btn-success pull-left">ذخیره</button>
                         </form>
                     </div>
                 </div>
@@ -72,36 +179,37 @@
 
 @endsection
 
-@section('script-vuejs')
-    <script src="{{asset('admin/js/app.js')}}"></script>
-@endsection
 
 @section('scripts')
-    <script type="text/javascript" src="{{asset('/admin/dist/js/dropzone.js')}}"></script>
+{{--    <script type="text/javascript" src="{{asset('/admin/dist/js/dropzone.js')}}"></script>--}}
+    <script type="text/javascript" src="{{ url('admin/js/bootstrap-select.js') }}"></script>
+    <script type="text/javascript" src="{{ url('admin/js/defaults-fa_IR.js') }}"></script>
     <script type="text/javascript" src="{{asset('/admin/plugins/ckeditor/ckeditor.js')}}"></script>
+    <script type="text/javascript" src="{{ url('/admin/js/jscolor.js') }}"></script>
     <script>
-        Dropzone.autoDiscover = false;
-        var photosGallery = [];
-        var drop = new Dropzone('#photo', {
-          addRemoveLinks: true,
-          url: "{{ route('photos.upload') }}",
-          sending: function(file, xhr, formData){
-            formData.append("_token","{{csrf_token()}}")
-          },
-          success: function(file, response){
-            photosGallery.push(response.photo_id)
-          }
-        });
-        productGallery = function(){
-          document.getElementById('product-photo').value = photosGallery
-        }
+        {{--Dropzone.autoDiscover = false;--}}
+        {{--var photosGallery = [];--}}
+        {{--var drop = new Dropzone('#photo', {--}}
+        {{--  addRemoveLinks: true,--}}
+        {{--  url: "{{ route('photos.upload') }}",--}}
+        {{--  sending: function(file, xhr, formData){--}}
+        {{--    formData.append("_token","{{csrf_token()}}")--}}
+        {{--  },--}}
+        {{--  success: function(file, response){--}}
+        {{--    photosGallery.push(response.photo_id)--}}
+        {{--  }--}}
+        {{--});--}}
+        // productGallery = function(){
+        //   document.getElementById('product-photo').value = photosGallery
+        // }
+        //
+        // CKEDITOR.replace('textareaDescription',{
+        //   customConfig: 'config.js',
+        //   toolbar: 'simple',
+        //   language: 'fa',
+        //   removePlugins: 'cloudservices, easyimage'
+        // });
 
-        CKEDITOR.replace('textareaDescription',{
-          customConfig: 'config.js',
-          toolbar: 'simple',
-          language: 'fa',
-          removePlugins: 'cloudservices, easyimage'
-        })
 
     </script>
 

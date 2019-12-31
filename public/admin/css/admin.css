@@ -1,0 +1,75 @@
+/*view create product*/
+.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+    width: 65%;
+}
+
+.bootstrap-select.btn-group .dropdown-toggle .caret {
+    right: 95%;
+}
+
+.bootstrap-select.btn-group .dropdown-toggle .filter-option {
+    text-align: right !important;
+}
+
+.color_input_name {
+    width: 170px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #CCC;
+}
+
+.color_input_code {
+    width: 100px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #CCC;
+    text-align: center;
+    margin-right: 10px;
+}
+
+#color_input_code {
+    width: 100px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #CCC;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.add_product_tag {
+    color: white;
+    background: #5CB85C;;
+    height: 34px;
+    line-height: 34px;
+    float: right;
+    width: 50px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.tag_div {
+    float: right;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: #F9F9F9;
+    margin-right: 10px;
+    cursor: pointer;
+}

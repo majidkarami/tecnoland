@@ -96,7 +96,7 @@
                                 <div>
                                     <input type="radio" name="active" value="1" class="flat-red" checked> <span
                                         class="margin-l-10">فعال</span>
-                                    <input type="radio" name="active" class="flat-red" value="0"> <span>غیرفعال</span>
+                                    <input type="radio" name="active" class="flat-red"  value="0"> <span>غیرفعال</span>
                                 </div>
                                 @if($errors->has('active'))
                                     <span style="color:red;font-size:13px">{{ $errors->first('active') }}</span>
@@ -139,4 +139,25 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+<script>
+    //iCheck for checkbox and radio inputs
+    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+    checkboxClass: 'icheckbox_minimal-blue',
+    radioClass   : 'iradio_minimal-blue'
+    });
+    //Red color scheme for iCheck
+    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+    checkboxClass: 'icheckbox_minimal-red',
+    radioClass   : 'iradio_minimal-red'
+    });
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+    checkboxClass: 'icheckbox_flat-green',
+    radioClass   : 'iradio_flat-green'
+    });
+
+</script>
 @endsection
