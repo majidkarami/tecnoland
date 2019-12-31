@@ -14,7 +14,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
-                        <form method="post" action="/administrator/brands/{{$brand->id}}">
+                        <form method="post" action="{{route('brands.update',$brand->id)}}">
                             @csrf
                             <input type="hidden" name="_method" value="PATCH">
 

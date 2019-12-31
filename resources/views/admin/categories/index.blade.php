@@ -13,40 +13,83 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                @if(Session::has('error_category'))
+                @if(Session::has('error'))
                     <div class="alert alert-danger">
-                        <div>{{session('error_category')}}</div>
+                        <div>{{session('error')}}</div>
+                    </div>
+                @endif
+                @if(Session::has('success'))
+                    <div class="alert alert-success">
+                        <div>{{session('success')}}</div>
                     </div>
                 @endif
                 <div class="table-responsive">
-                    <table class="table no-margin">
+
+                        <table class="table no-margin">
                         <thead>
                         <tr>
-                            <th class="text-center">شناسه</th>
-                            <th class="text-center">عنوان</th>
+                            <th class="text-center">ردیف</th>
+                            <th class="text-center">نام دسته</th>
+                            <th class="text-center">نام لاتین دسته</th>
+                            <th class="text-center">دسته والد</th>
                             <th class="text-center">عملیات</th>
                         </tr>
                         </thead>
+                            <form action="{{ route('categories.index') }}" id="search_form">
+                        <tr>
+                            <td></td>
+                            <td><input value="@if(array_key_exists('cat_name',$data)){{ $data['cat_name'] }}@endif" type="text" name="cat_name"  class="form-control search_input" style="width:100%"></td>
+                            <td><input value="@if(array_key_exists('cat_ename',$data)){{ $data['cat_ename'] }}@endif" type="text" name="cat_ename" class="form-control search_input" style="width:100%"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                            </form>
                         <tbody>
                         @foreach($categories as $category)
                             <tr>
                                 <td class="text-center">{{$category->id}}</td>
-                                <td>{{$category->name}}</td>
+                                <td class="text-center">{{$category->cat_name}}</td>
+                                <td class="text-center">{{$category->cat_ename}}</td>
+                                <td class="text-center">{{ $category->getParent->cat_name }}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-warning" href="{{route('categories.edit', $category->id)}}">ویرایش</a>
+                                    <a class="btn btn-sm btn-warning" href="{{route('categories.edit', $category->id)}}">ویرایش</a>
                                     <div class="display-inline-block">
-                                        <form method="post" action="/administrator/categories/{{$category->id}}">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                        <button type="submit" data-toggle="modal" data-target="#modal-default"
+                                                class="btn btn-sm btn-danger">حذف
+                                        </button>
+
+                                        <form method="post" action="{{route('categories.destroy',$category->id)}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <!-- modal -->
+                                            <div class="modal fade" id="modal-default">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">حذف</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>آیا از حذف دسته مورد نظر اطمینان دارید؟</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default pull-left"
+                                                                    data-dismiss="modal">خروج
+                                                            </button>
+                                                            <button type="submit" class="btn btn-danger">بلی</button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+                                            <!-- /.modal -->
                                         </form>
                                     </div>
-                                    <a class="btn btn-primary" href="{{route('categories.indexSetting', $category->id)}}">تنظیمات</a>
                                 </td>
                             </tr>
-                            @if(count($category->childrenRecursive) > 0)
-                                @include('admin.partials.category_list', ['categories'=>$category->childrenRecursive, 'level'=>1])
-                            @endif
                         @endforeach
                         </tbody>
                         @if(sizeof($categories)==0)
@@ -57,6 +100,7 @@
                             </tr>
                         @endif
                     </table>
+
                     <div class="col-md-12" style="text-align: center">{{$categories->links()}}</div>
 
                 </div>
@@ -65,4 +109,16 @@
         </div>
     </section>
 
+@endsection
+
+@section('scripts')
+    <script>
+        $('.search_input').on('keydown',function (evete)
+        {
+            if(evete.keyCode==13)
+            {
+                $("#search_form").submit();
+            }
+        })
+    </script>
 @endsection
