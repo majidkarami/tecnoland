@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="/admin/plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
+    <link href="{{ url('/admin/dist/css/js-persian-cal.css') }}" rel="stylesheet">
     <!-- jQuery 2.2.0 -->
     <script src="/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 
@@ -355,16 +357,7 @@
                         <li><a href="{{route('categories.index')}}"><i class="fa fa-circle-o"></i>لیست دسته بندی ها </a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-database"></i>
-                        <span>برندها</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{route('brands.index')}}"><i class="fa fa-circle-o"></i>لیست برندها </a></li>
-                    </ul>
-                </li>
+
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-database"></i>
@@ -372,19 +365,19 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{route('attributes-group.index')}}"><i class="fa fa-circle-o"></i>لیست ویژگی ها </a></li>
-                        <li><a href="{{route('attributes-value.index')}}"><i class="fa fa-circle-o"></i>مقادیر ویژگی ها </a></li>
+                        <li><a href=""><i class="fa fa-circle-o"></i>لیست ویژگی ها </a></li>
+                        <li><a href=""><i class="fa fa-circle-o"></i>مقادیر ویژگی ها </a></li>
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="{{route('coupons.index')}}">
+                    <a href="">
                         <i class="fa fa-ticket"></i>
                         <span>کد تخفیف</span>
                     </a>
 
                 </li>
                 <li class="treeview">
-                    <a href="{{url('/administrator/orders')}}">
+                    <a href="">
                         <i class="fa fa-reorder"></i>
                         <span>سفارشات</span>
                     </a>
@@ -708,11 +701,15 @@
 <!-- iCheck 1.0.1 -->
 <script src="/admin/plugins/iCheck/icheck.min.js"></script>
 
-@yield('scripts')
-
 <script src="/admin/dist/js/demo.js"></script>
-<script src="/adminplugins/iCheck/icheck.min.js"></script>
+<script src="/admin/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="{{ url('/admin/dist/js/js-persian-cal.min.js') }}"></script>
+<script type="text/javascript" src="{{ url('admin/js/admin.js') }}"></script>
 <script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2();
+
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',
@@ -728,7 +725,14 @@
             checkboxClass: 'icheckbox_flat-green',
             radioClass   : 'iradio_flat-green'
         });
-</script>
 
+        //Colorpicker
+        $('.my-colorpicker1').colorpicker();
+        //color picker with addon
+        $('.my-colorpicker2').colorpicker();
+
+    })
+</script>
+@yield('scripts')
 </body>
 </html>

@@ -20,14 +20,12 @@ class CreateAmazingsTable extends Migration
             $table->text('tozihat');
             $table->integer('price1');
             $table->integer('price2');
-            $table->unsignedBigInteger('product_id')->index();;
             $table->integer('time');
             $table->integer('timestamp');
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('product')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        Schema::table('amazings', function (Blueprint $table) {
-            $table->foreign(['product_id'])->references('id')->on('products')->onUpdate('cascade');
-        });
     }
 
     /**

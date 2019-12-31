@@ -41,7 +41,7 @@
                                 <td class="text-center">
                                     <a class="btn btn-warning" href="{{route('brands.edit', $brand->id)}}">ویرایش</a>
                                     <div class="display-inline-block">
-                                        <form method="post" action="/administrator/brands/{{$brand->id}}">
+                                        <form method="post" action="{{route('brands.destroy',$brand->id)}}">
                                             @csrf
                                             <input type="hidden" name="_method" value="DELETE">
                                             <button type="submit" class="btn btn-danger">حذف</button>

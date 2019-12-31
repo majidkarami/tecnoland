@@ -15,15 +15,12 @@ class CreateProductScoreTable extends Migration
     {
         Schema::create('product_score', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('product_id')->index();;
+            $table->unsignedBigInteger('product_id');
             $table->string('value');
-            $table->unsignedBigInteger('user_id')->index();;
+            $table->unsignedBigInteger('user_id');
             $table->integer('time');
-        });
-
-        Schema::table('product_score', function (Blueprint $table) {
-            $table->foreign(['user_id'])->references('id')->on('users')->onUpdate('cascade');
-            $table->foreign(['product_id'])->references('id')->on('products')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('product')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -36,8 +33,8 @@ class CreateProductScoreTable extends Migration
     {
         Schema::dropIfExists('product_score');
         Schema::table('product_score', function (Blueprint $table) {
-                $table->dropForeign(['user_id']);
-                $table->dropForeign(['product_id']);
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['product_id']);
         });
     }
 }

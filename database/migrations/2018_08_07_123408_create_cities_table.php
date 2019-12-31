@@ -14,11 +14,10 @@ class CreateCitiesTable extends Migration
     public function up()
     {
         Schema::create('cities', function (Blueprint $table) {
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_persian_ci';
             $table->bigIncrements('id');
             $table->unsignedBigInteger('province_id')->index();
             $table->string('name', 255);
+            $table->foreign('province_id')->references('id')->on('provinces')->onDelete('cascade')->onUpdate('cascade');
         });
 
     }
@@ -31,5 +30,8 @@ class CreateCitiesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('cities');
+        Schema::table('cities', function (Blueprint $table) {
+            $table->dropForeign(['province_id']);
+        });
     }
 }
