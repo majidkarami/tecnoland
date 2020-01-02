@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Brand;
 use App\Category;
 use App\File;
 use App\Filter;
@@ -26,13 +25,11 @@ class ProductController extends Controller
         return View('admin.products.index',compact('products','data'));
     }
 
-
     public function create()
     {
         $cat_list=Product::get_cat_list();
         return View('admin.products.create',compact('cat_list'));
     }
-
 
     public function store(ProductRequest $request)
     {
@@ -79,21 +76,19 @@ class ProductController extends Controller
 
     }
 
-
     public function show($id)
     {
         //
     }
-
 
     public function edit($id)
     {
         $product=Product::with('get_colors')->findOrFail($id);
         $cat_list=Product::get_cat_list();
         $product_cat=Product::get_cat($id);
-        return View('admin.products.update',compact('product','cat_list','product_cat'));
-    }
 
+        return View('admin.products.edit',compact('product','cat_list','product_cat'));
+    }
 
     public function update(ProductRequest $request,$id)
     {
@@ -155,7 +150,6 @@ class ProductController extends Controller
         return redirect(route('products.index'));
     }
 
-
     public function destroy($id)
     {
         $product=Product::findOrFail($id);
@@ -180,7 +174,7 @@ class ProductController extends Controller
         $files=$request->file('file');
         $type=$request->get('type');
         $file_name=md5($files->getClientOriginalName().time().$product_id).'.'.$files->getClientOriginalExtension();
-        if($files->move('upload',$file_name))
+        if($files->move('upload/product/',$file_name))
         {
             if($type)
             {
@@ -192,7 +186,7 @@ class ProductController extends Controller
                 $ProductImage=new ProductImage();
             }
             $ProductImage->product_id=$product_id;
-            $ProductImage->url=$file_name;
+            $ProductImage->url='upload/product/'.$file_name;
             $ProductImage->save();
             return 1;
         }
@@ -208,10 +202,10 @@ class ProductController extends Controller
         $url=$img->url;
         if(!empty($url))
         {
-            if(file_exists('upload/'.$url))
+            if(file_exists($url))
             {
                 $img->delete();
-                unlink('upload/'.$url);
+                unlink($url);
             }
         }
         return redirect()->back();
@@ -291,6 +285,7 @@ class ProductController extends Controller
         $filters=Filter::get_product_filter($id);
         return View('admin.product.add_filter',['filters'=>$filters,'product'=>$product,'filter_value'=>$filter_value]);
     }
+
     public function add_filter_product(Request $request)
     {
         $product_id=$request->get('product_id');
