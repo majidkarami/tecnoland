@@ -59,7 +59,7 @@
                         <?php $i = 1; ?>
                         @foreach($products as $key=>$value)
                             <tr>
-                                <td class="text-center">{{$i}}</td>
+                                <td class="text-center" style="padding-top: 50px;">{{$i}}</td>
                                 <td class="text-center">
                                     <?php
                                     $get_img = $value->get_img;
@@ -67,18 +67,18 @@
                                     {
                                     ?>
                                     {{--                      <img src="{{ url('upload').'/'.$get_img->url }}" style="width:150px">--}}
-                                    <img style="width:150px"
-                                         src="@if($get_img->url){{ url('upload').'/'.$get_img->url }} @else {{ url('upload').'/'.'not img.gif' }}@endif">
+                                    <img style="width:150px;height: 100px"
+                                         src="@if($get_img->url){{ url($get_img->url) }} @else {{ url('admin/images/img.jpg') }}@endif">
 
                                     <?php
                                     }
                                     ?>
                                 </td>
-                                <td class="text-center">{{ $value->title }}</td>
+                                <td class="text-center" style="padding-top: 50px;">{{ $value->title }}</td>
 
-                                <td class="text-center">{{verta($value->created_at)->format('H:i , Y-m-d')}}</td>
+                                <td class="text-center" style="padding-top: 50px;">{{verta($value->created_at)->format('H:i , Y-m-d')}}</td>
 
-                                <td class="text-center">
+                                <td class="text-center" style="padding-top: 50px;">
                                     @if($value->product_status==1)
                                         <span class="badge label-success">موجود</span>
                                     @else
@@ -86,11 +86,11 @@
                                     @endif
                                 </td>
 
-                                <td class="text-center">{{ $value->order_product }}</td>
+                                <td class="text-center" style="padding-top: 50px;">{{ $value->order_product }}</td>
 
-                                <td class="text-center">
+                                <td class="text-center" style="padding-top: 50px;">
                                     <a title="ویرایش محصول" style="color: #368bff"
-                                       href="{{ url('admin/product').'/'.$value->id.'/edit' }}"><span
+                                       href="{{ url('admin/products').'/'.$value->id.'/edit' }}"><span
                                             class="fa fa-edit"></span></a>
                                     <a title="انتخاب فیلتر برای محصول" style="color: #368bff"
                                        href="{{ url('admin/product/add-filter').'/'.$value->id }}"><span
@@ -105,7 +105,7 @@
                                        href="{{ url('admin/product/add-item').'/'.$value->id }}"><span
                                             class="fa fa-wrench"></span></a>
                                     <a title="افزودن گارانتی " style="color: green;"
-                                       href="{{ url('admin/service').'?product_id='.$value->id }}"><span
+                                       href="{{ url('admin/services').'?product_id='.$value->id }}"><span
                                             class="fa fa-certificate"></span></a>
                                     <a title="افزودن عکس " style="color: #C97626;"
                                        href="{{url('admin/product/gallery?id='.$value->id)}}"><span
@@ -113,7 +113,7 @@
                                     <a title="افزودن آیتم محصول " style="color: silver;"
                                        href="{{url('admin/item')}}"><span class="fa fa-reorder"></span></a>
                                     <a title="حذف محصول" style="color:red;cursor:pointer"
-                                       onclick="del_row('<?= $value->id ?>','<?= url('admin/product') ?>','<?= Session::token() ?>')">
+                                       onclick="del_row('<?= $value->id ?>','<?= url('admin/products') ?>','<?= Session::token() ?>')">
                                         <span class="fa fa-trash"></span>
                                     </a>
                                 </td>

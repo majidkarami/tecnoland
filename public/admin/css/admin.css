@@ -4,7 +4,7 @@
 }
 
 .bootstrap-select.btn-group .dropdown-toggle .caret {
-    right: 95%;
+    right: 95% !important;
 }
 
 .bootstrap-select.btn-group .dropdown-toggle .filter-option {
@@ -72,4 +72,34 @@
     background: #F9F9F9;
     margin-right: 10px;
     cursor: pointer;
+}
+
+/* product dropzone*/
+.dropzone
+{
+    border: 2px dashed #0087F7 !important;
+    border-radius: 5px;
+    background: #FFF none repeat scroll 0% 0% !important;
+}
+#image_product_box
+{
+    direction:ltr;
+    margin-top:30px;
+    margin-right: 40px;
+}
+#image_product_box img
+{
+    width:120px;
+
+}
+#show_product_image
+{
+    width: 390px;
+    margin: 36px 103px;
+}
+#show_product_image img
+{
+    width:400px;
+    height: 261px;
+    margin:auto;
 }

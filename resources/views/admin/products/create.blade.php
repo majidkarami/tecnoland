@@ -1,7 +1,7 @@
 @extends('admin.layout.master')
 @section('title', __('ایجاد محصول جدید'))
+
 @section('styles')
-{{--    <link rel="stylesheet" href="{{asset('/admin/dist/css/dropzone.css')}}">--}}
 <link href="{{ url('admin/css/bootstrap-select.css') }}" rel="stylesheet" >
 @endsection
 
@@ -37,7 +37,7 @@
 
                             <div class="form-group">
                                 <label for="cat">دسته والد</label>
-                                <select name="cat" id="" data-live-search="true" multiple class="selectpicker form-control">
+                                <select name="cat[]" id="" data-live-search="true" multiple class="selectpicker form-control">
                                     @foreach($cat_list as $key=>$value)
                                         <option value="{{$key}}">{{$value}}</option>
                                     @endforeach
@@ -77,7 +77,7 @@
 
                             <div class="form-group">
                                 <label for="product_number"> تعداد محصول</label>
-                                <input type="number" name="product_number" value="{{old('number')}}"  class="form-control" placeholder="تعداد خرید محصول بر حسب ریال را وارد کنید...">
+                                <input type="number" name="product_number" value="{{old('product_number')}}"  class="form-control" placeholder="تعداد خرید محصول بر حسب ریال را وارد کنید...">
                                 @if($errors->has('product_number'))
                                     <span style="color:red;font-size:13px">{{ $errors->first('product_number') }}</span>
                                 @endif
@@ -181,34 +181,18 @@
 
 
 @section('scripts')
-{{--    <script type="text/javascript" src="{{asset('/admin/dist/js/dropzone.js')}}"></script>--}}
     <script type="text/javascript" src="{{ url('admin/js/bootstrap-select.js') }}"></script>
     <script type="text/javascript" src="{{ url('admin/js/defaults-fa_IR.js') }}"></script>
     <script type="text/javascript" src="{{asset('/admin/plugins/ckeditor/ckeditor.js')}}"></script>
     <script type="text/javascript" src="{{ url('/admin/js/jscolor.js') }}"></script>
     <script>
-        {{--Dropzone.autoDiscover = false;--}}
-        {{--var photosGallery = [];--}}
-        {{--var drop = new Dropzone('#photo', {--}}
-        {{--  addRemoveLinks: true,--}}
-        {{--  url: "{{ route('photos.upload') }}",--}}
-        {{--  sending: function(file, xhr, formData){--}}
-        {{--    formData.append("_token","{{csrf_token()}}")--}}
-        {{--  },--}}
-        {{--  success: function(file, response){--}}
-        {{--    photosGallery.push(response.photo_id)--}}
-        {{--  }--}}
-        {{--});--}}
-        // productGallery = function(){
-        //   document.getElementById('product-photo').value = photosGallery
-        // }
-        //
-        // CKEDITOR.replace('textareaDescription',{
-        //   customConfig: 'config.js',
-        //   toolbar: 'simple',
-        //   language: 'fa',
-        //   removePlugins: 'cloudservices, easyimage'
-        // });
+
+        CKEDITOR.replace('textareaDescription',{
+          customConfig: 'config.js',
+          toolbar: 'simple',
+          language: 'fa',
+          removePlugins: 'cloudservices, easyimage'
+        });
 
 
     </script>
