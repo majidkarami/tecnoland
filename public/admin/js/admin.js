@@ -51,11 +51,12 @@ add_filter = function () {
         '<option value="1">فیلد radio</option>' +
         '<option value="2">فیلد color</option></select></div>' +
         '<div class="form-group" style="margin-right:0px;margin-bottom:0px;">' +
-        '<span class="fa fa-plus" style="color:red;cursor:pointer;padding-top:15px" onclick="add_child_filter(' + id1 + ',' + id2 + ',' + id3 + ')"></span>' +
+        '<span class="fa fa-plus" style="color:#ff6265;cursor:pointer;padding-top:15px" onclick="add_child_filter(' + id1 + ',' + id2 + ',' + id3 + ')"><span style="font-family: Vazir;padding-right: 5px;font-size: 12px"> افزودن زیر گروه برای فیلتر</span></span>' +
         '</div>';
 
     $("#filter_box").append(html);
 };
+
 add_child_filter = function (id1, id2, id3) {
     var filed_id = id1.replace('div', 'filed');
     var filed = document.getElementById(filed_id).value;
@@ -83,6 +84,7 @@ add_child_filter = function (id1, id2, id3) {
     }
 
 };
+
 add_item = function () {
     var count = document.getElementsByClassName('product_item_div').length + 1;
     var id1 = "'" + 'item_div-' + count + "'";
@@ -91,16 +93,17 @@ add_item = function () {
         '<input name="item_name[-' + count + ']" type="text"  style="float: right;" class="form-control" placeholder="نام گروه" >' +
         '</div>' +
         '<div class="form-group" style="margin-right:0px;margin-bottom:0px;">' +
-        '<span class="fa fa-plus" style="color:red;cursor:pointer;padding-top:15px" onclick="add_child_item(' + id1 + ',' + id2 + ')"></span>' +
+        '<span class="fa fa-plus" style="color:#ff6265;cursor:pointer;padding-top:15px" onclick="add_child_item(' + id1 + ',' + id2 + ')"><span style="font-family: Vazir;padding-right: 5px;font-size: 12px"> افزودن نام آیتم</span></span>' +
         '</div>';
     ;
     $("#item_box").append(html);
 };
+
 add_child_item = function (id1, id2) {
     var count = document.getElementsByClassName('child_item').length + 1;
     var html = '<div class="child_item">' +
-        '<input type="text" name="child_item[' + id2 + '][-' + count + ']" style="float: right;" class="form-control" placeholder="نام آیتم">' +
-        '<select name="child_filed[' + id2 + '][-' + count + ']" class="form-control" style="float:right;margin-right:10px">' +
+        '<input type="text" name="child_item[' + id2 + '][-' + count + ']" style="width: 50%;float: right" class="form-control" placeholder="نام آیتم">' +
+        '<select name="child_filed[' + id2 + '][-' + count + ']" style="width: 45%;display: inline-block;margin-right: 40px;" class="form-control">' +
         '<option value="1">فیلد input</option>' +
         '<option value="2">فیلد select</option>' +
         '<option value="3">فیلد textarea</option>' +
