@@ -26,13 +26,15 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'national_code' => 'required|unique:users|min:16',
+            'national_code' => 'required|unique:users|min:10',
             'birthday' => 'required',
             'gender' => 'required',
             'bank_number' => 'required',
             'email' => 'required|unique:users|string|max:255',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:11',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
+            'active' => 'required',
+
         ];
     }
 }

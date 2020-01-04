@@ -19,6 +19,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string remember_token
  * @property array|string|null phone
  * @property array|string|null gender
+ * @property int active
  */
 class User extends Authenticatable
 {
@@ -30,9 +31,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'national_code', 'birthday', 'gender', 'bank_numb', 'email','email_verified_at', 'phone',
-
-
+        'name', 'last_name', 'national_code', 'birthday', 'gender', 'bank_numb', 'email', 'email_verified_at', 'phone','active'
     ];
 
     /**
@@ -73,6 +72,17 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function hasAnyRoles($roles)
+    {
+        return null !== $this->roles()->whereIn('name',$roles)->first();
+    }
+
+    public function hasAnyRole($role)
+    {
+        return null !== $this->roles()->whereIn('name',$role)->first();
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);

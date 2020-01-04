@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/admin/dist/css/skins/_all-skins.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="/admin/plugins/iCheck/flat/blue.css">
+    <link rel="stylesheet" href="{{asset('admin/plugins/iCheck/all.css')}}">
+
     <!-- Morris chart -->
     <link rel="stylesheet" href="/admin/plugins/morris/morris.css">
     <!-- jvectormap -->
@@ -27,15 +29,13 @@
     <link rel="stylesheet" href="/admin/plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-    <!-- jQuery 2.2.0 -->
-    <script src="/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+
+    <link href="{{ asset('/admin/dist/css/js-persian-cal.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('admin/plugins/iCheck/all.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin/css/admin.css') }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <![endif]-->
     @yield('styles')
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -353,41 +353,45 @@
                         <li><a href="{{route('categories.index')}}"><i class="fa fa-circle-o"></i>لیست دسته بندی ها </a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-database"></i>
-                        <span>برندها</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{route('brands.index')}}"><i class="fa fa-circle-o"></i>لیست برندها </a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-database"></i>
-                        <span>ویژگی ها</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{route('attributes-group.index')}}"><i class="fa fa-circle-o"></i>لیست ویژگی ها </a></li>
-                        <li><a href="{{route('attributes-value.index')}}"><i class="fa fa-circle-o"></i>مقادیر ویژگی ها </a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="{{route('coupons.index')}}">
-                        <i class="fa fa-ticket"></i>
-                        <span>کد تخفیف</span>
-                    </a>
 
-                </li>
+{{--                <li class="treeview">--}}
+{{--                    <a href="#">--}}
+{{--                        <i class="fa fa-database"></i>--}}
+{{--                        <span>ویژگی ها</span>--}}
+{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
+{{--                    </a>--}}
+{{--                    <ul class="treeview-menu">--}}
+{{--                        <li><a href=""><i class="fa fa-circle-o"></i>لیست ویژگی ها </a></li>--}}
+{{--                        <li><a href=""><i class="fa fa-circle-o"></i>مقادیر ویژگی ها </a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="treeview">--}}
+{{--                    <a href="">--}}
+{{--                        <i class="fa fa-ticket"></i>--}}
+{{--                        <span>کد تخفیف</span>--}}
+{{--                    </a>--}}
+
+{{--                </li>--}}
+
                 <li class="treeview">
-                    <a href="{{url('/administrator/orders')}}">
+                    <a href="">
                         <i class="fa fa-reorder"></i>
                         <span>سفارشات</span>
                     </a>
 
                 </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-ship"></i>
+                        <span>محصولات شگفت انگیز</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('amazings.index')}}"><i class="fa fa-circle-o"></i>لیست شگفت انگیز </a></li>
+                    </ul>
+                </li>
+
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-newspaper-o"></i>
@@ -657,7 +661,8 @@
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
+<!-- jQuery 2.2.0 -->
+<script src="/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -691,10 +696,16 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<!-- AdminLTE for demo purposes -->
-@yield('scripts')
+
+<!-- iCheck 1.0.1 -->
+<script src="/admin/plugins/iCheck/icheck.min.js"></script>
 
 <script src="/admin/dist/js/demo.js"></script>
+<script src="/admin/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="{{ url('/admin/dist/js/js-persian-cal.min.js') }}"></script>
+@yield('scripts')
+<script type="text/javascript" src="{{ url('admin/js/admin.js') }}"></script>
+
 
 </body>
 </html>
