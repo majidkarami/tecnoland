@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->text('description');
             $table->text('meta_description');
             $table->text('meta_keywords');
+            $table->tinyInteger('active')->default('0');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('photo_id');
             $table->unsignedBigInteger('category_id');

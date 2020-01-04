@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Category;
-use App\Http\Requests\PostCreateRequest;
+use App\PostCategory;
+use App\Http\Requests\post\PostCreateRequest;
 use App\Http\Requests\PostEditRequest;
 use App\PostPhoto;
 use App\Post;
@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class AdminPostController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,9 +21,7 @@ class AdminPostController extends Controller
      */
     public function index()
     {
-        dd('a');
-        $posts = Post::with('photo', 'category', 'user')->paginate(2);
-        dd($posts);
+        $posts = Post::with('postPhoto', 'postCategory', 'user')->paginate(10);
         return view('admin.posts.index', compact(['posts']));
     }
 
@@ -34,8 +32,8 @@ class AdminPostController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('title', 'id');
-        return view('admin.posts.create', compact(['categories']));
+        $categories = PostCategory::pluck('title', 'id');
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -46,37 +44,36 @@ class AdminPostController extends Controller
      */
     public function store(PostCreateRequest $request)
     {
-
-      $post = new Post();
-      if($file = $request->file('first_photo')){
+        $post = new Post();
+        if($file = $request->file('first_photo')){
         $name = time() . $file->getClientOriginalName() ;
-        $file->move('images', $name);
-        $photo = new Photo();
+        $file->move('upload/posts/images', $name);
+        $photo = new PostPhoto();
         $photo->name = $file->getClientOriginalName();
-        $photo->path = $name;
-        $photo->user_id = Auth::id();
+        $photo->path = 'upload/posts/images'.$name;
+        $photo->user_id = 1;
         $photo->save();
 
         $post->photo_id = $photo->id;
-      }
+        }
 
-      $post->title = $request->input('title');
+        $post->title = $request->input('title');
 
-      if($request->input('slug')){
+        if($request->input('slug')){
         $post->slug = make_slug($request->input('slug'));
-      }else{
+        }else{
         $post->slug = make_slug($request->input('title'));
-      }
+        }
 
-      $post->description = $request->input('description');
-      $post->category_id = $request->input('category');
-      $post->user_id = Auth::id();
-      $post->meta_description = $request->input('meta_description');
-      $post->meta_keywords = $request->input('meta_keywords');
-      $post->status = $request->input('status');
-      $post->save();
-      Session::flash('add_post', '\u0645\u0637\u0644\u0628 \u062c\u062f\u06cc\u062f \u0628\u0627 \u0645\u0648\u0641\u0642\u06cc\u062a \u0627\u0636\u0627\u0641\u0647 \u0634\u062f');
-      return redirect('/admin/posts');
+        $post->description = $request->input('description');
+        $post->category_id = $request->input('category');
+        $post->user_id = 1;
+        $post->meta_description = $request->input('meta_description');
+        $post->meta_keywords = $request->input('meta_keywords');
+        $post->active = $request->input('active');
+        $post->save();
+        Session::flash('add_post', 'پست جدید با موفقیت ایجاد گردید');
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -98,8 +95,9 @@ class AdminPostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::with('category')->where('id', $id)->first();
-        $categories = Category::pluck('title', 'id');
+        dd('m');
+        $post = Post::with('postCategory')->where('id', $id)->first();
+        $categories = PostCategory::pluck('title', 'id');
         return view('admin.posts.edit', compact(['post', 'categories']));
     }
 
@@ -116,7 +114,7 @@ class AdminPostController extends Controller
       if($file = $request->file('first_photo')){
         $name = time() . $file->getClientOriginalName() ;
         $file->move('images', $name);
-        $photo = new Photo();
+        $photo = new PostPhoto();
         $photo->name = $file->getClientOriginalName();
         $photo->path = $name;
         $photo->user_id = Auth::id();
@@ -150,12 +148,15 @@ class AdminPostController extends Controller
     public function destroy($id)
     {
       $post = Post::findOrFail($id);
-      $photo = Photo::findOrFail($post->photo_id);
-      unlink(public_path() . $post->photo->path);
+      $photo = PostPhoto::findOrFail($post->photo_id);
+      $url = public_path() . $post->photo->path;
+      if(file_exists($url)) {
+          unlink($url);
+      }
       $photo->delete();
       $post->delete();
       Session::flash('delete_post', '\u0645\u0637\u0644\u0628 \u0628\u0627 \u0645\u0648\u0641\u0642\u06cc\u062a \u062d\u0630\u0641 \u0634\u062f');
 
-      return redirect('admin/posts');
+      return redirect()->back();
     }
 }

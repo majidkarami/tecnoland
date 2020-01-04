@@ -16,7 +16,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')->namespace('Backend')->group(function () {
-    Route::get('/', 'MainController@mainPage');
+    Route::prefix('posts')->name('posts.')->group(function () {
+        Route::resource('/blog', 'PostController');
+        Route::resource('categories', 'PostCategoryController');
+    });
+    Route::get('/home', 'MainController@mainPage');
     Route::resource('categories', 'CategoryController');
     Route::get('/categories/{id}/settings', 'CategoryController@indexSetting')->name('categories.indexSetting');
     Route::post('/categories/{id}/settings', 'CategoryController@saveSetting');
@@ -30,7 +34,6 @@ Route::prefix('admin')->namespace('Backend')->group(function () {
     Route::get('orders', 'OrderController@index');
     Route::get('orders/lists/{id}', 'OrderController@getOrderLists')->name('orders.lists');
     Route::resource('users', 'UserController');
-    Route::resource('posts', 'UserController');
     Route::resource('settings', 'SettingController');
     Route::resource('cities', 'CityController');
     Route::resource('provinces', 'ProvinceController');
