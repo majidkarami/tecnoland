@@ -216,8 +216,8 @@ class ProductController extends Controller
         $product_id=$request->get('product_id');
         $product=Product::findOrFail($product_id);
         $review=ReView::where('product_id',$product_id)->first();
-        $images=File::where(['product_id'=>$product_id,'type'=>'review'])->get();
-        return view('admin.product.add_review',['product'=>$product,'image'=>$images,'review'=>$review]);
+        $image=File::where(['product_id'=>$product_id,'type'=>'review'])->get();
+        return view('admin.products.add_review',compact('product','image','review'));
     }
 
     public function add_review(ReviewRequest $request)
@@ -242,10 +242,10 @@ class ProductController extends Controller
         $url=$img->url;
         if(!empty($url))
         {
-            if(file_exists('upload/'.$url))
+            if(file_exists($url))
             {
                 $img->delete();
-                unlink('upload/'.$url);
+                unlink($url);
             }
         }
         return redirect()->back();
@@ -256,7 +256,7 @@ class ProductController extends Controller
         $product=Product::findOrFail($id);
         $items=Item::get_product_item($id);
         $item_value=DB::table('item_product')->where('product_id',$product->id)->pluck('value','item_id')->toArray();
-        return View('admin.product.add_item',['product'=>$product,'items'=>$items,'item_value'=>$item_value]);
+        return View('admin.products.add_item',compact('product','items','item_value'));
     }
 
     public function add_item_product(Request $request)
@@ -283,7 +283,7 @@ class ProductController extends Controller
         $filter_value=Filter::get_value($id);
         $product=Product::findOrFail($id);
         $filters=Filter::get_product_filter($id);
-        return View('admin.product.add_filter',['filters'=>$filters,'product'=>$product,'filter_value'=>$filter_value]);
+        return View('admin.products.add_filter',compact('filters','product','filter_value'));
     }
 
     public function add_filter_product(Request $request)
@@ -293,12 +293,12 @@ class ProductController extends Controller
         $filters=$request->get('filters');
         if(is_array($filter))
         {
-            DB::table('filter_product')->where(['product'=>$product_id])->delete();
+            DB::table('filter_product')->where(['product_id'=>$product_id])->delete();
             foreach ($filter as $key=>$value)
             {
                 DB::table('filter_product')->insert(
                     [
-                        'product'=>$product_id,
+                        'product_id'=>$product_id,
                         'filter_id'=>$key,
                         'value'=>$value
                     ]
@@ -313,7 +313,7 @@ class ProductController extends Controller
                 {
                     DB::table('filter_product')->insert(
                         [
-                            'product'=>$product_id,
+                            'product_id'=>$product_id,
                             'filter_id'=>$key,
                             'value'=>$value2
                         ]

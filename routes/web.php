@@ -17,29 +17,33 @@ Auth::routes();
 Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('/home', 'MainController@mainPage');
     Route::resource('categories', 'CategoryController');
-    Route::post('category/del_img/{id}','CategoryController@del_img');
+    Route::post('category/del_img/{id}', 'CategoryController@del_img');
 
     Route::resource('sliders', 'SliderController');
 
     Route::resource('products', 'ProductController');
     /* product gallery*/
-    Route::get('product/gallery','ProductController@gallery');
-    Route::post('product/upload','ProductController@upload');
-    Route::post('product/del_product_img/{id}','ProductController@del_product_img');
+    Route::get('product/gallery', 'ProductController@gallery');
+    Route::post('product/upload', 'ProductController@upload');
+    Route::post('product/del_product_img/{id}', 'ProductController@del_product_img');
 
-    Route::get('product/add-filter/{id}','ProductController@add_filter_form');
-    Route::post('product/add_filter','ProductController@add_filter_product');
-    Route::get('product/add-item/{id}','ProductController@add_item_form');
-    Route::post('product/add_item','ProductController@add_item_product');
-    Route::get('product/add-review','ProductController@add_review_form');
-    Route::post('product/add_review','ProductController@add_review');
-    Route::post('product/del_review_img/{id}','ProductController@del_review_img');
+    /*create filter product */
+    Route::get('filter', 'FilterController@index');
+    Route::post('filter', 'FilterController@create');
+    Route::get('product/add-filter/{id}', 'ProductController@add_filter_form');
+    Route::post('product/add_filter', 'ProductController@add_filter_product');
 
-    Route::get('filter','FilterController@index');
-    Route::post('filter','FilterController@create');
+    /*create property product */
+    Route::get('item', 'ItemController@index');
+    Route::post('item', 'ItemController@create');
+    Route::get('product/add-item/{id}', 'ProductController@add_item_form');
+    Route::post('product/add_item', 'ProductController@add_item_product');
 
-    Route::get('item','ItemController@index');
-    Route::post('item','ItemController@create');
+    /*product Review*/
+    Route::get('product/add-review', 'ProductController@add_review_form');
+    Route::post('product/add_review', 'ProductController@add_review');
+    Route::post('product/del_review_img/{id}', 'ProductController@del_review_img');
+
 
 //    Route::get('order','OrderController@index');
 //    Route::get('order/{id}','OrderController@view');
@@ -63,18 +67,17 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::resource('settings', 'SettingController');
     Route::resource('cities', 'CityController');
     Route::resource('provinces', 'ProvinceController');
-
+// product amazing
     Route::resource('amazings', 'AmazingController');
-//    service
-    Route::resource('services','ServiceController');
-    Route::post('/services/get_price','ServiceController@get_price');
-    Route::post('/services/set_price','ServiceController@set_price');
+//    service guaranty
+    Route::resource('services', 'ServiceController');
+    Route::post('/services/get_price', 'ServiceController@get_price');
+    Route::post('/services/set_price', 'ServiceController@set_price');
 
 });
 
 /* امار بازدید را در اینجا قرار دهید*/
-Route::middleware(['statistics'])->group(function ()
-{
+Route::middleware(['statistics'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
 });

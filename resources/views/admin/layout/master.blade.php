@@ -354,24 +354,25 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-database"></i>
-                        <span>ویژگی ها</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href=""><i class="fa fa-circle-o"></i>لیست ویژگی ها </a></li>
-                        <li><a href=""><i class="fa fa-circle-o"></i>مقادیر ویژگی ها </a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="">
-                        <i class="fa fa-ticket"></i>
-                        <span>کد تخفیف</span>
-                    </a>
+{{--                <li class="treeview">--}}
+{{--                    <a href="#">--}}
+{{--                        <i class="fa fa-database"></i>--}}
+{{--                        <span>ویژگی ها</span>--}}
+{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
+{{--                    </a>--}}
+{{--                    <ul class="treeview-menu">--}}
+{{--                        <li><a href=""><i class="fa fa-circle-o"></i>لیست ویژگی ها </a></li>--}}
+{{--                        <li><a href=""><i class="fa fa-circle-o"></i>مقادیر ویژگی ها </a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="treeview">--}}
+{{--                    <a href="">--}}
+{{--                        <i class="fa fa-ticket"></i>--}}
+{{--                        <span>کد تخفیف</span>--}}
+{{--                    </a>--}}
 
-                </li>
+{{--                </li>--}}
+
                 <li class="treeview">
                     <a href="">
                         <i class="fa fa-reorder"></i>
@@ -701,8 +702,9 @@
 <script src="/admin/dist/js/demo.js"></script>
 <script src="/admin/plugins/iCheck/icheck.min.js"></script>
 <script type="text/javascript" src="{{ url('/admin/dist/js/js-persian-cal.min.js') }}"></script>
+@yield('scripts')
 <script type="text/javascript" src="{{ url('admin/js/admin.js') }}"></script>
 
-@yield('scripts')
+
 </body>
 </html>
