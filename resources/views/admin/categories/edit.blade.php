@@ -44,7 +44,7 @@
                                 <label for="parent_id">دسته والد</label>
                                 <select name="parent_id" id="" data-live-search="true" class="selectpicker form-control">
                                     @foreach($cat_list as $key => $value)
-                                        <option value="{{$key}}" @if($key == $category->id) selected @endif>{{$value}}</option>
+                                        <option value="{{$key}}" @if($key === $category->parent_id) selected @endif>{{$value}}</option>
                                     @endforeach
                                 </select>
                                 @if($errors->has('parent_id'))

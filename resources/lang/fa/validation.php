@@ -155,6 +155,8 @@ return array(
         'permission_id' => 'دسترسی ها',
         'label' => 'توضیحات کوتاه',
         'comment' => 'نظر',
-        'video' => 'ویدیو'
+        'video' => 'ویدیو',
+        'option_name' => 'نام تنظیمات',
+        'option_value' => 'مقدار تنظیمات'
     ),
 );

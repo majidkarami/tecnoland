@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AccessAdmin;
+use App\Http\Middleware\load_admin_data;
 use App\Http\Middleware\Statistics;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -65,6 +66,9 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'statistics'=>Statistics::class,
         'auth.admin'=>AccessAdmin::class,
+//        'check_admin'=>check_admin::class,
+        'load_admin_data'=>load_admin_data::class
+
     ];
 
     /**
