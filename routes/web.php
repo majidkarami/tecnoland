@@ -13,7 +13,6 @@
 
 Auth::routes();
 
-
 Route::middleware(['load_admin_data'])->prefix('admin')->namespace('Admin')->group(function () {
     Route::get('/home', 'MainController@mainPage');
     Route::resource('categories', 'CategoryController');
