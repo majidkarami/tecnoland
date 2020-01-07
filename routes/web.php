@@ -13,10 +13,7 @@
 
 Auth::routes();
 
-
 Route::middleware(['load_admin_data'])->prefix('admin')->namespace('Admin')->group(function () {
-
-    Route::prefix('admin')->namespace('Admin')->group(function () {
 
         Route::get('/home', 'MainController@mainPage');
         Route::resource('categories', 'CategoryController');
@@ -96,8 +93,6 @@ Route::middleware(['load_admin_data'])->prefix('admin')->namespace('Admin')->gro
         });
 
     });
-
-});
 
 /* امار بازدید را در اینجا قرار دهید*/
 Route::middleware(['statistics'])->group(function () {
