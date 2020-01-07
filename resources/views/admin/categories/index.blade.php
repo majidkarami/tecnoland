@@ -1,4 +1,5 @@
 @extends('admin.layout.master')
+@section('title', __(' مدیریت دسته بندی ها'))
 
 @section('content')
     <section class="content">
@@ -45,9 +46,12 @@
                         </tr>
                             </form>
                         <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
                         @foreach($categories as $category)
                             <tr>
-                                <td class="text-center">{{$category->id}}</td>
+                                <td class="text-center">{{$i}}</td>
                                 <td class="text-center">{{$category->cat_name}}</td>
                                 <td class="text-center">{{$category->cat_ename}}</td>
                                 <td class="text-center">{{ $category->getParent->cat_name }}</td>
@@ -90,6 +94,9 @@
                                     </div>
                                 </td>
                             </tr>
+                            @php
+                                $i++;
+                            @endphp
                         @endforeach
                         </tbody>
                         @if(sizeof($categories)==0)

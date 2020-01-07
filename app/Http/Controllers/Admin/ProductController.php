@@ -165,7 +165,7 @@ class ProductController extends Controller
         $id=$request->get('id');
         $product=Product::findOrFail($id);
         $image=ProductImage::where('product_id',$id)->get();
-        return View('admin.products.gallery',['product'=>$product,'image'=>$image]);
+        return View('admin.products.gallery',compact('product','image'));
     }
 
     public function upload(Request $request)

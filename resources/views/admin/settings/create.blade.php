@@ -16,20 +16,20 @@
                         <form method="POST" action="{{route('settings.store')}}">
                             @csrf
                             <div class="form-group">
-                                <label for="name">نام </label>
-                                <input type="text" name="name" value="{{old('name')}}" class="form-control"
+                                <label for="option_name">نام تنظیمات</label>
+                                <input type="text" name="option_name" value="{{old('option_name')}}" class="form-control"
                                        placeholder="نام تنظیمات را وارد کنید ...">
-                                @if($errors->has('name'))
-                                    <span style="color:red;font-size:13px">{{ $errors->first('name') }}</span>
+                                @if($errors->has('option_name'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('option_name') }}</span>
                                 @endif
                             </div>
 
                             <div class="form-group">
-                                <label for="name">مقدار </label>
-                                <input type="text" name="value" value="{{old('value')}}" class="form-control"
+                                <label for="option_value">مقدار تنظیمات</label>
+                                <input type="text" name="option_value" value="{{old('option_value')}}" class="form-control"
                                        placeholder="مقدار تنظیمات را وارد کنید ...">
-                                @if($errors->has('value'))
-                                    <span style="color:red;font-size:13px">{{ $errors->first('value') }}</span>
+                                @if($errors->has('option_value'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('option_value') }}</span>
                                 @endif
                             </div>
 
