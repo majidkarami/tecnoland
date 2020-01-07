@@ -14,9 +14,47 @@ class CreateSettingsTable extends Migration
     public function up()
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->string('name', 255)->primary();
-            $table->string('value', 255);
+            $table->bigIncrements('id');
+            $table->string('option_name')->nullable();
+            $table->string('option_value')->nullable();
         });
+
+        DB::table('settings')->insert([
+            'option_name'=>'TerminalId',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'Username',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'Password',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'MerchantID',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'name',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'email',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'address',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'tel',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'mobile',
+            'option_value'=>''
+        ]);
     }
 
     /**

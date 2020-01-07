@@ -37,7 +37,7 @@
 
                             <div class="form-group">
                                 <label for="cat">انتخاب سر دسته</label>
-                                <select name="cat[]" id="cat_list" data-live-search="true" onchange="get_filter()" class="selectpicker form-control">
+                                <select name="cat[]" id="cat_list" data-live-search="true" onchange="get_item()" class="selectpicker form-control">
                                     @foreach($cat_list as $key=>$value)
                                         <option value="{{$key}}" @if($key == $id) selected @endif>{{$value}}</option>
                                     @endforeach
@@ -55,7 +55,6 @@
 
                                         <div id="item_div_{{ $value->id }}" style="width:100%;float:right;margin-top:10px;margin-bottom:5px" class="product_item_div">
                                             <input name="item_name[{{ $value->id }}]" value="{{ $value->name }}" type="text"  style="float: right;" class="form-control" placeholder="نام گروه" >
-
 
                                             @foreach($value->get_child as $key2=>$value2)
 
@@ -98,7 +97,6 @@
         </div>
     </section>
 
-
 @endsection
 
 @section('scripts')
@@ -108,7 +106,6 @@
     get_item=function ()
     {
         var cat_id=document.getElementById('cat_list').value;
-        alert(cat_id);
         window.location='<?= url('admin/item') ?>?id='+cat_id;
     };
 </script>

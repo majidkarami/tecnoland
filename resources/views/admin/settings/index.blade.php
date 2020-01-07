@@ -47,60 +47,56 @@
                         @endphp
 
                         @foreach ($settings as $setting)
-                            <tr>
-                                <td class="text-center">{{$i}}</td>
-                                <td class="text-center">{{$setting->name}}</td>
-                                <td class="text-center">{{$setting->value}}</td>
-                                <td class="text-center">
+                            @if($setting->option_name == 'TerminalId' or $setting->option_name == 'Username' or $setting->option_name == 'Password' or $setting->option_name == 'MerchantID')
+                              <tr></tr>
+                                @else
+                                <tr>
+                                    <td class="text-center">{{$i}}</td>
+                                    <td class="text-center">{{$setting->option_name}}</td>
+                                    <td class="text-center">{{$setting->option_value}}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-warning"
+                                           href="{{route('settings.edit',$setting->option_name)}}">ویرایش</a>
 
-                                    <div style="display:inline-block">
-                                        <form method="get"
-                                              action="{{route('settings.edit',$setting->name)}}">
+                                        <div style="display:inline-block">
+                                            <button type="submit" data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-danger">حذف</button>
+
+                                            <form method="post" action="{{route('settings.destroy',$setting->option_name)}}">
                                             @csrf
-                                            <button style="color: white" type="submit" class="btn btn-sm btn-warning">
-                                                ویرایش
-                                            </button>
-                                        </form>
-
-                                    </div>
-                                    {{-- <a class="btn btn-warning" href="{{route('adverts.edit',$advert->id)}}">ویرایش</a> --}}
-                                    <div style="display:inline-block">
-                                        <button type="submit" data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-danger">حذف</button>
-
-                                        <form method="post" action="{{route('settings.destroy',$setting->name)}}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <!-- modal -->
-                                            <div class="modal fade" id="modal-default">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title">حذف</h4>
+                                            @method('DELETE')
+                                            <!-- modal -->
+                                                <div class="modal fade" id="modal-default">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span></button>
+                                                                <h4 class="modal-title">حذف</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>آیا از حذف تنظیمات مورد نظر اطمینان دارید؟</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default pull-left"
+                                                                        data-dismiss="modal">خروج
+                                                                </button>
+                                                                <button type="submit" class="btn btn-danger">بلی</button>
+                                                            </div>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <p>آیا از حذف تنظیمات مورد نظر اطمینان دارید؟</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default pull-left"
-                                                                    data-dismiss="modal">خروج
-                                                            </button>
-                                                            <button type="submit" class="btn btn-danger">بلی</button>
-                                                        </div>
+                                                        <!-- /.modal-content -->
                                                     </div>
-                                                    <!-- /.modal-content -->
+                                                    <!-- /.modal-dialog -->
                                                 </div>
-                                                <!-- /.modal-dialog -->
-                                            </div>
-                                            <!-- /.modal -->
-                                        </form>
+                                                <!-- /.modal -->
+                                            </form>
 
-                                    </div>
+                                        </div>
 
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                                @endif
+
                             @php
                                 $i++;
                             @endphp

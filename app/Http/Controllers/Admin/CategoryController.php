@@ -60,8 +60,11 @@ class CategoryController extends Controller
                 $category->img = 'upload/category/' . $file_name;
             }
         }
+        $category->cat_name  = $request->get('cat_name');
+        $category->cat_ename = $request->get('cat_ename');
+        $category->parent_id  = $request->get('parent_id');
+        $category->update();
 
-        $category->saveOrFail($request->all());
         Session::flash('success', 'دسته با موفقیت ویرایش شد.');
         return redirect(route('categories.index'));
     }
@@ -75,7 +78,7 @@ class CategoryController extends Controller
             unlink($url);
         }
         Session::flash('success', 'دسته با موفقیت حذف شد.');
-        return redirect()->back();
+        return redirect(route('categories.index'));
     }
 
     public function del_img($id)

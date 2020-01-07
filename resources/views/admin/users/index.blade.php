@@ -31,6 +31,7 @@
                         <thead>
                              <tr>
                             <th class="text-center"> ردیف</th>
+                            <th class="text-center"> شناسه</th>
                             <th class="text-center"> نام</th>
                             <th class="text-center"> موبایل</th>
                             <th class="text-center"> وضعیت</th>
@@ -41,8 +42,12 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
                         @foreach ($users as $user)
                             <tr>
+                                <td class="text-center">{{$i}}</td>
                                 <td class="text-center">{{$user->id}}</td>
                                 <td class="text-center">{{$user->name}}</td>
                                 <td class="text-center">{{$user->phone}}</td>
@@ -96,7 +101,9 @@
                                 </td>
 
                             </tr>
-
+                            @php
+                                $i++;
+                            @endphp
                         @endforeach
 
                         </tbody>
