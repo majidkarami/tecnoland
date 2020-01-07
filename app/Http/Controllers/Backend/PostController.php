@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Backend;
 
 use App\PostCategory;
 use App\Http\Requests\post\PostCreateRequest;
@@ -95,7 +95,6 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        dd('m');
         $post = Post::with('postCategory')->where('id', $id)->first();
         $categories = PostCategory::pluck('title', 'id');
         return view('admin.posts.edit', compact(['post', 'categories']));

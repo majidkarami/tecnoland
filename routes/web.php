@@ -14,7 +14,11 @@
 Auth::routes();
 
 
+
 Route::middleware(['load_admin_data'])->prefix('admin')->namespace('Admin')->group(function () {
+
+Route::prefix('admin')->namespace('Admin')->group(function () {
+
     Route::get('/home', 'MainController@mainPage');
     Route::resource('categories', 'CategoryController');
     Route::post('category/del_img/{id}', 'CategoryController@del_img');
@@ -62,12 +66,14 @@ Route::middleware(['load_admin_data'])->prefix('admin')->namespace('Admin')->gro
     Route::post('order/set_status', 'OrderController@set_status');
 
     Route::resource('users', 'UserController');
+
     Route::resource('posts', 'UserController');
 
-    Route::get('setting/pub','SettingController@pub_setting_form')->name('pub_setting_form.create');
-    Route::post('setting/pay','SettingController@pay_setting')->name('pay_setting.store');
-    Route::get('setting/pay','SettingController@pay_setting_form')->name('pay_setting_form.create');
-    Route::post('setting/pay','SettingController@pay_setting')->name('pay_setting.store');
+    Route::get('setting/pub', 'SettingController@pub_setting_form')->name('pub_setting_form.create');
+    Route::post('setting/pay', 'SettingController@pay_setting')->name('pay_setting.store');
+    Route::get('setting/pay', 'SettingController@pay_setting_form')->name('pay_setting_form.create');
+    Route::post('setting/pay', 'SettingController@pay_setting')->name('pay_setting.store');
+
 
     Route::resource('cities', 'CityController');
     Route::resource('provinces', 'ProvinceController');
@@ -79,10 +85,18 @@ Route::middleware(['load_admin_data'])->prefix('admin')->namespace('Admin')->gro
     Route::post('/services/get_price', 'ServiceController@get_price');
     Route::post('/services/set_price', 'ServiceController@set_price');
 
+
     /*discount*/
     Route::resource('order/discounts', 'DiscountController', ['except' => ['show']]);
     Route::resource('order/gift_cart', 'GiftCartController', ['except' => ['show']]);
 
+
+    Route::prefix('posts')->name('posts.')->group(function () {
+        Route::resource('/blog', 'PostController');
+        Route::resource('categories', 'PostCategoryController');
+    });
+
+});
 
 });
 

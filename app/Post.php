@@ -10,16 +10,16 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function photo()
+    public function postPhoto()
     {
-        return $this->belongsTo(Photo::class);
+        return $this->belongsTo(PostPhoto::class,'photo_id', 'id');
     }
-    public function category()
+    public function postCategory()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(PostCategory::class,'category_id', 'id');
     }
-    public function comments()
+    public function postComments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(PostComment::class);
     }
 }

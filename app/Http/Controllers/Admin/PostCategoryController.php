@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\PostCategory;
-use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\category\CategoryRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
-class AdminCategoryController extends Controller
+class PostCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class AdminCategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(2);
-        return view ('admin.categories.index', compact(['categories']));
+        $categories = PostCategory::paginate(2);
+        return view ('admin.posts.categories.index', compact(['categories']));
     }
 
     /**
@@ -28,7 +28,7 @@ class AdminCategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        return view('admin.posts.categories.create');
     }
 
     /**
@@ -39,20 +39,19 @@ class AdminCategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-
-      $category = new Category();
-      $category->title = $request->input('title');
-      if($request->input('slug')){
+        $category = new PostCategory();
+        $category->title = $request->input('title');
+        if($request->input('slug')){
         $category->slug = make_slug($request->input('slug'));
-      }else{
+        }else{
         $category->slug = make_slug($request->input('title'));
-      }
-      $category->meta_description = $request->input('meta_description');
-      $category->meta_keywords = $request->input('meta_keywords');
-      $category->save();
+        }
+        $category->meta_description = $request->input('meta_description');
+        $category->meta_keywords = $request->input('meta_keywords');
+        $category->save();
 
-      Session::flash('add_category', 'دسته بندی جدید با موفقیت اضافه شد');
-      return redirect('/admin/categories');
+        Session::flash('add_category', 'دسته بندی جدید با موفقیت اضافه شد');
+        return redirect(route('posts.categories.index'));
     }
 
     /**
