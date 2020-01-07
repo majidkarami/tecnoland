@@ -73,9 +73,11 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::post('/services/set_price', 'ServiceController@set_price');
 
 
-    Route::prefix('posts')->name('posts.')->group(function () {
-        Route::resource('/blog', 'PostController');
+    Route::prefix('blog')->name('blog.')->group(function () {
+        Route::resource('/posts', 'PostController');
         Route::resource('categories', 'PostCategoryController');
+        Route::resource('comments', 'PostCommentController');
+        Route::post('/actions/{id}', 'PostCommentController@actions')->name('comments.actions');
     });
 });
 

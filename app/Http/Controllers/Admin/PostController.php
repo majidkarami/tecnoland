@@ -21,8 +21,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('postPhoto', 'postCategory', 'user')->paginate(10);
-        return view('admin.posts.index', compact(['posts']));
+        $posts = Post::with('postPhotos', 'postCategory', 'user')->paginate(10);
+        return view('admin.blog.posts.index', compact(['posts']));
     }
 
     /**
@@ -33,7 +33,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = PostCategory::pluck('title', 'id');
-        return view('admin.posts.create', compact('categories'));
+        return view('admin.blog.posts.create', compact('categories'));
     }
 
     /**
@@ -45,18 +45,6 @@ class PostController extends Controller
     public function store(PostCreateRequest $request)
     {
         $post = new Post();
-        if($file = $request->file('first_photo')){
-        $name = time() . $file->getClientOriginalName() ;
-        $file->move('upload/posts/images', $name);
-        $photo = new PostPhoto();
-        $photo->name = $file->getClientOriginalName();
-        $photo->path = 'upload/posts/images'.$name;
-        $photo->user_id = 1;
-        $photo->save();
-
-        $post->photo_id = $photo->id;
-        }
-
         $post->title = $request->input('title');
 
         if($request->input('slug')){
@@ -67,13 +55,24 @@ class PostController extends Controller
 
         $post->description = $request->input('description');
         $post->category_id = $request->input('category');
+        //$post->user_id = auth()->user()->id;
         $post->user_id = 1;
         $post->meta_description = $request->input('meta_description');
         $post->meta_keywords = $request->input('meta_keywords');
         $post->active = $request->input('active');
         $post->save();
-        Session::flash('add_post', 'پست جدید با موفقیت ایجاد گردید');
-        return redirect(route('posts.index'));
+        if($file = $request->file('first_photo')){
+        $name = time() . $file->getClientOriginalName() ;
+        $file->move('upload/posts/images/', $name);
+        $photo = new PostPhoto();
+        $photo->name = $file->getClientOriginalName();
+        $photo->path = 'upload/posts/images/'.$name;
+        $photo->user_id = 1;
+        $photo->post_id = $post->id;
+        $photo->save();
+        }
+        Session::flash('success', 'پست جدید با موفقیت ایجاد گردید');
+        return redirect(route('blog.posts.index'));
     }
 
     /**
@@ -95,10 +94,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        dd('m');
-        $post = Post::with('postCategory')->where('id', $id)->first();
+        $post = Post::with('postCategory','postPhotos')->where('id', $id)->first();
         $categories = PostCategory::pluck('title', 'id');
-        return view('admin.posts.edit', compact(['post', 'categories']));
+        return view('admin.blog.posts.edit', compact(['post', 'categories']));
     }
 
     /**
@@ -113,10 +111,10 @@ class PostController extends Controller
       $post = Post::findOrFail($id);
       if($file = $request->file('first_photo')){
         $name = time() . $file->getClientOriginalName() ;
-        $file->move('images', $name);
+        $file->move('upload/posts/images/', $name);
         $photo = new PostPhoto();
         $photo->name = $file->getClientOriginalName();
-        $photo->path = $name;
+        $photo->path = 'upload/posts/images/'.$name;
         $photo->user_id = Auth::id();
         $photo->save();
 
@@ -147,16 +145,16 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-      $post = Post::findOrFail($id);
-      $photo = PostPhoto::findOrFail($post->photo_id);
-      $url = public_path() . $post->photo->path;
-      if(file_exists($url)) {
+        $post = Post::findOrFail($id);
+        $photo = PostPhoto::findOrFail($id);
+        $url = public_path() . $photo->path;
+        if(file_exists($url)) {
           unlink($url);
-      }
-      $photo->delete();
-      $post->delete();
-      Session::flash('delete_post', '\u0645\u0637\u0644\u0628 \u0628\u0627 \u0645\u0648\u0641\u0642\u06cc\u062a \u062d\u0630\u0641 \u0634\u062f');
+        }
+        $photo->delete();
+        $post->delete();
+        Session::flash('success', '\u0645\u0637\u0644\u0628 \u0628\u0627 \u0645\u0648\u0641\u0642\u06cc\u062a \u062d\u0630\u0641 \u0634\u062f');
 
-      return redirect()->back();
+        return redirect(route('blog.posts.index'));
     }
 }

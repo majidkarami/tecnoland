@@ -10,9 +10,9 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function postPhoto()
+    public function postPhotos()
     {
-        return $this->belongsTo(PostPhoto::class,'photo_id', 'id');
+        return $this->hasMany(PostPhoto::class);
     }
     public function postCategory()
     {

@@ -1,12 +1,14 @@
 @extends('admin.layout.master')
 
+@section('title', __('پست ها'))
+
 @section('content')
     <section class="content">
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title pull-right">لیست پست ها</h3>
                 <div class="text-left">
-                    <a class="btn btn-app" href="{{route('posts.blog.create')}}">
+                    <a class="btn btn-app" href="{{route('blog.posts.create')}}">
                         <i class="fa fa-plus"></i> جدید
                     </a>
                 </div>
@@ -48,10 +50,10 @@
                                 <td class="text-center">{{$post->user->name}}</td>
                                 <td class="text-center">{{$post->postCategory->title}}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-warning" href="{{route('posts.blog.edit', $post->id)}}">ویرایش</a>
+                                    <a class="btn btn-sm btn-warning" href="{{route('blog.posts.edit', $post->id)}}">ویرایش</a>
                                     <div class="display-inline-block">
                                         <button type="submit" data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-danger">حذف</button>
-                                        <form method="post" action="{{route('posts.blog.destroy', $post->id)}}">
+                                        <form method="post" action="{{route('blog.posts.destroy', $post->id)}}">
                                             @csrf
                                             @method('DELETE')
                                         <!-- modal -->

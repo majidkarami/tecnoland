@@ -22,11 +22,9 @@ class CreatePostsTable extends Migration
             $table->text('meta_keywords');
             $table->tinyInteger('active')->default('0');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('photo_id');
             $table->unsignedBigInteger('category_id');
 
             $table->foreign(['user_id'])->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign(['photo_id'])->references('id')->on('post_photos')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign(['category_id'])->references('id')->on('post_categories')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
@@ -44,7 +42,6 @@ class CreatePostsTable extends Migration
 
         Schema::table('posts', function (Blueprint $table){
             $table->dropForeign(['user_id']);
-            $table->dropForeign(['photo_id']);
             $table->dropForeign(['category_id']);
         });
     }
