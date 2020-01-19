@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\amazing;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

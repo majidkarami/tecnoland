@@ -267,33 +267,20 @@
                             <li class="user-header">
                                 <img src="/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
-                                <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
+                                <p style="text-align: center;">
+                                    به صفحه مدیریت خوش آمدید.
+                                    <small style="float: left;padding-top: 22px;">{{number2farsi(verta()->format('H:i , Y-n-j'))}}</small>
                                 </p>
                             </li>
                             <!-- Menu Body -->
-                            <li class="user-body">
-                                <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>
-                                <!-- /.row -->
-                            </li>
+
                             <!-- Menu Footer-->
                             <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                </div>
+{{--                                <div class="pull-left">--}}
+{{--                                    <a href="#" class="btn btn-default btn-flat">Profile</a>--}}
+{{--                                </div>--}}
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a onclick="logout()" class="btn btn-default btn-flat">خروج</a>
                                 </div>
                             </li>
                         </ul>
@@ -423,6 +410,19 @@
 
                 <li class="treeview">
                     <a href="#">
+                        <i class="fa fa-line-chart"></i>
+                        <span>نمودار وبسایت</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('statistic.index')}}"><i class="fa fa-circle-o"></i>نمودار آمار بازدید</a> </li>
+                        <li><a href="{{route('income.index')}}"><i class="fa fa-circle-o"></i>نمودار میزان درآمد</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="treeview">
+                    <a href="#">
                         <i class="fa fa-newspaper-o"></i>
                         <span>وبلاگ</span>
                         <i class="fa fa-angle-left pull-right"></i>
@@ -430,6 +430,19 @@
                     <ul class="treeview-menu">
                         <li><a href="{{route('posts.blog.index')}}"><i class="fa fa-circle-o"></i>لیست پست ها</a></li>
                         <li><a href="{{route('posts.categories.index')}}"><i class="fa fa-circle-o"></i>لیست دسته بندی پست ها</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-rss"></i>
+                        <span>خبرنامه</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route("admin.newsletter.index")  }}"><i class="fa fa-circle-o"></i> لیست اخبار</a></li>
+                        <li><a href="{{ route("admin.newsletter.create")  }}"><i class="fa fa-circle-o"></i>ایمیل</a></li>
+{{--                        <li><a href="{{route('admin.newsletter.phone.create')}}"><i class="fa fa-circle-o"></i>پیام کوتاه</a></li>--}}
                     </ul>
                 </li>
 
@@ -507,6 +520,30 @@
 <script type="text/javascript" src="{{ url('/admin/dist/js/js-persian-cal.min.js') }}"></script>
 @yield('scripts')
 <script type="text/javascript" src="{{ url('admin/js/admin.js') }}"></script>
+<script>
+    url='<?= url('logout') ?>';
+    token='<?= csrf_token() ?>';
+    logout=function () {
+
+        if(confirm('آیا قصد خارج شدن از بخش کاربری را دارید؟'))
+        {
+            var form = document.createElement("form");
+            form.setAttribute("method", "POST");
+            form.setAttribute("action",url);
+
+            var hiddenField2 = document.createElement("input");
+            hiddenField2.setAttribute("name", "_token");
+            hiddenField2.setAttribute("value",token);
+            form.appendChild(hiddenField2);
+
+            document.body.appendChild(form);
+            form.submit();
+
+            document.body.removeChild(form);
+        }
+
+    }
+</script>
 
 
 </body>

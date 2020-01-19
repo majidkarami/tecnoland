@@ -8,6 +8,7 @@ use App\City;
 use App\Province;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class CityController extends Controller
 {
@@ -58,7 +59,7 @@ class CityController extends Controller
     {
         $city = City::findOrFail($id);
         $city->delete();
-//        alert()->success('شهر با موفقیت حذف شد.', 'موفقیت');
+        Session::flash('success', 'شهر با موفقیت حذف گردید.');
         return redirect(route('cities.index'));
     }
 }
