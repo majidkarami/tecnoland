@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\post;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -21,6 +21,8 @@ class PostCreateRequest extends FormRequest
      *
      * @return array
      */
+
+
     protected function prepareForValidation()
     {
       if($this->input('slug')){
@@ -29,13 +31,12 @@ class PostCreateRequest extends FormRequest
         $this->merge(['slug' => make_slug($this->input('title'))]);
       }
     }
+
     public function rules()
     {
         return [
           'title' => 'required|min:10',
           'slug' => 'unique:posts',
-          'description' => 'required',
-          'first_photo' => 'required',
           'category' => 'required',
           'active' => 'required',
         ];
@@ -47,8 +48,6 @@ class PostCreateRequest extends FormRequest
         'title.required' => 'لطفا عنوان مطلب را وارد کنید',
         'title.min' => 'عنوان مطلب شما باید بیش از ۱۰ کاراکتر باشد',
         'slug.unique' => 'این نام مستعار قبلا ثبت شده است',
-        'description.required' => 'لطفا توضیحات مطلب را وارد کنید',
-        'first_photo.required' => 'لطفا تصویر اصلی مطلب را مشخص کنید',
         'category.required' => 'لطفا دسته بندی این مطلب را انتخاب کنید',
         'status.required' => 'وضعیت مطلب نامشخص است'
       ];

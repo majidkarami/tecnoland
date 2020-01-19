@@ -75,7 +75,11 @@ Route::middleware(['load.admin.data','check.admin'])->prefix('admin')->namespace
 
     Route::resource('users', 'UserController');
 
-    Route::resource('posts', 'UserController');
+        Route::get('setting/pub', 'SettingController@pub_setting_form')->name('pub_setting_form.create');
+        Route::post('setting/pay', 'SettingController@pay_setting')->name('pay_setting.store');
+        Route::get('setting/pay', 'SettingController@pay_setting_form')->name('pay_setting_form.create');
+        Route::post('setting/pay', 'SettingController@pay_setting')->name('pay_setting.store');
+
 
     Route::get('setting/pub', 'SettingController@pub_setting_form')->name('pub_setting_form.create');
     Route::post('setting/pay', 'SettingController@pay_setting')->name('pay_setting.store');
@@ -111,8 +115,12 @@ Route::middleware(['load.admin.data','check.admin'])->prefix('admin')->namespace
         Route::resource('categories', 'PostCategoryController');
         Route::resource('comments', 'PostCommentController');
         Route::post('/actions/{id}', 'PostCommentController@actions')->name('comments.actions');
-    });
+        Route::get('/post/{id}/details', 'PostController@details')->name('posts.details');
+        Route::post('/post/{id}/upload', 'PostController@upload')->name('posts.upload');
+        Route::post('/post/details', 'PostController@create_details')->name('posts.create.details');
+        Route::post('/post/del_post_img/{id}', 'PostController@del_post_img')->name('posts.del_img');
 
+    });
 
 });
 

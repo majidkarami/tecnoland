@@ -1,6 +1,10 @@
 <?php
-
 use App\Setting;
+
+
+ function make_slug($string){
+    return preg_replace('/\s+/u', '-', trim($string));
+
 
 if (!function_exists('setting')) {
     function setting($option_name, $default = null)

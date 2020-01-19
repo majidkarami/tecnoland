@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\PostCategory;
-use App\Http\Requests\post\PostCreateRequest;
+use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostEditRequest;
 use App\PostPhoto;
 use App\Post;
@@ -33,7 +33,12 @@ class PostController extends Controller
     public function create()
     {
         $categories = PostCategory::pluck('title', 'id');
-        return view('admin.blog.posts.create', compact('categories'));
+
+        if (!empty($post_id)) {
+
+            $image = PostPhoto::where(['post_id'=>$post_id])->get();
+        }
+        return view('admin.blog.posts.create', compact('categories','image'));
     }
 
     /**
@@ -61,16 +66,7 @@ class PostController extends Controller
         $post->meta_keywords = $request->input('meta_keywords');
         $post->active = $request->input('active');
         $post->save();
-        if($file = $request->file('first_photo')){
-        $name = time() . $file->getClientOriginalName() ;
-        $file->move('upload/posts/images/', $name);
-        $photo = new PostPhoto();
-        $photo->name = $file->getClientOriginalName();
-        $photo->path = 'upload/posts/images/'.$name;
-        $photo->user_id = 1;
-        $photo->post_id = $post->id;
-        $photo->save();
-        }
+
         Session::flash('success', 'پست جدید با موفقیت ایجاد گردید');
         return redirect(route('blog.posts.index'));
     }
@@ -157,4 +153,62 @@ class PostController extends Controller
 
         return redirect(route('blog.posts.index'));
     }
+    public function details($id)
+    {
+        $post = Post::findOrFail($id);
+        $images = PostPhoto::where('post_id',$id)->get();
+        return View('admin.blog.posts.details', compact('post','images'));
+    }
+
+    public function create_details(Request $request)
+    {
+        $request->validate([
+            'description' => 'required'
+        ],[
+            'description.required' => 'لطفا توضیحات مطلب را وارد کنید'
+        ]);
+
+        $post_id = $request->post('post_id');
+        $post = Post::findOrFail($post_id);
+        $post->description = $request->post('description');
+        $post->saveOrFail();
+        Session::flash('success', 'توضیحات پست با موفقیت ایجاد گردید.');
+        return redirect()->back();
+    }
+
+    public function upload(Request $request, $id)
+    {
+        $files=$request->file('file');
+        $file_name=md5($files->getClientOriginalName().time().$id).'.'.$files->getClientOriginalExtension();
+        if($files->move('upload/posts/',$file_name))
+        {
+            $postPhoto=new PostPhoto();
+            $postPhoto->user_id=1;
+            $postPhoto->post_id=$id;
+            $postPhoto->name=$files->getClientOriginalName();
+            $postPhoto->path='upload/posts/'.$file_name;
+            $postPhoto->saveOrFail();
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public function del_post_img($id)
+    {
+        $img=PostPhoto::findOrFail($id);
+        $url=$img->path;
+        if(!empty($url))
+        {
+            if(file_exists($url))
+            {
+                $img->delete();
+                unlink($url);
+            }
+        }
+        return redirect()->back();
+    }
+
 }
