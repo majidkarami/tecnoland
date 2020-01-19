@@ -36,22 +36,31 @@ class PostCommentController extends Controller
       return redirect(route('blog.comments.index'));
     }
 
-  public function edit($id)
-  {
-    $comment = PostComment::findOrFail($id);
-    return view('admin.blog.comments.edit', compact('comment'));
-  }
+    public function show($id)
+    {
+        $comment = PostComment::findOrFail($id);
 
-  public function update(Request $request, $id)
-  {
-    $comment = PostComment::findOrFail($id);
-    $comment->description = $request->input('description');
-    $comment->status = $request->input('status');
-    $comment->save();
+        return view('admin.blog.comments.show', compact('comment'));
+    }
 
-    Session::flash('success', 'نظر با موفقیت ویرایش شد');
-    return redirect(route('blog.comments.index'));
-  }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'description' => 'required|min:5'
+        ]);
+        $old_comment = PostComment::findOrFail($id);
+        $new_comment = new PostComment();
+        $new_comment->description = $request->input('description');
+        $new_comment->status = 1;
+        $new_comment->parent_id = $id;
+        $new_comment->post_id = $old_comment->post_id;
+        $new_comment->name = auth()->user->username;
+        $new_comment->email = auth()->user->email;
+        $new_comment->saveOrFail();
+
+        Session::flash('success', 'پاسخ نظر با موفقیت ثبت شد');
+        return redirect(route('blog.comments.index'));
+    }
 
   public function destroy($id)
   {

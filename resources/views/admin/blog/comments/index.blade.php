@@ -51,6 +51,8 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
+                                    <a href="{{route('blog.comments.show', $comment->id)}}" class="btn btn-sm btn-info" style="cursor:pointer;margin-top:-15px">پاسخ</a>
+                                    <div class="display-inline-block">
                                     @if($comment->status == 0)
                                         <div class="display-inline-block">
                                             <form method="POST" action="{{ route('blog.comments.actions', $comment->id)}}">

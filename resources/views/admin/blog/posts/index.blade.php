@@ -50,6 +50,7 @@
                                 <td class="text-center">{{$post->user->name}}</td>
                                 <td class="text-center">{{$post->postCategory->title}}</td>
                                 <td class="text-center">
+                                    <a class="btn btn-sm btn-info" href="{{route('blog.posts.details', $post->id)}}">افزودن تصویر</a>
                                     <a class="btn btn-sm btn-warning" href="{{route('blog.posts.edit', $post->id)}}">ویرایش</a>
                                     <div class="display-inline-block">
                                         <button type="submit" data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-danger">حذف</button>

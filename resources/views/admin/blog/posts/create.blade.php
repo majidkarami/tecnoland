@@ -12,6 +12,11 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
+                        @if(Session::has('success'))
+                            <div class="alert alert-success">
+                                <div>{{session('success')}}</div>
+                            </div>
+                        @endif
                         <form method="POST" action="{{route('blog.posts.store')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
@@ -41,13 +46,6 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label for="description">توضیحات</label>
-                                <textarea type="text" name="description" class="form-control" placeholder="توضیحات را وارد کنید...">{{ old('meta_description') }}</textarea>
-                                @if($errors->has('description'))
-                                    <span style="color:red;font-size:13px">{{ $errors->first('description') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
                                 <label>وضعیت</label>
                                 <div>
                                     <input type="radio" name="active" value="0" checked> <span class="margin-l-10">منتشر نشده</span>
@@ -56,13 +54,6 @@
                                         <span style="color:red;font-size:13px">{{ $errors->first('active') }}</span>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label>تصویر اصلی</label>
-                                <input type="file" name="first_photo" class="form-control" id="customFile">
-                                @if($errors->has('first_photo'))
-                                    <span style="color:red;font-size:13px">{{ $errors->first('first_photo') }}</span>
-                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="meta_description">توضیحات متا</label>
@@ -80,11 +71,16 @@
                             </div>
                             <button type="submit" class="btn btn-success pull-left">ذخیره</button>
                         </form>
+
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
     </section>
+@endsection
 
+@section('scripts')
+    <script type="text/javascript" src="{{asset('/admin/dist/js/dropzone.js')}}"></script>
 @endsection

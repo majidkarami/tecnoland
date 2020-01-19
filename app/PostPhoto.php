@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostPhoto extends Model
 {
-    protected $uploads = '/images/';
+    // protected $uploads = '/images/';
 
     public function user()
     {

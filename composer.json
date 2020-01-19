@@ -34,9 +34,6 @@
         }
     },
     "autoload": {
-        "files": [
-            "app/Helpers/helper.php"
-        ],
         "psr-4": {
             "App\\": "app/"
         },
@@ -45,7 +42,7 @@
             "database/factories"
         ],
         "files": [
-            "app/Http/helpers.php"
+            "app/Helpers/helper.php"
         ]
     },
     "autoload-dev": {
