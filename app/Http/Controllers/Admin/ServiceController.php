@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Color;
-use App\Http\Requests\service\ServiceRequest;
+use App\Http\Requests\ServiceRequest;
 use App\lib\Jdf;
 use App\Product;
 use App\Service;

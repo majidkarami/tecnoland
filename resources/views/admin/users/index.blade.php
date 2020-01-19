@@ -31,9 +31,8 @@
                         <thead>
                              <tr>
                             <th class="text-center"> ردیف</th>
-                            <th class="text-center"> شناسه</th>
-                            <th class="text-center"> نام</th>
-                            <th class="text-center"> موبایل</th>
+                            <th class="text-center"> شناسه کاربر</th>
+                            <th class="text-center"> نام کاربری</th>
                             <th class="text-center"> وضعیت</th>
                             <th class="text-center"> نقش</th>
                             <th class="text-center"> تاریخ ایجاد</th>
@@ -49,8 +48,7 @@
                             <tr>
                                 <td class="text-center">{{$i}}</td>
                                 <td class="text-center">{{$user->id}}</td>
-                                <td class="text-center">{{$user->name}}</td>
-                                <td class="text-center">{{$user->phone}}</td>
+                                <td class="text-center">{{$user->username}}</td>
                                 @if($user->active == 0)
                                     <td class="text-center"><span class="badge label-danger">غیرفعال</span>
                                     </td>
@@ -59,13 +57,8 @@
                                     </td>
                                 @endif
 
-                                @if(!empty($user->roles()->get()->pluck('name')->toArray()))
-                                    <td class="text-center">{{implode(',',$user->roles()->get()->pluck('name')->toArray())}}</td>
-                                @else
-                                    <td class="text-center">--</td>
-                                @endif
-
-                                <td class="text-center">{{ verta($user->ts)->format('H:i , Y-m-d')}}</td>
+                                <td class="text-center">{{$user->role}}</td>
+                                <td class="text-center">{{ verta($user->created_at)->format('H:i , Y-m-d')}}</td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-info" href="{{route('users.show',$user->id)}}" style="color: white;">مشاهده</a>
                                     <a class="btn btn-sm btn-warning" href="{{route('users.edit',$user->id)}}" style="color: white;">ویرایش</a>

@@ -12,6 +12,7 @@ class PostCommentController extends Controller
     public function index()
     {
         $comments = PostComment::with('post')
+
         ->orderBy('created_at', 'desc')
         ->paginate(30);
 
@@ -36,12 +37,20 @@ class PostCommentController extends Controller
       return redirect(route('blog.comments.index'));
     }
 
+
     public function show($id)
     {
         $comment = PostComment::findOrFail($id);
-
         return view('admin.blog.comments.show', compact('comment'));
     }
+
+  public function edit($id)
+  {
+    $comment = PostComment::findOrFail($id);
+
+    return view('admin.blog.comments.edit', compact('comment'));
+
+  }
 
     public function update(Request $request, $id)
     {

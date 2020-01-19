@@ -147,3 +147,72 @@
     top:0px;
     bottom: 0px;
 }
+
+/* admin login*/
+ .login_box {
+     width: 450px;
+     background: white;
+     -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+     border-radius: 5px;
+     margin: 50px auto;
+     border: 1px solid gainsboro;
+     padding: 25px;
+ }
+
+.login_box .form-control {
+    width: 100%;
+    margin-top: 15px;
+    /*text-align: left;*/
+}
+
+.login_box .form-group {
+    width: 92%;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.header_login {
+    width: 100%;
+    border-bottom: 2px solid #00e7ff;
+}
+
+.header_login h4 {
+    padding-top: 14px;
+    padding-bottom: 7px;
+    padding-right: 15px;
+    text-align: center;
+}
+
+.login_box .has-error {
+    color: red;
+    font-size: 12px;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button2 {
+    background-color: white;
+    color: #4e4e4e;
+    border: 2px solid #66bfff;
+}
+
+.button2:hover {
+    background-color: #66bfff;
+    color: white;
+}
+
+

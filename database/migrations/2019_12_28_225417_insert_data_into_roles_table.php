@@ -16,9 +16,9 @@ class InsertDataIntoRolesTable extends Migration
     {
         Schema::table('roles', function (Blueprint $table) {
             $roles = array(
-                array('id' => '1', 'name' => 'مدیر', 'created_at' => NULL, 'updated_at' => NULL),
-                array('id' => '2', 'name' => 'نویسنده', 'created_at' => NULL, 'updated_at' => NULL),
-                array('id' => '3', 'name' => 'کاربر', 'created_at' => NULL, 'updated_at' => NULL),
+                array('id' => '1', 'name' => 'admin', 'created_at' => NULL, 'updated_at' => NULL),
+                array('id' => '2', 'name' => 'author', 'created_at' => NULL, 'updated_at' => NULL),
+                array('id' => '3', 'name' => 'user', 'created_at' => NULL, 'updated_at' => NULL),
             );
 
             DB::table('roles')->insert($roles);

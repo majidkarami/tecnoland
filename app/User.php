@@ -8,17 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @method static findOrFail($id)
- * @method static paginate(int $int)
- * @property array|string|null last_name
- * @property array|string|null national_code
- * @property array|string|null name
- * @property array|string|null birthday
- * @property array|string|null bank_number
+ * @property array|string username
  * @property array|string|null email
  * @property string password
  * @property string remember_token
- * @property array|string|null phone
- * @property array|string|null gender
+ * @property string role
  * @property int active
  */
 class User extends Authenticatable
@@ -31,8 +25,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'national_code', 'birthday', 'gender', 'bank_numb', 'email', 'email_verified_at', 'phone','active'
+        'username', 'password','role','email','active'
     ];
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -42,6 +37,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function findForPassport($username)
+    {
+        return $this->where('username',$username)->first();
+    }
 
     public function photos()
     {
@@ -58,29 +58,9 @@ class User extends Authenticatable
         return $this->hasMany(Address::class);
     }
 
-    public function coupons()
-    {
-        return $this->belongsToMany(Coupon::class);
-    }
-
     public function orders()
     {
         return $this->hasMany(Order::class);
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
-
-    public function hasAnyRoles($roles)
-    {
-        return null !== $this->roles()->whereIn('name',$roles)->first();
-    }
-
-    public function hasAnyRole($role)
-    {
-        return null !== $this->roles()->whereIn('name',$role)->first();
     }
 
     public function posts()

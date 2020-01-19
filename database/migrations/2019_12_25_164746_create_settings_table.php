@@ -55,6 +55,10 @@ class CreateSettingsTable extends Migration
             'option_name'=>'mobile',
             'option_value'=>''
         ]);
+        DB::table('settings')->insert([
+            'option_name'=>'url_admin',
+            'option_value'=>'admin_login'
+        ]);
     }
 
     /**

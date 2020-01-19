@@ -72,7 +72,7 @@ class Product extends Model
 
     public function get_img()
     {
-        return $this->hasOne(ProductImage::class, 'product_id', 'id')->orderBy('id', 'ASC')->withDefault(['url' => '-']);
+        return $this->hasOne(ProductImage::class, 'product_id', 'id')->orderBy('id', 'ASC');
     }
 
     public function get_images()

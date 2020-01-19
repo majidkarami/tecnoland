@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Amazing;
-use App\Http\Requests\amazing\AmazingRequest;
+use App\Http\Requests\AmazingRequest;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
