@@ -40,11 +40,7 @@ class PostCommentController extends Controller
   public function edit($id)
   {
     $comment = PostComment::findOrFail($id);
-<<<<<<< HEAD
-    return view('admin.comments.edit', compact(['comment']));
-=======
     return view('admin.blog.comments.edit', compact('comment'));
->>>>>>> 01d3e5a9eca60cb7c65ce7cb6097635fbd328519
   }
 
   public function update(Request $request, $id)
