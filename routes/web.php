@@ -121,8 +121,6 @@ Route::middleware(['load.admin.data','check.admin'])->prefix('admin')->namespace
         Route::post('/post/del_post_img/{id}', 'PostController@del_post_img')->name('posts.del_img');
 
     });
-    });
-
 
 });
 
