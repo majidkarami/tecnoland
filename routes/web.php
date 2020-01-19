@@ -101,15 +101,18 @@ Route::middleware(['load.admin.data','check.admin'])->prefix('admin')->namespace
         Route::post('/create', 'NewsLetterController@store')->name('admin.newsletter.store');
         Route::delete('/destroy/{id}', 'NewsLetterController@destroy')->name('admin.newsletter.destroy');
 
+
         Route::get('/create/phone', 'NewsLetterController@create_phone')->name('admin.newsletter.phone.create');
         Route::post('/create/phone', 'NewsLetterController@store_phone')->name('admin.newsletter.phone.store');
     });
 
-
-    Route::prefix('posts')->name('posts.')->group(function () {
-        Route::resource('/blog', 'PostController');
+    Route::prefix('blog')->name('blog.')->group(function () {
+        Route::resource('/posts', 'PostController');
         Route::resource('categories', 'PostCategoryController');
+        Route::resource('comments', 'PostCommentController');
+        Route::post('/actions/{id}', 'PostCommentController@actions')->name('comments.actions');
     });
+
 
 });
 

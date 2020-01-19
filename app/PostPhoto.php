@@ -18,8 +18,8 @@ class PostPhoto extends Model
       return $this->uploads . $photo;
     }
 
-    public function posts()
+    public function post()
     {
-      return $this->hasMany(Post::class);
+      return $this->belongsTo(Post::class,'post_id', 'id');
     }
 }

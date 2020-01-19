@@ -17,8 +17,8 @@ class PostCategoryController extends Controller
      */
     public function index()
     {
-        $categories = PostCategory::paginate(2);
-        return view ('admin.posts.categories.index', compact(['categories']));
+        $categories = PostCategory::paginate(10);
+        return view ('admin.blog.categories.index', compact('categories'));
     }
 
     /**
@@ -28,7 +28,7 @@ class PostCategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.categories.create');
+        return view('admin.blog.categories.create');
     }
 
     /**
@@ -51,7 +51,7 @@ class PostCategoryController extends Controller
         $category->save();
 
         Session::flash('add_category', 'دسته بندی جدید با موفقیت اضافه شد');
-        return redirect(route('posts.categories.index'));
+        return redirect(route('blog.categories.index'));
     }
 
     /**
@@ -73,8 +73,8 @@ class PostCategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findOrFail($id);
-        return view('admin.categories.edit', compact(['category']));
+        $category = PostCategory::findOrFail($id);
+        return view('admin.blog.categories.edit', compact('category'));
     }
 
     /**
@@ -86,7 +86,7 @@ class PostCategoryController extends Controller
      */
     public function update(CategoryRequest $request, $id)
     {
-      $category = Category::findOrFail($id);
+      $category = PostCategory::findOrFail($id);
       $category->title = $request->input('title');
       if($request->input('slug')){
         $category->slug = make_slug($request->input('slug'));
@@ -98,7 +98,7 @@ class PostCategoryController extends Controller
       $category->save();
 
       Session::flash('update_category', 'دسته بندی با موفقیت ویرایش شد');
-      return redirect('/admin/categories');
+      return redirect(route('blog.categories.index'));
     }
 
     /**
@@ -109,9 +109,9 @@ class PostCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::findOrFail($id);
+        $category = PostCategory::findOrFail($id);
         $category->delete();
         Session::flash('delete_category', 'دسته بندی با موفقیت حذف شد');
-        return redirect('/admin/categories');
+        return redirect(route('blog.categories.index'));
     }
 }

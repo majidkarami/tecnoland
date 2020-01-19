@@ -63,9 +63,9 @@
                                                 class="btn btn-sm btn-danger">حذف
                                         </button>
 
-                                        <form method="post"
-                                              action="{{route('cities.destroy',$city->id)}}">                                        @csrf
-                                        @method('DELETE')
+                                        <form method="post" action="{{route('cities.destroy',$city->id)}}">
+                                            @csrf
+                                            @method('DELETE')
                                         <!-- modal -->
                                             <div class="modal fade" id="modal-default">
                                                 <div class="modal-dialog">

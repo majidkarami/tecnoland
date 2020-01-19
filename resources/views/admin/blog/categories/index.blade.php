@@ -6,7 +6,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title pull-right">لیست دسته بندی پست ها</h3>
                 <div class="text-left">
-                    <a class="btn btn-app" href="{{route('posts.categories.create')}}">
+                    <a class="btn btn-app" href="{{route('blog.categories.create')}}">
                         <i class="fa fa-plus"></i> جدید
                     </a>
                 </div>
@@ -30,6 +30,7 @@
                         <tr>
                             <th class="text-center">شناسه</th>
                             <th class="text-center">عنوان</th>
+                            <th class="text-center">عملیات</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -41,37 +42,11 @@
                                 <td class="text-center">{{$i}}</td>
                                 <td class="text-center">{{$category->title}}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-warning" href="{{route('posts.categories.edit', $category->id)}}">ویرایش</a>
+                                    <a class="btn btn-sm btn-warning" href="{{route('blog.categories.edit', $category->id)}}">ویرایش</a>
                                     <div class="display-inline-block">
-                                        <button type="submit" data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-danger">حذف</button>
-                                        <form method="post" action="{{route('posts.categories.destroy', $category->id)}}">
-                                            @csrf
-                                            @method('DELETE')
-                                        <!-- modal -->
-                                            <div class="modal fade" id="modal-default">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title">حذف</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>آیا از حذف دسته بندی مورد نظر اطمینان دارید؟</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خروج</button>
-                                                            <button type="submit" class="btn btn-danger">بلی</button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.modal-content -->
-                                                </div>
-                                                <!-- /.modal-dialog -->
-                                            </div>
-                                            <!-- /.modal -->
-                                        </form>
+                                        <a class="btn btn-sm btn-danger" title="حذف" style="cursor:pointer"
+                                           onclick="del_row('<?= $category->id ?>','<?= url('admin/blog/categories') ?>','<?= Session::token() ?>')">حذف</a>
                                     </div>
-
                                 </td>
                             </tr>
                             @php
