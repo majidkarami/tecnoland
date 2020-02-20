@@ -34,7 +34,7 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{{ $user_count }}</h3>
+                        {{-- <h3>{{ $user_count }}</h3> --}}
 
                         <p>کاربران ثبت شده</p>
                     </div>

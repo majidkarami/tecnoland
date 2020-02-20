@@ -15,11 +15,11 @@
 Auth::routes();
 
 /* login admin*/
-Route::get(setting('url_admin'), 'admin\MainController@admin_login');
+Route::get(setting('url_admin'), 'Admin\MainController@admin_login');
 // captcha
 Route::get('/refresh_captcha', 'Auth\LoginController@refreshCaptcha');
-
-Route::middleware(['load.admin.data','check.admin'])->prefix('admin')->namespace('Admin')->group(function () {
+// middleware(['load.admin.data','check.admin'])
+Route::prefix('admin')->namespace('Admin')->group(function () {
 
     Route::get('/dashboard', 'MainController@index');
     Route::get('/statistic', 'MainController@statistic')->name('statistic.index');
@@ -121,8 +121,6 @@ Route::middleware(['load.admin.data','check.admin'])->prefix('admin')->namespace
         Route::post('/post/del_post_img/{id}', 'PostController@del_post_img')->name('posts.del_img');
 
     });
-    });
-
 
 });
 
@@ -135,8 +133,8 @@ Route::middleware(['statistics'])->namespace('User')->group(function ()
     Route::get('product/{code}/{title}','SiteController@show');
     Route::get('Cart','SiteController@show_cart');
 
-    Route::get('category/{cat1}','SearchController@cat1');
-    Route::get('search/{cat1}/{cat2}/{cat3}','SearchController@search');
+    // Route::get('category/{cat1}','SearchController@cat1');
+    // Route::get('search/{cat1}/{cat2}/{cat3}','SearchController@search');
 
 
     Route::get('Compare/{product1}','SiteController@compare');
@@ -145,5 +143,20 @@ Route::middleware(['statistics'])->namespace('User')->group(function ()
     Route::get('Compare/{product1}/{product2}/{product3}/{product4}','SiteController@compare');
 
     Route::get('search','SiteController@search');
+
+});
+
+Route::prefix('blog')->namespace('User')->group(function ()
+{
+    Route::get('/','PostController@index')->name('user.blog.posts.index');
+    Route::get('/{slug}','PostController@show')->name('user.blog.posts.show');
+    Route::post('/comments','CommentController@store')->name('user.blog.comments.store');
+    Route::post('/comments/reply','CommentController@reply')->name('user.blog.comments.reply');
+});
+
+Route::prefix('blog')->namespace('User')->middleware('auth')->group(function ()
+{
+    Route::post('/post/like', 'PostController@like')->name('user.blog.like');
+    Route::post('/post/dislike', 'PostController@dislike')->name('user.blog.dislike');
 
 });
