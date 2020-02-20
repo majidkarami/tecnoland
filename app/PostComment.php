@@ -10,7 +10,9 @@ class PostComment extends Model
     {
       return $this->belongsTo(Post::class);
     }
-    public function replies(){
+    
+    public function replies()
+    {
       return $this->hasMany(PostComment::class, 'parent_id');
     }
 }
