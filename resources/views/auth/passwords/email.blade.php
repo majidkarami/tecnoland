@@ -1,47 +1,54 @@
-@extends('layouts.app')
+@extends('technoland.layout.master')
+@section('title', __('یادآوری کلمه عبور'))
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
+    <main class="main default">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
+                    <div class="account-box" style="width: 500px;">
+                        <a href="#" class="logo">
+                            <img src="{{asset('/user/img/logo.png')}}" alt="">
+                        </a>
+                        <div class="account-box-title">یادآوری کلمه عبور</div>
+                        <div class="account-box-content">
+                            @if (session('status'))
+                                <div class="alert alert-success">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
                                 @if ($errors->has('email'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                        <div class="alert alert-danger">
+                                            <p> کاربر گرامی : اگر با پیغام ایمیل آدرس یافت نشد مواجه شدید با اکانت ایمیل ثبت نام نکرده اید لطفا دوباره ثبت نام کنید</p>
+                                        </div>
+                             </span>
                                 @endif
-                            </div>
+                            <form class="form-account" method="POST" action="{{ route('password.email') }}">
+                                @csrf
+                                <div class="form-account-title">پست الکترونیک </div>
+                                <div class="form-account-row">
+                                    <label class="input-label"><i
+                                                class="now-ui-icons ui-1_email-85"></i></label>
+                                    <input id="email" type="email" class="input-field" name="email" value="{{ old('email') }}"  placeholder="پست الکترونیک  خود را وارد نمایید">
+                                    @if($errors->has('email'))
+                                        <span style="color:red;font-size:13px">{{ $errors->first('email') }}</span>
+                                    @endif
+                                </div>
+                                <div class="form-account-row form-account-submit">
+                                    <div class="parent-btn">
+                                        <button class="dk-btn dk-btn-info">
+                                            ارسال رمز عبور
+                                            <i class="now-ui-icons arrows-1_refresh-69"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </main>
+
 @endsection

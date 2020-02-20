@@ -42,11 +42,12 @@ class ServiceController extends Controller
 
     public function store(ServiceRequest $request)
     {
+
         $service = new Service($request->all());
         $service->parent_id = 0;
         $service->saveOrFail();
         Session::flash('success', 'گارانتی با موفقیت اضافه شد.');
-        $url = 'admin/services/' . $service->id . '/edit?product_id=' . $this->id;
+        $url = 'admin/services?product_id=' . $this->id;
         return redirect($url);
     }
 
@@ -103,15 +104,15 @@ class ServiceController extends Controller
         $d = explode('-', $date);
         $time = $Jdf->jmktime(0, 0, 0, $d[1], $d[2], $d[0]);
         $service_id = $request->get('service_id');
-        DB::table('services')->where(['parent_id' => $service_id, 'product_id' => $this->id, 'date' => $date])->delete();
+        DB::table('service')->where(['parent_id' => $service_id, 'product_id' => $this->id, 'date' => $date])->delete();
         if (is_array($color)) {
             foreach ($color as $key => $value) {
                 if (!empty($value)) {
-                    DB::table('services')->insert([
+                    DB::table('service')->insert([
                         'product_id' => $this->id,
                         'parent_id' => $service_id,
                         'color_id' => $key,
-                        'name' => '-',
+                        'service_name' => '-',
                         'price' => $value,
                         'time' => $time,
                         'date' => $date

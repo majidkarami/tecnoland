@@ -1,4 +1,4 @@
-<?php $c_id=0; $check=null; ?>
+<?php $c_id = 0; $check = null; ?>
 @if(sizeof($colors)>0)
     <p style="padding-top: 20px;">انتخاب رنگ</p>
 
@@ -7,18 +7,20 @@
         @if($service)
 
             @if($value->id==$service->color_id)
-                <?php $c_id=$service->color_id; ?>
+                <?php $c_id = $service->color_id; ?>
             @endif
             <div class="color_box" onclick="set_color('<?= $value->id ?>')">
-                <label style="background:#{{ $value->color_code }}"> @if($value->id==$service->color_id) <span class="tick"></span> @endif</label>
+                <label style="background:#{{ $value->color_code }}"> @if($value->id==$service->color_id) <span
+                            class="tick"></span> @endif</label>
                 <span>{{ $value->color_name }}</span>
             </div>
         @else
             @if($value->id==$color_id)
-                <?php $c_id=$value->id; ?>
+                <?php $c_id = $value->id; ?>
             @endif
             <div class="color_box" onclick="set_color('<?= $value->id ?>')">
-                <label style="background:#{{ $value->color_code }}"> @if($value->id==$color_id) <span class="tick"></span> @endif</label>
+                <label style="background:#{{ $value->color_code }}"> @if($value->id==$color_id) <span
+                            class="tick"></span> @endif</label>
                 <span>{{ $value->color_name }}</span>
             </div>
 
@@ -34,7 +36,7 @@
 
         <p style="padding-top:20px">انتخاب گارانتی</p>
         <?php
-        $c=0;
+        $c = 0;
         ?>
         @foreach($product->get_service_name as $key=>$value)
 
@@ -64,18 +66,18 @@
 
                     <?php
 
-                    if($c==0)
+                    if($c == 0)
                     {
-                    $check=DB::table('service')->where(['parent_id'=>$value->id,'color_id'=>$color_id])->orderBy('id','DESC')->first();
+                    $check = DB::table('service')->where(['parent_id' => $value->id, 'color_id' => $color_id])->orderBy('id', 'DESC')->first();
                     if($check)
                     {
-                    $c=1;
+                    $c = 1;
                     ?>
                     <div class="service_title" onclick="show_service()">
                         <span>{{ $value->service_name }}</span>
                         <a class="service_ic" id="service_ic"></a>
                     </div>
-                        <input type="hidden" name="service_id" value="{{ $value->id }}" id="service_id">
+                    <input type="hidden" name="service_id" value="{{ $value->id }}" id="service_id">
 
                     <?php
                     }
@@ -97,9 +99,9 @@
             @endforeach
         </div>
 
-     @else
+    @else
 
-        <input type="hidden" name="service_id" value="0" id="service_id">
+        <input type="hidden" name="service_id" value="{{ $service_id }}" id="service_id">
 
 
     @endif
@@ -108,26 +110,45 @@
 </div>
 
 
-
 <div style="width:100%;float:right;margin-top: 15px;">
 
     <?php
 
-        if($service)
-        {
-            $price=$service->price;
-        }
-        else
-        {
-            $price=$check ? $check->price :  $product->price;
-        }
+    if ($service) {
+        $price = $service->price;
+    } else {
+        $price = $check ? $check->price : $product->price;
+    }
 
     ?>
-    <p><span>قیمت : </span> {{ number_format($price) }} تومان</p>
-    @if(!empty($product->discounts))
-        <p><span>قیمت برای شما : </span>  <span style="color:#4CAF50;font-size:16px;">{{ number_format($price-$product->discounts) }}</span>  تومان</p>
-    @endif
+        <div class="price-product defualt">
+            <div style="width:100%;float:right;margin-top: 70px;">
 
+                <div class="price">
+                <span  style="color: green;">
+                    {{ number_format($price) }}
+                    <span>تومان</span>
+                 </span>
+                </div>
+                @if(!empty($product->discounts))
+                <div class="price-value">
+                        <span>{{ number_format($price-$product->discounts) }}</span>
+                    <span class="price-currency">تومان</span>
+                </div>
+                @endif
 
-    <input type="submit" class="btn btn-success" value="افزودن به سبد خرید">
+                <div class="price-discount" data-title="تخفیف" style="margin-right: 85px;">
+                    <span>{{difference($price,$product->discounts,1)}}</span>
+                </div>
+            </div>
+            <div class="product-add default" style="margin-top: 50px">
+                <div class="parent-btn">
+                    <button type="submit" class="dk-btn dk-btn-info" style="font-size: 14px;padding: 18px 66px;">
+                        افزودن به سبد خرید
+                        <i class="now-ui-icons shopping_cart-simple"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
 </div>

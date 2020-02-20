@@ -300,7 +300,7 @@ header.main-header .search-area form.search button {
     bottom: 0;
     border: none;
     border-radius: 7px 0 0 7px;
-    background-color: #ef5661;
+    background-color: #05e4ff;
     cursor: pointer;
     outline: none;
 }
@@ -342,7 +342,7 @@ header.main-header .user-login .dropdown-menu:before {
     content: '';
     height: 4px;
     width: 100%;
-    background-color: #ef5661;
+    background-color: #05e4ff;
     border: none;
     bottom: 100%;
     left: 0;
@@ -355,7 +355,7 @@ header.main-header .user-login .dropdown-menu:after {
     height: 0;
     border-style: solid;
     border-width: 0 8px 8px;
-    border-color: transparent transparent #ef5661;
+    border-color: transparent transparent #05e4ff;
     position: absolute;
     bottom: 100%;
     margin-bottom: 2px;
@@ -643,9 +643,9 @@ header.main-header .cart .dropdown-menu .basket-submit {
 header.main-header .main-menu {
     width: 100%;
     float: right;
-    background: #616161;
+    background: #45878f;
     margin-top: 15px;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid #05e4ff;
 }
 
 header.main-header .main-menu .list {
@@ -693,7 +693,7 @@ header.main-header .main-menu .list>.list-item>a::before {
     left: 0;
     right: 0;
     margin: 0 auto;
-    background-color: #ef5661;
+    background-color: #05e4ff;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
@@ -869,7 +869,7 @@ header.main-header .main-menu .list .list-item.mega-menu:hover .sub-menu {
 
 header.main-header .main-menu .list .amazing-item {
     float: left;
-    background-color: #4d4d4d;
+    background-color: #146e79;
 }
 
 /* ----------------- End Main-Menu */
@@ -932,7 +932,7 @@ nav.header-responsive form button {
     bottom: 0;
     border: none;
     border-radius: 7px 0 0 7px;
-    background-color: #ef5661;
+    background-color: #05e4ff;
     cursor: pointer;
     outline: none;
 }
@@ -1061,7 +1061,7 @@ main.main section.banner img {
     border-top-style: solid;
     border-width: 0;
     border-top-width: 1px;
-    border-color: #fb3449;
+    border-color: #05e4ff;
     position: absolute;
     width: 0;
     right: 0;
@@ -1108,7 +1108,7 @@ main.main section.banner img {
 }
 
 .sidebar #suggestion-slider .item .price {
-    color: #ef5661;
+    color: #05e4ff;
     height: 64px;
     font-size: 20px;
     text-align: center;
@@ -1169,7 +1169,7 @@ main.main section.banner img {
 
 .widget-product .card-header .card-title,
 .brand-slider .card-header .card-title {
-    border-bottom: 1px solid #e0e1e2;
+    border-bottom: 1px solid #05e4ff;
     padding-bottom: 0;
     line-height: 2;
 }
@@ -1231,7 +1231,7 @@ main.main section.banner img {
 
 .widget-product .product-carousel .item .price,
 .brand-slider .product-carousel .item .price {
-    color: #ef5661;
+    color: #05e4ff;
     font-size: 20px;
     height: 64px;
 }
@@ -1246,7 +1246,7 @@ main.main section.banner img {
 
 .widget-product .product-carousel .item ins,
 .brand-slider .product-carousel .item ins {
-    color: #ef5661;
+    color: #05e4ff;
     font-size: 20px;
     height: 64px;
     text-decoration: none !important;
@@ -1406,7 +1406,7 @@ main.main section.banner img {
 }
 
 #amazing-slider .carousel-indicators li.active {
-    background: #ef5661;
+    background: #05e4ff;
     color: #fff;
     border-bottom: none;
 }
@@ -1418,7 +1418,7 @@ main.main section.banner img {
     height: 42px;
     border-radius: 3px;
     position: absolute;
-    background: #ef5661;
+    background: #05e4ff;
     right: -10px;
     top: 0;
 }
@@ -1500,14 +1500,14 @@ main.main section.banner img {
 }
 
 #amazing-slider .carousel-inner .carousel-item .row .left-col .price ins {
-    color: #ef5661;
+    color: #05e4ff;
     font-size: 20px;
     font-weight: 500;
     text-decoration: none;
 }
 
 #amazing-slider .carousel-inner .carousel-item .row .left-col .price .discount-percent {
-    background: #ef5661;
+    background: #05e4ff;
     color: #fff;
     display: inline-block;
     padding: 4px 14px;

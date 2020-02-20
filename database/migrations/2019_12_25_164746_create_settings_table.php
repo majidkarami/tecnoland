@@ -59,6 +59,22 @@ class CreateSettingsTable extends Migration
             'option_name'=>'url_admin',
             'option_value'=>'admin_login'
         ]);
+        DB::table('settings')->insert([
+            'option_name'=>'price_post',
+            'option_value'=>'10000'
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'telegram',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'instagram',
+            'option_value'=>''
+        ]);
+        DB::table('settings')->insert([
+            'option_name'=>'whatsapp',
+            'option_value'=>''
+        ]);
     }
 
     /**

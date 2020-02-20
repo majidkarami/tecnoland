@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Bookmark;
 use App\CatProduct;
 use App\Http\Controllers\Controller;
 use App\Amazing;
@@ -38,29 +39,43 @@ class SiteController extends Controller
 
     public function index()
     {
-//        dd(time()+20*60);
+//        dd(time()+120*60);
         $slider = Slider::orderBy('id', 'DESC')->limit(5)->get();
-        $product = Product::with('get_img')->where('product_status', 1)->orderBy('id', 'DESC')->limit(15)->get();
-        $order_product = Product::with('get_img')->where('product_status', 1)->orderBy('order_product', 'DESC')->limit(15)->get();
-        $view_product = Product::with('get_img')->where('product_status', 1)->orderBy('view', 'DESC')->limit(15)->get();
+        $product = Product::with('get_img')->where(['product_status' => 1, 'show_product' => 1])->orderBy('id', 'DESC')->limit(15)->get();
+        $order_product = Product::with('get_img')->where(['product_status' => 1, 'show_product' => 1])->orderBy('order_product', 'DESC')->limit(15)->get();
+        $view_product = Product::with('get_img')->where(['product_status' => 1, 'show_product' => 1])->orderBy('view', 'DESC')->limit(15)->get();
         $cat_product = CatProduct::get();
-        $random_product =Product::with('get_img')->where('product_status', 1)->inRandomOrder()->limit(10)->get();
+        $random_product = Product::with('get_img')->where(['product_status' => 1, 'show_product' => 1, 'special' => 1])->inRandomOrder()->limit(10)->get();
         $amazing = Amazing::with('get_img')->with('get_product')->orderBy('id', 'DESC')->get();
         $old_amazing = Amazing::orderBy('timestamp', 'DESC')->first();
-        return View('technoland.site.index', compact('slider', 'product', 'order_product', 'view_product', 'amazing', 'old_amazing','cat_product','random_product'));
+        return View('technoland.site.index', compact('slider', 'product', 'order_product', 'view_product', 'amazing', 'old_amazing', 'cat_product', 'random_product'));
     }
 
     public function show($code, $title)
     {
-        $product = Product::with('get_images')->with('get_colors')
+        $product = Product::with(['get_images', 'get_colors', 'get_cats', 'get_items'])
             ->where(['code_url' => $code, 'title_url' => $title, 'show_product' => 1])->firstOrFail();
+
+        $products_linked = $this->product_linked($product->id);
+
         $product->view = $product->view + 1;
         $product->update();
         $review = ReView::where(['product_id' => $product->id])->first();
         $items = Item::get_product_item($product->id);
         $item_value = DB::table('item_product')->where('product_id', $product->id)->pluck('value', 'item_id')->toArray();
         $score_data = ProductScore::get_score($product->id);
-        return view('technoland.site.show', compact('product', 'review', 'items', 'item_value', 'score_data'));
+        $pro_amazing = Amazing::with(['get_img', 'get_product'])->where('product_id', $product->id)->first();
+        $amazing = Amazing::with('get_img')->with('get_product')->orderBy('id', 'DESC')->get();
+        $bookmark = Bookmark::where('product_id', $product->id)->where('user_id', auth()->id())->first();
+        return view('technoland.site.show', compact('products_linked', 'product', 'review', 'items', 'item_value', 'score_data', 'amazing', 'pro_amazing', 'bookmark'));
+    }
+
+    public function product_linked($id)
+    {
+        $min_cat_id = DB::table('cat_product')->where('product_id', $id)->pluck('cat_id', 'id')->min();
+        $cat = Category::findOrFail($min_cat_id);
+        $products = DB::table('cat_product')->where('cat_id', $cat->id)->pluck('product_id', 'id');
+        return $products;
     }
 
     public function set_service(Request $request)
@@ -71,8 +86,7 @@ class SiteController extends Controller
         $product = Product::with('get_service_name')->find($product_id);
         $colors = $product->get_colors;
         $check = Service::where(['parent_id' => $service_id, 'product_id' => $product_id, 'color_id' => $color_id])->orderby('id', 'DESC')->first();
-        $view_name = $this->view . 'include/info_box';
-        return View($view_name, ['colors' => $colors, 'service' => $check, 'color_id' => $color_id, 'product' => $product, 'service_id' => $service_id]);
+        return View('technoland.include.info_box', ['colors' => $colors, 'service' => $check, 'color_id' => $color_id, 'product' => $product, 'service_id' => $service_id]);
     }
 
     public function cart(Request $request)
@@ -102,8 +116,7 @@ class SiteController extends Controller
 
     public function show_cart()
     {
-        $view_name = $this->view . 'site/cart';
-        return View($view_name);
+        return View('technoland.site.cart');
     }
 
     public function del_cart(Request $request)
@@ -113,8 +126,8 @@ class SiteController extends Controller
             $color_id = $request->get('color_id', 0);
             $service_id = $request->get('service_id', 0);
             Cart::remove($product_id, $service_id, $color_id);
-            $view_name = $this->view . 'include/ajax_cart';
-            return View($view_name);
+//            $view_name = $this->view . 'include/ajax_cart';
+            return redirect()->back();
         }
     }
 
@@ -126,8 +139,8 @@ class SiteController extends Controller
             $service_id = $request->get('service_id', 0);
             $number = $request->get('number', 0);
             Cart::change($product_id, $service_id, $color_id, $number);
-            $view_name = $this->view . 'include/ajax_cart';
-            return View($view_name);
+
+            return View('technoland.include.ajax_cart');
         }
     }
 
@@ -152,13 +165,13 @@ class SiteController extends Controller
     {
         $e = explode('-', $product);
         if (sizeof($e) == 2) {
-            if ($e[0] == 'DKP') {
+            if ($e[0] == 'Com') {
                 $user_id = Auth::user()->id;
                 $product = Product::with('get_img')->findOrFail($e[1]);
                 $score = ProductScore::with('get_user')->where(['user_id' => $user_id, 'product_id' => $product->id])->first();
                 $comment = Comment::where(['user_id' => $user_id, 'product_id' => $product->id])->first();
 
-                return View('site.comment_form', ['product' => $product, 'score' => $score, 'comment' => $comment]);
+                return View('technoland.site.comment_form', ['product' => $product, 'score' => $score, 'comment' => $comment]);
             } else {
                 return view(404);
             }
@@ -191,15 +204,15 @@ class SiteController extends Controller
             }
 
         }
+        Session::flash('success', 'امتیاز با موفقیت ثبت گردید.');
         return redirect()->back();
     }
 
     public function add_comment(Request $request)
     {
         $Validator = Validator::make($request->all(),
-            ['subject' => 'required'], [], ['subject' => 'عنوان نقد و بررسی']);
+            ['subject' => 'required', 'comment_text' => 'required'], [], ['subject' => 'عنوان نقد و بررسی', 'comment_text' => 'متن']);
         if ($Validator->fails()) {
-
             return redirect()->back()->withErrors($Validator)->withInput();
         } else {
             $product_id = $request->get('product_id');
@@ -233,7 +246,7 @@ class SiteController extends Controller
                 $Comment->save();
 
             }
-
+            Session::flash('success', 'نظر شما با موفقیت ثبت گردید.');
             return redirect()->back();
         }
 
@@ -250,10 +263,10 @@ class SiteController extends Controller
                 $score = ProductScore::with(['get_comment' => function ($query) {
                     $query->where(['product_id' => product_id, 'status' => 1]);
                 }])->where(['product_id' => $product_id])->orderBy('id', 'DESC')->paginate(10);
-                return View('include.show_comment', ['score' => $score, 'product_id' => $product_id]);
+                return View('technoland.include.show_comment', ['score' => $score, 'product_id' => $product_id]);
             } elseif ($tab_id == 'question') {
                 $question = Question::with('get_parent')->where(['product_id' => $product_id, 'status' => 1, 'parent_id' => 0])->orderBy('id', 'DESC')->paginate(10);
-                return View('include.add_question', ['product_id' => $product_id, 'question' => $question]);
+                return View('technoland.include.add_question', ['product_id' => $product_id, 'question' => $question]);
             } else {
                 return 'error';
             }
@@ -288,7 +301,7 @@ class SiteController extends Controller
             if (!empty($value)) {
                 $a = explode('-', $value);
                 if (sizeof($a) == 2) {
-                    if ($a[0] == 'DKP') {
+                    if ($a[0] == 'Com') {
 
                         $product_id = $a[1];
                         $data[$key] = $product_id;
@@ -317,7 +330,7 @@ class SiteController extends Controller
                     $i++;
                 }
             }
-            return View('site.compare', ['items' => $items, 'product_items' => $product_items, 'products' => $products, 'cat_list' => $cat_list]);
+            return View('technoland.site.compare', ['items' => $items, 'product_items' => $product_items, 'products' => $products, 'cat_list' => $cat_list]);
         } else {
             return view('404');
         }
@@ -383,17 +396,60 @@ class SiteController extends Controller
 
     public function search(Request $request)
     {
+
         if ($request->has('text')) {
             $Search_text = $request->get('text');
             $product = IndexSearch::get_product($Search_text, $request->get('type', 1), $request->get('product_status', 0));
             if ($request->ajax()) {
-                return View('technoland.include.product_list2', compact('product','cat_url','Search_text'));
+                $cat_url = $request->get('cat_url');
+                return View('technoland.include.product_list2', compact('product', 'cat_url', 'Search_text'));
             } else {
-                return View('technoland.site.search-header', compact('product','Search_text'));
+                return View('technoland.site.search-header', compact('product', 'Search_text'));
             }
         } else {
             return redirect('');
         }
 
+    }
+
+    public function search_mob(Request $request)
+    {
+        if ($request->has('text')) {
+            $Search_text = $request->get('text');
+            $product = IndexSearch::get_product($Search_text, $request->get('type', 1), $request->get('product_status', 0));
+            if ($request->ajax()) {
+                $cat_url = $request->get('cat_url');
+                return View('technoland.include.product_list2', compact('product', 'cat_url', 'Search_text'));
+            } else {
+                return View('technoland.site.search-header', compact('product', 'Search_text'));
+            }
+        } else {
+            return redirect('');
+        }
+
+    }
+
+
+    public function marked(Request $request)
+    {
+        if ($request->ajax()) {
+            $bookmark = new Bookmark();
+            $bookmark->product_id = $request->product_id;
+            $bookmark->user_id = auth()->id();
+            $bookmark->save();
+//            alert()->success('آگهی نشان شد!');
+        }
+        return redirect()->back();
+
+    }
+
+    public function del_marked(Request $request)
+    {
+        if ($request->ajax()) {
+            $bookmark = Bookmark::where('product_id', $request->product_id)->where('user_id', auth()->id())->first();
+            $bookmark->delete();
+//            alert()->error('آگهی بی نشان شد!');
+        }
+        return redirect()->back();
     }
 }

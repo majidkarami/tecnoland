@@ -24,13 +24,13 @@ class ServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required'
+            'service_name'=>'required'
         ];
     }
     public function attributes()
     {
         return [
-            'name'=>'نام گارانتی'
+            'service_name'=>'نام گارانتی'
         ];
     }
 }

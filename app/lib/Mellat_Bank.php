@@ -39,7 +39,7 @@ class Mellat_Bank
             'localDate' =>date("Ymd"),
             'localTime' =>date("His"),
             'additionalData' =>'خرید',
-            'callBackUrl' =>'http://www.idehpardazanjavan.com/digikala/public/order',
+            'callBackUrl' =>'http://www.techno_land.net/digikala/public/order',
             'payerId' =>0
         );
         $result = $client->call('bpPayRequest', $parameters, $namespace);

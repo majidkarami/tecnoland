@@ -1,34 +1,36 @@
-
 <div class="row" id="data_question">
-
 
     <div style="width:95%;margin:auto">
 
         @if(Auth::check())
-
-            <p style="padding-top:20px;padding-bottom:5px;color:red">{{ Session::pull('status') }}</p>
-         <p id="answer_p"></p>
+            @if( Session::has('status') )
+            <div class="alert alert-info">
+                <p style="color:white;text-align:center;">{{ Session::pull('status') }}</p>
+            </div>
+            @endif
+             <p id="answer_p"></p>
            <form action="{{ url('add_question') }}" method="post" id="add_question">
                {{ csrf_field() }}
                <input type="hidden" name="product_id" value="{{ $product_id }}">
                <input type="hidden" name="parent_id" id="parent_id" value="0">
-               <textarea placeholder="متن پرسش خود را اینجا بنویسید ..." name="question" class="question_test"></textarea>
-               <p>
+               <textarea style="border: 1px solid #05e4ff;" placeholder="متن پرسش خود را اینجا بنویسید ..." name="question" class="question_test"></textarea>
                    @if(Session::has('error_question'))
                        <span class="has-error">{{ Session::get('error_question') }}</span>
                    @endif
-               </p>
-               <button class="btn btn-primary" style="float: left;">ثبت پرسش</button>
+               <div class="parent-btn">
+               <button class="dk-btn dk-btn-info">
+                   ثبت پرسش
+                   <i class="now-ui-icons ui-2_chat-round"></i></button>
+               </div>
            </form>
 
        @else
 
-
-            <p style="color:red;text-align:center;padding-top:30px;padding-bottom:20px">برای ثبت پرسش باید لاگین کرده باشید</p>
+        <div class="alert alert-info">
+            <p style="color:white;text-align:center;">برای ثبت پرسش باید <a href="{{ url('login') }}">لاگین</a> کرده باشید</p>
+        </div>
 
         @endif
-
-
 
         <div style="padding-top:20px;clear:both"></div>
 
@@ -46,15 +48,13 @@
                       ?>
                       <span style="padding-right:10px">پرسش</span>
 
-                      <span style="float:left;padding-left: 10px;">توسط {{ $value->get_user->name }}  - {{ $jdf->jdate('n F y',$value->time) }}</span>
+                      <span style="float:left;padding-left: 10px;">توسط {{ $value->get_user->username }}  - {{ $jdf->jdate('n F y',$value->time) }}</span>
                   </div>
 
 
                   <div style="padding: 15px;">
                       {!!   strip_tags(nl2br($value->question),'<p><br>') !!}
                   </div>
-
-
 
                   <div class="answer_box">
                       @foreach($value->get_parent as $key2=>$value2)
@@ -91,13 +91,16 @@
             @endforeach
 
 
-{!!  str_replace('id="pagination"','id="question"',$question->render()) !!}
+            {!!  str_replace('id="pagination"','id="question"',$question->render()) !!}
 
-@else
+            @else
 
-    <p style="color:red;text-align:center;padding-top:60px;padding-bottom:20px">تاکنون پرسشی ثبت نشده</p>
+                <div class="alert alert-danger">
+                    <p style="color:white;text-align:center;">تاکنون پرسشی ثبت نشده</p>
+                </div>
 
-@endif
+
+            @endif
 </div>
 
 </div>

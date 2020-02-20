@@ -1,20 +1,24 @@
 <?php
+
 namespace App\lib;
+
 use App\Setting;
 
 class zarinpal
 {
     public $MerchantID;
+
     public function __construct()
     {
-        $this->MerchantID=Setting::get_value('MerchantID');
+        $this->MerchantID = setting('MerchantID');
     }
-    public function pay($amount,$Email,$Mobile)
+
+    public function pay($amount, $Email, $Mobile)
     {
         $Description = 'توضیحات تراکنش تستی'; // Required
         $Email = 'UserEmail@Mail.Com';
         $Mobile = '09123456789';
-        $CallbackURL = 'http://www.idehpardazanjavan.com/digikala/public/order'; // Required
+        $CallbackURL = 'http://tecnoland.test/order'; // Required
 
 
         $client = new \SoapClient('https://www.zarinpal.com/pg/services/WebGate/wsdl', ['encoding' => 'UTF-8']);
@@ -30,16 +34,14 @@ class zarinpal
             ]
         );
 
-        if ($result->Status == 100)
-        {
+        if ($result->Status == 100) {
             return $result->Authority;
-        }
-        else
-        {
-          return false;
+        } else {
+            return false;
         }
     }
-    public function Verify($amount,$Authority)
+
+    public function Verify($amount, $Authority)
     {
         $client = new \SoapClient('https://www.zarinpal.com/pg/services/WebGate/wsdl', ['encoding' => 'UTF-8']);
 
@@ -51,15 +53,10 @@ class zarinpal
             ]
         );
 
-        if ($result->Status == 100)
-        {
+        if ($result->Status == 100) {
             return $result->RefID;
-        }
-        else
-        {
+        } else {
             return false;
         }
-
-
     }
 }

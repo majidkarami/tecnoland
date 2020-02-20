@@ -12,7 +12,7 @@
     <section class="content">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title pull-right">مدیریت گارانتی  {{ $service->name }}</h3>
+                <h3 class="box-title pull-right">مدیریت گارانتی  {{ $service->service_name }}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">

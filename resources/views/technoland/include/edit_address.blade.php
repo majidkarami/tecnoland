@@ -1,6 +1,6 @@
 
 <form id="address_form_{{ $address->id }}" onsubmit="edit_user_address('{{ $address->id }}');return false;" action="{{ url('shop/edit_address').'/'.$address->id }}" method="post">
-    {{ csrf_field() }}
+    @csrf
     <table class="tbl_address">
 
         <tr>
@@ -14,19 +14,33 @@
 
         <tr>
             <td colspan="2">
-
                 <span id="error_edit_name" class="has-error"></span>
-
             </td>
         </tr>
+
+        <tr>
+            <td colspan="2">
+                <div class="form-group">
+                    <label>آدرس پست الکترونیکی</label>
+                    <input name="email"  class="form-control" style="width:98%" value="{{ $address->email }}">
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <span id="error_edit_email" class="has-error"></span>
+            </td>
+        </tr>
+
         <tr>
             <td>
                 <div class="form-group">
-                    <label>انتخاب استان</label>
-                    <select name="ostan_id"  class="selectpicker" onchange="get_shahr('edit_ostan_id','edit_shahr_list')" id="edit_ostan_id">
+                    <label>انتخاب استان</label><br>
+                    <select name="ostan_id"  class="select-css" onchange="get_shahr('edit_ostan_id','edit_shahr_list')" id="edit_ostan_id">
                         <option value="">انتخاب استان</option>
                         @foreach($ostan as $key=>$value)
-                            <option @if($address->ostan_id==$value->id) selected="selected" @endif value="{{ $value->id }}">{{ $value->ostan_name }}</option>
+                            <option @if($address->province_id==$value->id) selected="selected" @endif value="{{ $value->id }}">{{ $value->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -34,10 +48,11 @@
             </td>
             <td>
                 <div class="form-group">
-                    <label>انتخاب شهر</label>
-                    <select name="shahr_id"  class="selectpicker" id="edit_shahr_list">
+                    <label>انتخاب شهر</label><br>
+                    <select name="shahr_id"  class="select-css" id="edit_shahr_list">
                         @foreach($shahr as $key=>$value)
-                            <option @if($key==$address->shahr_id) selected="selected" @endif value="{{ $key }}">{{ $value }}</option>
+
+                            <option @if($key==$address->city_id) selected="selected" @endif value="{{ $key }}">{{ $value }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -131,7 +146,11 @@
 
         <tr>
             <td colspan="2">
-                <button class="btn btn-primary">ویرایش</button>
+                <div class="parent-btn">
+                    <button class="dk-btn dk-btn-info">ویرایش
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </div>
             </td>
         </tr>
 

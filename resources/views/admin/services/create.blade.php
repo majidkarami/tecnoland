@@ -14,11 +14,11 @@
                         <form method="POST" action="{{url('admin/services?product_id=').$product->id}}">
                             @csrf
                             <div class="form-group">
-                                <label for="name">نام گارانتی</label>
-                                <input type="text" name="name" value="{{old('name')}}" class="form-control"
+                                <label for="service_name">نام گارانتی</label>
+                                <input type="text" name="service_name" value="{{old('service_name')}}" class="form-control"
                                        placeholder="نام گارانتی را وارد کنید ...">
-                                @if($errors->has('name'))
-                                    <span style="color:red;font-size:13px">{{ $errors->first('name') }}</span>
+                                @if($errors->has('service_name'))
+                                    <span style="color:red;font-size:13px">{{ $errors->first('service_name') }}</span>
                                 @endif
                             </div>
 

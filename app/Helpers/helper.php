@@ -1,10 +1,6 @@
 <?php
+
 use App\Setting;
-
-
- function make_slug($string){
-    return preg_replace('/\s+/u', '-', trim($string));
-
 
 if (!function_exists('setting')) {
     function setting($option_name, $default = null)
@@ -86,12 +82,14 @@ if (!function_exists('make_slug')) {
 
 
 if (!function_exists('difference')) {
-    function difference($number1, $number2, $precision = 2) {
+    function difference($number1, $number2, $precision = 2)
+    {
         $max = abs(max($number1, $number2));
         $min = abs(min($number1, $number2));
-        if($max == 0) {
+        if ($max == 0) {
             return '0 %';
         }
         return round($min / $max * 100, $precision) . ' %';
     }
 }
+

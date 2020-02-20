@@ -34,7 +34,7 @@ class Filter extends Model
     public static function get_value($product_id)
     {
         $array = array();
-        $filter_value = DB::table('filter_product')->where('product_id', $product_id)->get();
+        $filter_value = DB::table('filter_product')->where('product', $product_id)->get();
         foreach ($filter_value as $key => $value) {
             $array_key = $value->filter_id . '_' . $value->value;
             $array[$array_key] = $value->value;

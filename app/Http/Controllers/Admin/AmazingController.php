@@ -35,6 +35,7 @@ class AmazingController extends Controller
     {
         $products = Product::pluck('title','id')->all();
         $amazing = Amazing::findOrFail($id);
+
         return view('admin.amazings.edit', compact('amazing','products'));
     }
 

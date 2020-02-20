@@ -106,7 +106,7 @@
                                 <div style="float: right;">
                                     @if(!empty($value->get_user->name))
 
-                                        <p>کاریر : {{ $value->get_user->name }}</p>
+                                        <p>کاریر : {{ $value->get_user->username }}</p>
                                     @else
                                         <p>
                                     <span>

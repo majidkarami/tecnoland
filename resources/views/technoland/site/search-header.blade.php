@@ -1,83 +1,135 @@
 @extends('technoland.layout.master')
-@section('title', __('جستجو کاربر'))
+@section('title', __('جستجو'))
+
+
+@section('styles')
+    <link href="{{ url('user/css/ion.rangeSlider.css') }}" rel="stylesheet">
+    <link href="{{ url('user/css/ion.rangeSlider.skinNice.css') }}" rel="stylesheet">
+    <link href="{{ url('user/css/user.css') }}" rel="stylesheet">
+@endsection
 
 @section('content')
 
-    <div class="row" id="filter_product_box">
-
-        <div class="col-md-3">
-
-            <div class="filter_box">
-
-
-                <div style="clear:both"></div>
-                <div style="border-bottom: 1px solid #E3E3E3;padding:30px 15px 20px 15px;cursor:pointer">
-                    <p onclick="set_status_product()">
-
-                        <span id="status_prodict_ic" class="filter_checkbox"></span>
-                        <input id="status_product"  type="checkbox" class="search_checkbox">
-
-                        <span>نمایش محصولات موجود</span>
-                    </p>
-                </div>
+    <!-- main -->
+    <main class="search-page default" id="filter_product_box">
+        <div class="container">
+            <div class="row">
+                <aside class="sidebar-page col-12 col-sm-12 col-md-4 col-lg-3 order-1">
+                    <div class="box">
+                        <div class="box-header">دسته بندی نتایج</div>
+                        <div class="box-content category-result">
+                                <ul>
+                                    @foreach($category as $key=>$value)
+                                        <li><a href="{{ url('category').'/'.$value->cat_ename }}">{{ $value->cat_name }}</a></li>
+                                    @endforeach
+                                </ul>
+                        </div>
+                    </div>
 
 
-                <ul class="cat_ul">
-                        <ul>
+                    <div class="box">
+                        <div class="box-header">جستجو در نتایج:</div>
+                        <div class="box-content">
+                            <div class="ui-input ui-input--quick-search search_input_box">
+                                <input type="text" id="search_input" class="ui-input-field ui-input-field--cleanable search_input" placeholder="نام محصول یا برند مورد نظر را بنویسید…">
+                                <span class="fa fa-search" onclick="search_product()"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="box-content" onclick="set_status_product()">
+                            <span id="status_prodict_ic" class="filter_checkbox"></span>
+                            <input id="status_product"  type="checkbox" class="search_checkbox">
+                            <label for="status_product">
+                                فقط کالاهای موجود
+                            </label>
+                        </div>
+                    </div>
+
+{{--                    <div class="box" style="direction:ltr;padding-top:20px;padding-bottom:20px;border-bottom: 1px solid #E3E3E3;">--}}
+{{--                        <div class="box-content">--}}
+{{--                            <div style="width:90%;margin:auto;text-align:center">--}}
+{{--                                <input type="text" id="example_id" name="example_name" value="" />--}}
+{{--                                <button class="btn btn-primary" onclick="set_price_search()">اعمال محدوده قیمت</button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+                </aside>
+                <div class="col-12 col-sm-12 col-md-8 col-lg-9 order-2">
+                    <div class="breadcrumb-section default">
+                        <ul class="breadcrumb-list">
+                            <li>
+                                <a href="{{ url('') }}">
+                                    <span>فروشگاه اینترنتی {{setting('name')}}</span>
+                                </a>
+                            </li>
                             @foreach($category as $key=>$value)
-                                <li>
-                                    <span class="fa fa-angle-left"></span>
-                                    <a href="{{ url('category').'/'.$value->cat_ename }}">{{ $value->cat_name }}</a></li>
-                            @endforeach
+                            <li><span><a href="{{ url('category').'/'.$value->cat_ename }}">{{ $value->cat_name }}</a></span></li>
+                           @endforeach
                         </ul>
-                    </li>
-                </ul>
-            </div>
+                    </div>
+                    <div class="listing default">
+                        <div class="listing-counter">
+                            <span>(</span>
+                            <span>نمایش از </span>
+                            <span>1</span>
+                            <span> - {{ sizeof($product) }}</span>
+                            <span> محصول از </span>
+                            <span>{{ count($product) }}</span>
+                            <span>)</span>
+                        </div>
 
-        </div>
+                        <div class="listing-header default">
+                            <ul class="listing-sort nav nav-tabs justify-content-center search_type_ul" role="tablist"
+                                data-label="مرتب‌سازی بر اساس :">
 
+                                <li id="search_type_1" class="active" onclick="set_type(1)">
+                                    <a class="active" data-toggle="tab" role="tab"
+                                       aria-expanded="false">جدیدترین</a>
+                                </li>
+                                <li id="search_type_2" onclick="set_type(2)">
+                                    <a data-toggle="tab" role="tab"
+                                       aria-expanded="false">پربازدیدترین</a>
+                                </li>
+                                <li id="search_type_3"  onclick="set_type(3)">
+                                    <a data-toggle="tab"  role="tab" aria-expanded="true">پرفروش ترین</a>
+                                </li>
+                                <li id="search_type_4" onclick="set_type(4)">
+                                    <a data-toggle="tab"  role="tab"
+                                       aria-expanded="false">ارزانترین</a>
+                                </li>
+                                <li id="search_type_5" onclick="set_type(5)">
+                                    <a data-toggle="tab"  role="tab"
+                                       aria-expanded="false">گرانترین</a>
+                                </li>
 
-        <div class="col-md-9 show_product"  style="background:white">
+                            </ul>
+                        </div>
 
+                        <div class="tab-content default text-center">
+                            <div class="tab-pane active" id="related" role="tabpanel" aria-expanded="true">
+                                <div class="container no-padding-right">
+                                    <ul class="row listing-items" id="show_product" style="width:100%;float:right;border-top:1px solid silver">
+                                        @include('technoland.include.product_list2',['product'=>$product,'cat_url'=>'','Search_text'=>$Search_text])
 
-            <div style="width:97%;margin:auto" >
-                <div style="width:100%;float:right">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
-
+                    </div>
                 </div>
             </div>
-
-            <div style="width:100%;float:right;position:relative;margin-top:10px;margin-bottom:10px">
-
-
-                <div class="search_input_box">
-                    <input type="text" id="search_input" class="form-control search_input" placeholder="جست و جو در نتایج">
-                    <span class="fa fa-search" onclick="search_product()"></span>
-                </div>
-            </div>
-
-            <div style="padding-top:15px;width:100%;float:right">
-                <span style="padding-right:15px;">مرتب سازی بر اساس : </span>
-                <ul class="search_type_ul">
-                    <li id="search_type_1" class="active" onclick="set_type(1)">جدیدترین</li>
-                    <li id="search_type_2" onclick="set_type(2)">پربازدیدترین</li>
-                    <li id="search_type_3"  onclick="set_type(3)">پرفروش ترین</li>
-                    <li id="search_type_4" onclick="set_type(4)">ارزانترین</li>
-                    <li id="search_type_5" onclick="set_type(5)">گرانترین</li>
-                </ul>
-            </div>
-
-            <div  id="show_product" style="width:100%;float:right;border-top:1px solid silver">
-                @include('technoland.include.product_list2',['product'=>$product,'cat_url'=>'','Search_text'=>$Search_text])
-
-            </div>
-
         </div>
+    </main>
+    <!-- main -->
 
-    </div>
 @endsection
 
-@section('footer')
+@section('scripts')
+    <script type="text/javascript" src="{{ url('user/js/list.min.js') }}"></script>
+    <script src="{{ url('user/js/ion.rangeSlider.min.js') }}"></script>
     <?php
     $url=url('Search').'?text=';
     ?>
@@ -90,16 +142,22 @@
             var text=document.getElementById('search_input').value;
             if(text.trim()!='')
             {
-                Search_text=text;
-                var search_url='<?= $url ?>'+Search_text;
+                var search_url='<?= $url ?>'+text;
                 send_data(search_url);
             }
         };
         send_data=function (url) {
+            var cat_url='<?= $url ?>'+Search_text;
+            $.ajaxSetup(
+                {
+                    'headers':{
+                        'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+                    }
+                });
             $.ajax({
                 url:url,
                 type:"GET",
-                data:'product_status='+product_status+'&type='+product_type,
+                data:'product_status='+product_status+'&type='+product_type+'&cat_url='+cat_url,
                 success:function (data)
                 {
                     $("#show_product").html(data);

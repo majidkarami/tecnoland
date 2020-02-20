@@ -47,6 +47,7 @@ class Product extends Model
         return $cat_list;
     }
 
+
     public function get_colors()
     {
         return $this->hasMany(Color::class, 'product_id', 'id');
@@ -105,5 +106,15 @@ class Product extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function get_items()
+    {
+        return $this->hasMany(ProductItem::class, 'product_id', 'id')->orderBy('item_id', 'ASC');
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
     }
 }
