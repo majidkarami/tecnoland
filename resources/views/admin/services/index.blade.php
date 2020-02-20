@@ -20,6 +20,11 @@
                         <div>{{session('error')}}</div>
                     </div>
                 @endif
+                @if(Session::has('success'))
+                    <div class="alert alert-success">
+                        <div>{{session('success')}}</div>
+                    </div>
+                @endif
                 <div class="table-responsive">
                     <table class="table no-margin">
                         <thead>
@@ -37,7 +42,7 @@
                         @foreach ($services as $key=>$value)
                             <tr>
                                 <td class="text-center">{{$i}}</td>
-                                <td class="text-center">{{$value->name}}</td>
+                                <td class="text-center">{{$value->service_name}}</td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-info"
                                        href="{{ url('admin/services/'.$value->id.'?product_id='.$product->id) }}">مشاهده</a>

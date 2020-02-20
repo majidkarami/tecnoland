@@ -12,14 +12,12 @@
                 <div class="table-responsive" style="padding-top: 30px">
                     <table class="table">
                         <?php
-                        $Jdf = new \App\lib\Jdf();
-                        $aa = $Jdf->tr_num($Jdf->jdate('d'));
-                        $a = ltrim($aa, '0');
+                        $Jdf=new \App\lib\Jdf();
                         ?>
                         <tr>
                             <td style="padding-right: 200px">آمار بازدید امروز فروشگاه</td>
 
-                            <td class="text-blue" style="padding-left: 130px">{{ $total_view[$a] }}</td>
+                            <td>{{ $total_view[$Jdf->tr_num($Jdf->jdate('j'))] }}</td>
                         </tr>
 
                         <tr>

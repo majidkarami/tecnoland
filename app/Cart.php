@@ -19,7 +19,6 @@ class  Cart
 
             if (array_key_exists($s_c, $product_data)) {
                 $cart[$product_id]['product_data'][$s_c]++;
-
             } else {
                 $cart[$product_id]['product_data'][$s_c] = 1;
             }
@@ -66,10 +65,12 @@ class  Cart
             }
             $img = $product->get_img;
             if ($img) {
-                $array['img'] = url('upload') . '/' . $img->url;
+                $array['img'] = url($img->url);
             } else {
                 $array['img'] = '';
             }
+            /* price1 =  price*/
+            /* price2 = price - discount*/
             if ($service_data) {
                 $array['price1'] = $service_data->price;
                 $array['price2'] = $service_data->price - $product->discounts;
@@ -111,7 +112,6 @@ class  Cart
         $cart = Session::get('cart', array());
         $s_c = $service_id . '_' . $color_id;
         if (array_key_exists($product_id, $cart)) {
-            var_dump('a');
             $order = $cart[$product_id]['product_data'];
             if (array_key_exists($s_c, $order)) {
                 settype($number, 'integer');
@@ -171,7 +171,6 @@ class  Cart
         }
         return $price2;
     }
-
 
     public static function removeGiftCart($price, $order_id)
     {

@@ -89,8 +89,8 @@ class Order extends Model
         return $this->hasOne(Address::class, 'id', 'address_id')->withDefault(
             [
                 'name' => '-',
-                'osatn_id' => 0,
-                'shahr_id' => 0,
+                'province_id' => 0,
+                'city_id' => 0,
                 'mobile' => '-',
                 'tell_code' => '-',
                 'tell' => '-'

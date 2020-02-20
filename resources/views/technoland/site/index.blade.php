@@ -1,10 +1,6 @@
 @extends('technoland.layout.master')
 @section('title', __('صفحه اصلی'))
 
-@section('styles')
-    <link rel="stylesheet" type="text/css" href="{{ url('user/css/flipclock.css') }}">
-@endsection
-
 @section('content')
     <main class="main default">
         <div class="container">
@@ -23,33 +19,88 @@
 
                 <aside class="sidebar col-12 col-lg-3 order-2 order-lg-1">
                     <div class="sidebar-inner default">
-                        <div class="widget-banner widget card">
-                            <a href="#" target="_top">
-                                <img class="img-fluid" src="{{ asset('user/img/banner/1455.jpg') }}" alt="">
-                            </a>
+                        <div class="widget-suggestion widget card">
+                            <header class="card-header">
+                                <h3 class="card-title">پیشنهاد لحظه ای</h3>
+                            </header>
+                            <div id="progressBar">
+                                <div class="slide-progress"></div>
+                            </div>
+                            <div id="suggestion-slider" class="owl-carousel owl-theme">
+                                @foreach($random_product as $key=>$value)
+                                    <div class="item">
+                                        @if(!empty($value->get_img->url))
+                                            <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
+                                                <img src="{{ url($value->get_img->url) }}" class="w-100"
+                                                     alt="{{$value->title}}">
+                                            </a>
+                                        @else
+                                            <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
+                                                <img src="{{ asset('/user/img/not-img.png') }}"
+                                                     class="img-fluid" alt="{{$value->title}}">
+                                            </a>
+                                        @endif
+                                        <h3 class="product-title">
+                                            <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
+                                                @if(strlen($value->title)>50)
+                                                    {{ mb_substr($value->title,0,33).' ... ' }}
+                                                @else
+                                                    {{ $value->title }}
+                                                @endif
+                                            </a>
+                                        </h3>
+                                        <div class="price">
+                                            <del><span>
+                                                    @if(!empty($value->discounts) && !empty($value->price))
+                                                        {{ number_format($value->price) }}
+                                                        <span>تومان</span>
+                                                    @endif
+                                                </span>
+                                            </del>
+
+                                            <span class="amount">
+                                           @if(!empty($value->discounts) && !empty($value->price))
+                                                    {{ number_format($value->price-$value->discounts) }}
+                                                    <span>تومان</span>
+                                                @elseif(!empty($value->price))
+                                                    {{ number_format($value->price) }}
+                                                    <span>تومان</span>
+                                                @endif
+
+                                        </span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                         <div class="widget-services widget card">
                             <div class="row">
                                 <div class="feature-item col-12">
-                                    <a href="#" target="_blank">
+                                    <a href="#">
+                                        <img src="{{ asset('user/img/logo.png') }}">
+                                    </a>
+                                    <p>خدمات {{setting('name')}}</p>
+                                </div>
+                                <div class="feature-item col-6">
+                                    <a href="{{route('return.policy')}}" target="_blank">
                                         <img src="{{ asset('user/img/svg/return-policy.svg') }}">
                                     </a>
                                     <p>ضمانت برگشت</p>
                                 </div>
-                                <div class="feature-item col-6">
-                                    <a href="#" target="_blank">
-                                        <img src="{{ asset('user/img/svg/payment-terms.svg') }}">
-                                    </a>
-                                    <p>پرداخت درمحل</p>
-                                </div>
+                                {{--                                <div class="feature-item col-6">--}}
+                                {{--                                    <a href="#" target="_blank">--}}
+                                {{--                                        <img src="{{ asset('user/img/svg/payment-terms.svg') }}">--}}
+                                {{--                                    </a>--}}
+                                {{--                                    <p>پرداخت درمحل</p>--}}
+                                {{--                                </div>--}}
                                 <div class="feature-item col-6">
                                     <a href="#" target="_blank">
                                         <img src="{{ asset('user/img/svg/delivery.svg') }}">
                                     </a>
-                                    <p>تحویل اکسپرس</p>
+                                    <p>تحویل {{setting('name')}}</p>
                                 </div>
                                 <div class="feature-item col-6">
-                                    <a href="#" target="_blank">
+                                    <a href="{{ route('guarantee.origin') }}" target="_blank">
                                         <img src="{{ asset('user/img/svg/origin-guarantee.svg') }}">
                                     </a>
                                     <p>تضمین بهترین قیمت</p>
@@ -62,56 +113,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="widget-suggestion widget card">
-                            <header class="card-header">
-                                <h3 class="card-title">پیشنهاد لحظه ای</h3>
-                            </header>
-                            <div id="progressBar">
-                                <div class="slide-progress"></div>
-                            </div>
-                            <div id="suggestion-slider" class="owl-carousel owl-theme">
-                                @foreach($random_product as $key=>$value)
-                                <div class="item">
-                                    @if(!empty($value->get_img->url))
-                                    <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
-                                        <img src="{{ url($value->get_img->url) }}" class="w-100"
-                                             alt="{{$value->title}}">
-                                    </a>
-
-                                        @else
-                                        <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
-                                            <img src="{{ asset('/user/img/not-img.png') }}"
-                                                 class="img-fluid" alt="{{$value->title}}">
-                                        </a>
-                                    @endif
-                                    <h3 class="product-title">
-                                        <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
-                                            @if(strlen($value->title)>50)
-                                                {{ mb_substr($value->title,0,33).' ... ' }}
-                                            @else
-                                                {{ $value->title }}
-                                            @endif
-                                        </a>
-                                    </h3>
-                                    <div class="price">
-                                            <del><span>
-                                                    @if(!empty($value->discounts) && !empty($value->price))
-                                                        {{ number_format($value->price) }}
-                                                    @endif
-                                                            <span>تومان</span></span>
-                                            </del>
-
-                                        <span class="amount">
-                                           @if(!empty($value->discounts) && !empty($value->price))
-                                                {{ number_format($value->price-$value->discounts) }}
-                                            @elseif(!empty($value->price))
-                                                {{ number_format($value->price) }}
-                                            @endif
-                                            <span>تومان</span></span>
-                                    </div>
-                                </div>
-                               @endforeach
-                            </div>
+                        <div class="widget-banner widget card">
+                            <a href="#" target="_top">
+                                <img class="img-fluid" src="{{ asset('user/img/banner/1455.jpg') }}" alt="">
+                            </a>
                         </div>
                         <div class="widget-banner widget card">
                             <a href="#" target="_blank">
@@ -133,18 +138,18 @@
                                 <img class="img-fluid" src="{{ asset('user/img/banner/1000001442.jpg') }}" alt="">
                             </a>
                         </div>
-                        <div class="widget-banner widget card">
-                            <a href="#" target="_blank">
-                                <img class="img-fluid"
-                                     src="{{ asset('user/img/banner/8d546388-29d7-4733-871f-2d84a3012cc227_21_1_6.jpeg') }}"
-                                     alt="">
-                            </a>
-                        </div>
-                        <div class="widget-banner widget card">
-                            <a href="#" target="_blank">
-                                <img class="img-fluid" src="{{ asset('user/img/banner/1000001422.jpg') }}" alt="">
-                            </a>
-                        </div>
+{{--                        <div class="widget-banner widget card">--}}
+{{--                            <a href="#" target="_blank">--}}
+{{--                                <img class="img-fluid"--}}
+{{--                                     src="{{ asset('user/img/banner/8d546388-29d7-4733-871f-2d84a3012cc227_21_1_6.jpeg') }}"--}}
+{{--                                     alt="">--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                        <div class="widget-banner widget card">--}}
+{{--                            <a href="#" target="_blank">--}}
+{{--                                <img class="img-fluid" src="{{ asset('user/img/banner/1000001422.jpg') }}" alt="">--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
                     </div>
                 </aside>
 
@@ -177,7 +182,8 @@
                     @endif
 
 
-                    @if(sizeof($amazing)>0)
+                <!--
+    @if(sizeof($amazing)>0)
 
                         <?php
 
@@ -187,82 +193,83 @@
                         )
 
                         ?>
-                        <section id="amazing-slider" class="carousel slide carousel-fade card" data-ride="carousel">
-                            <div class="row m-0">
-                                <ol class="carousel-indicators pr-0 d-flex flex-column col-lg-3">
-                                    @foreach($amazing as $key=>$value)
-{{--                                        @if($value->timestamp > time())--}}
-                                        <li class="{{ $loop->first ? 'active' : '' }}" data-target="#amazing-slider"
+                                <section id="amazing-slider" class="carousel slide carousel-fade card" data-ride="carousel">
+                                    <div class="row m-0">
+                                        <ol class="carousel-indicators pr-0 d-flex flex-column col-lg-3">
+@foreach($amazing as $key=>$value)
+                            {{--                                        @if($value->timestamp > time())--}}
+                                    <li class="{{ $loop->first ? 'active' : '' }}" data-target="#amazing-slider"
                                             data-slide-to="{{$key}}">
                                             <span> {{ $value->m_title }} </span>
                                         </li>
 {{--                                        @endif--}}
-                                    @endforeach
-                                    <li class="view-all">
-                                        <a href="#" class="btn btn-primary btn-block hvr-sweep-to-left">
-                                            <i class="fa fa-arrow-left"></i>مشاهده همه شگفت انگیزها
-                                        </a>
-                                    </li>
-                                </ol>
-                                <div class="carousel-inner p-0 col-12 col-lg-9">
-                                    <img class="amazing-title"
-                                         src="{{ asset('user/img/amazing-slider/amazing-title-01.png') }}"
+                        @endforeach
+                                <li class="view-all">
+                                    <a href="#" class="btn btn-primary btn-block hvr-sweep-to-left">
+                                        <i class="fa fa-arrow-left"></i>مشاهده همه شگفت انگیزها
+                                    </a>
+                                </li>
+                            </ol>
+                            <div class="carousel-inner p-0 col-12 col-lg-9">
+                                <img class="amazing-title"
+                                     src="{{ asset('user/img/amazing-slider/amazing-title-01.png') }}"
                                          alt="">
                                     @foreach($amazing as $key=>$value)
 
-{{--                                        @if($value->timestamp > time())--}}
-                                        <?php
+                            {{--                                        @if($value->timestamp > time())--}}
+                            <?php
 
-                                        $url = url('') . '/product/';
-                                        if ($value->get_product) {
-                                            $url .= $value->get_product->code_url . '/' . $value->get_product->title_url;
-                                        }
-                                        ?>
-                                        <a href="{{ $url }}">
+                            $url = url('') . '/product/';
+                            if ($value->get_product) {
+                                $url .= $value->get_product->code_url . '/' . $value->get_product->title_url;
+                            }
+                            ?>
+                                    <a href="{{ $url }}">
                                             <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
 
                                                 <div class="row m-0">
                                                     <div class="right-col col-5 d-flex align-items-center" style="top: -20px;">
                                                         @if($value->get_img)
-                                                            <a class="w-100 text-center" href="#">
+                                <a class="w-100 text-center" href="{{ url($url) }}">
                                                                 <img src="{{ url($value->get_img->url) }}"
                                                                      class="img-fluid" alt="">
                                                             </a>
                                                         @endif
-                                                    </div>
-                                                    <div class="left-col col-7">
-                                                        <div class="price">
-                                                            <del>
-                                                                <span>
-                                                                   <?php
-                                                                    $price1 = str_replace('000', '', $value->price1);
-                                                                    ?>
-                                                                    {{ number_format($price1) }}
+                                    </div>
+                                    <div class="left-col col-7">
+                                        <div class="price">
+                                            <del>
+                                                <span>
+<?php
+                            $price1 = str_replace('000', '', $value->price1);
+                            ?>
+                            {{ number_format($price1) }}
 
-                                                                        <span>تومان</span>
-                                                                 </span>
-                                                            </del>
-                                                            <ins>
-                                                                    <span>
-                                                                         <?php
-                                                                        $price2 = str_replace('000', '', $value->price1 - $value->price2);
-                                                                        $price3 = $value->price1 - $value->price2;
-                                                                        ?>
-                                                                        {{ number_format($price2) }}<span
+                                    <span>تومان</span>
+                             </span>
+                        </del>
+                        <ins>
+                                <span>
+<?php
+                            $price2 = str_replace('000', '', $value->price1 - $value->price2);
+                            $price3 = $value->price1 - $value->price2;
+                            ?>
+                            {{ number_format($price2) }}<span
                                                                                 style="padding-right:5px;"></span> {{ array_key_exists(strlen($price3),$array) ? $array[strlen($price3)] : '' }}
-                                                                     <span></span></span>
-                                                            </ins>
+                                    <span></span></span>
+                           </ins>
 
-                                                            <span class="discount-percent">{{difference($value->price1,$value->price2,1)}} تخفیف </span>
+                           <span class="discount-percent">{{difference($value->price1,$value->price2,1)}} تخفیف </span>
                                                         </div>
                                                         <h2 class="product-title">
-                                                            <a href="#"> {!! Str::limit($value->title, 50, '...') !!} </a>
+                                                            <a href="{{ url($url) }}"> {!! Str::limit($value->title, 50, '...') !!} </a>
                                                         </h2>
                                                         <ul class="list-group" style="margin-top: -22px;">
                                                             <li style="font-size: small;">{!!   nl2br($value->tozihat) !!} </li>
                                                         </ul>
                                                         <hr>
                                                         <div class="timer-title">زمان باقی مانده تا پایان سفارش</div>
+
                                                         <div class="clock" id="amazing_clock_{{ $key }}" style="margin-top: 20px;">
                                                         </div>
 
@@ -278,17 +285,17 @@
                                         </a>
 
 {{--                                        @endif--}}
-                                    @endforeach
+                        @endforeach
                                 </div>
                             </div>
                         </section>
                     @endif
 
-                    <div class="row" id="amazing-slider-responsive">
-                        <div class="col-12">
-                            <div class="widget widget-product card">
-                                <header class="card-header">
-                                    <img src="{{ asset('user/img/amazing-slider/amazing-title-01.png') }}" width="150px"
+                            <div class="row" id="amazing-slider-responsive">
+                                <div class="col-12">
+                                    <div class="widget widget-product card widget-suggestion">
+                                        <header class="card-header">
+                                            <img src="{{ asset('user/img/amazing-slider/amazing-title-01.png') }}" width="150px"
                                          alt="">
                                     <a href="#" class="view-all">مشاهده همه</a>
                                 </header>
@@ -430,6 +437,7 @@
                             </div>
                         </div>
                     </div>
+-->
 
                     <div class="row banner-ads">
                         <div class="col-12">
@@ -471,12 +479,12 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="widget widget-product card">
+                            <div class="widget widget-product card widget-suggestion">
                                 <header class="card-header">
                                     <h3 class="card-title">
                                         <span>جدید ترین محصولات فروشگاه</span>
                                     </h3>
-                                    <a href="#" class="view-all">مشاهده همه</a>
+{{--                                    <a href="#" class="view-all">مشاهده همه</a>--}}
                                 </header>
                                 <div class="product-carousel owl-carousel owl-theme">
                                     @foreach($product as $key=>$value)
@@ -508,8 +516,9 @@
                                                     <span>
                                                         @if(!empty($value->discounts) && !empty($value->price))
                                                             {{ number_format($value->price) }}
+                                                            <span>تومان</span>
                                                         @endif
-                                                        <span>تومان</span>
+
                                                     </span>
                                                     </del>
                                                 </div>
@@ -518,10 +527,12 @@
                                                     <span>
                                                            @if(!empty($value->discounts) && !empty($value->price))
                                                             {{ number_format($value->price-$value->discounts) }}
+                                                            <span>تومان</span>
                                                         @elseif(!empty($value->price))
                                                             {{ number_format($value->price) }}
+                                                            <span>تومان</span>
                                                         @endif
-                                                        <span>تومان</span>
+
                                                     </span>
                                                     </ins>
                                                 </div>
@@ -534,12 +545,12 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="widget widget-product card">
+                            <div class="widget widget-product card widget-suggestion">
                                 <header class="card-header">
                                     <h3 class="card-title">
                                         <span>پر فروش ترین محصولات فروشگاه</span>
                                     </h3>
-                                    <a href="#" class="view-all">مشاهده همه</a>
+{{--                                    <a href="#" class="view-all">مشاهده همه</a>--}}
                                 </header>
                                 <div class="product-carousel owl-carousel owl-theme">
                                     @foreach($order_product as $key=>$value)
@@ -571,19 +582,22 @@
                                                     <del><span>
                                                             @if(!empty($value->discounts) && !empty($value->price))
                                                                 {{ number_format($value->price) }}
+                                                                <span>تومان</span>
                                                             @endif
-                                                            <span>تومان</span></span>
+
+                                                        </span>
                                                     </del>
                                             </div>
                                             <ins><span>
                                                     @if(!empty($value->discounts) && !empty($value->price))
-
                                                         {{ number_format($value->price-$value->discounts) }}
+                                                        <span>تومان</span>
                                                     @elseif(!empty($value->price))
-
                                                         {{ number_format($value->price) }}
+                                                        <span>تومان</span>
                                                     @endif
-                                                    <span>تومان</span></span>
+
+                                                </span>
                                             </ins>
                                         </div>
                                     </div>
@@ -616,12 +630,12 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="widget widget-product card">
+                            <div class="widget widget-product card widget-suggestion">
                                 <header class="card-header">
                                     <h3 class="card-title">
                                         <span>پر بازدید ترین محصولات فروشگاه</span>
                                     </h3>
-                                    <a href="#" class="view-all">مشاهده همه</a>
+{{--                                    <a href="#" class="view-all">مشاهده همه</a>--}}
                                 </header>
                                 <div class="product-carousel owl-carousel owl-theme">
                                     @foreach($view_product as $key=>$value)
@@ -652,18 +666,23 @@
                                                 <del><span>
                                                             @if(!empty($value->discounts) && !empty($value->price))
                                                             {{ number_format($value->price) }}
+                                                            <span>تومان</span>
                                                         @endif
-                                                            <span>تومان</span></span>
+
+                                                    </span>
                                                 </del>
                                             </div>
                                             <ins><span>
                                                    @if(!empty($value->discounts) && !empty($value->price))
 
                                                         {{ number_format($value->price-$value->discounts) }}
+                                                        <span>تومان</span>
                                                     @elseif(!empty($value->price))
                                                         {{ number_format($value->price) }}
+                                                        <span>تومان</span>
                                                     @endif
-                                                    <span>تومان</span></span>
+
+                                                </span>
                                             </ins>
                                         </div>
                                     </div>
@@ -674,29 +693,29 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="widget widget-product card">
+                            <div class="widget widget-product card widget-suggestion">
                                 <header class="card-header">
                                     <h3 class="card-title">
                                         <span>گوشی موبایل</span>
                                     </h3>
-                                    <a href="#" class="view-all">مشاهده همه</a>
+{{--                                    <a href="#" class="view-all">مشاهده همه</a>--}}
                                 </header>
                                 <div class="product-carousel owl-carousel owl-theme">
                                     @foreach($cat_product->where('cat_id', 3) as $key=>$value)
                                         @php
-                                             $products = App\Product::where('id',$value->product_id)->get();
+                                             $products = App\Product::where(['id'=> $value->product_id ,'show_product' => 1])->get();
                                         @endphp
                                         @foreach($products as $product)
                                     <div class="item">
                                             @if(!empty($product->get_img->url))
                                         <a href="{{ url('product').'/'.$product->code_url.'/'.$product->title_url }}">
                                             <img src="{{ url($product->get_img->url)}}"
-                                                 class="img-fluid" alt="{{$product->title}}">
+                                                 class="img-fluid" alt="{{$product->title}}" title="{{$product->title}}">
                                         </a>
                                         @else
                                             <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
                                                 <img src="{{ asset('/user/img/not-img.png') }}"
-                                                     class="img-fluid" alt="{{$value->title}}">
+                                                     class="img-fluid" alt="{{$value->title}}" title="{{$product->title}}">
                                             </a>
                                         @endif
                                         <h2 class="post-title">
@@ -714,19 +733,21 @@
                                                 <del><span>
                                                             @if(!empty($product->discounts) && !empty($product->price))
                                                             {{ number_format($product->price) }}
+                                                            <span>تومان</span>
                                                         @endif
-                                                            <span>تومان</span></span>
+                                                    </span>
                                                 </del>
                                             </div>
                                             <ins>
                                                 <span>
                                                    @if(!empty($product->discounts) && !empty($product->price))
-
                                                         {{ number_format($product->price-$product->discounts) }}
+                                                        <span>تومان</span>
                                                     @elseif(!empty($product->price))
                                                         {{ number_format($product->price) }}
+                                                        <span>تومان</span>
                                                     @endif
-                                                    <span>تومان</span>
+
                                                 </span>
                                             </ins>
                                         </div>
@@ -737,28 +758,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row banner-ads">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="widget widget-banner card">
-                                        <a href="#" target="_blank">
-                                            <img class="img-fluid" src="{{ asset('user/img/banner/banner-11.jpg') }}"
-                                                 alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div class="row banner-ads">--}}
+{{--                        <div class="col-12">--}}
+{{--                            <div class="row">--}}
+{{--                                <div class="col-12">--}}
+{{--                                    <div class="widget widget-banner card">--}}
+{{--                                        <a href="#" target="_blank">--}}
+{{--                                            <img class="img-fluid" src="{{ asset('user/img/banner/banner-11.jpg') }}"--}}
+{{--                                                 alt="">--}}
+{{--                                        </a>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="row">
                         <div class="col-12">
-                            <div class="widget widget-product card">
+                            <div class="widget widget-product card widget-suggestion">
                                 <header class="card-header">
                                     <h3 class="card-title">
                                         <span>موبایل و لوازم جانبی</span>
                                     </h3>
-                                    <a href="#" class="view-all">مشاهده همه</a>
+{{--                                    <a href="#" class="view-all">مشاهده همه</a>--}}
                                 </header>
                                 <div class="product-carousel owl-carousel owl-theme">
                                     <div class="item">
@@ -790,27 +811,27 @@
                         <div class="owl-carousel">
                             <div class="item">
                                 <a href="#">
-                                    <img src="{{ asset('user/img/brand/1076.png') }}" alt="">
+                                    <img src="{{ asset('user/img/brand/lg.png') }}" alt="">
                                 </a>
                             </div>
                             <div class="item">
                                 <a href="#">
-                                    <img src="{{ asset('user/img/brand/1078.png') }}" alt="">
+                                    <img src="{{ asset('user/img/brand/samsung.png') }}" alt="">
                                 </a>
                             </div>
                             <div class="item">
                                 <a href="#">
-                                    <img src="{{ asset('user/img/brand/1080.png') }}" alt="">
+                                    <img src="{{ asset('user/img/brand/iphone.png') }}" alt="">
                                 </a>
                             </div>
                             <div class="item">
                                 <a href="#">
-                                    <img src="{{ asset('user/img/brand/2315.png') }}" alt="">
+                                    <img src="{{ asset('user/img/brand/huawei.jpg') }}" alt="">
                                 </a>
                             </div>
                             <div class="item">
                                 <a href="#">
-                                    <img src="{{ asset('user/img/brand/5189.png') }}" alt="">
+                                    <img src="{{ asset('user/img/brand/lenovo.jpg') }}" alt="">
                                 </a>
                             </div>
                         </div>
@@ -819,42 +840,5 @@
             </div>
         </div>
     </main>
-@stop
-
-@section('scripts')
-    <script type="text/javascript" src="{{ url('user/js/flipclock.min.js') }}"></script>
-    <script>
-        var amazing_time = new Array;
-        var i = 0;
-        <?php
-            foreach ($amazing as $key=>$value)
-            {
-            $time = ($value->timestamp - time() > 0) ? $value->timestamp - time() : 0;
-            ?>
-            amazing_time[i] ={{$time}};
-        i++;
-        <?php
-        }
-        ?>
-    </script>
-    <script>
-        for (var j = 0; j < amazing_time.length; j++) {
-            var clock;
-            clock = $('#amazing_clock_' + j).FlipClock({
-                clockFace: 'HourlyCounter',
-                autoStart: false,
-                id: 'c_' + j,
-                callbacks: {
-                    stop: function () {
-                        var a = this.id.replace('c_', '');
-                        $('#amazing_clock_' + a).hide();
-                        $('#amazing_img_' + a).show();
-                    }
-                }
-            });
-            clock.setTime(amazing_time[j]);
-            clock.setCountdown(true);
-            clock.start();
-        }
-    </script>
 @endsection
+

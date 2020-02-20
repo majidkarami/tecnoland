@@ -2,13 +2,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" style="left: 27px;" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h5 class="modal-title" id="myModalLabel">آدرس جدید</h5>
             </div>
             <div class="modal-body">
 
                 <form id="address_form" onsubmit="add_address();return false;" action="{{ url('shop/add_address') }}" method="post">
-                    {{ csrf_field() }}
+                   @csrf
                     <table class="tbl_address">
 
                         <tr>
@@ -19,7 +19,6 @@
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
                             <td colspan="2">
 
@@ -27,14 +26,31 @@
 
                             </td>
                         </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <div class="form-group">
+                                    <label>آدرس پست الکترونیکی</label>
+                                    <input name="email"  class="form-control" style="width:98%" value="{{ old('email') }}">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+
+                                <span id="error_email" class="has-error"></span>
+
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <div class="form-group">
-                                    <label>انتخاب استان</label>
-                                    <select name="ostan_id"  class="selectpicker" onchange="get_shahr('ostan_id','shahr_list')" id="ostan_id">
+                                    <label>انتخاب استان</label><br>
+                                    <select name="ostan_id"  class="select-css" onchange="get_shahr('ostan_id','shahr_list')" id="ostan_id">
                                         <option value="">انتخاب استان</option>
                                         @foreach($ostan as $key=>$value)
-                                            <option value="{{ $value->id }}">{{ $value->ostan_name }}</option>
+                                            <option value="{{ $value->id }}">{{ $value->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -42,8 +58,8 @@
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <label>انتخاب شهر</label>
-                                    <select name="shahr_id"  class="selectpicker" id="shahr_list">
+                                    <label>انتخاب شهر</label><br>
+                                    <select name="shahr_id"  class="select-css" id="shahr_list">
 
                                     </select>
                                 </div>
@@ -137,7 +153,11 @@
 
                         <tr>
                             <td colspan="2">
-                                <button class="btn btn-success">ثبت آدرس</button>
+                                <div class="parent-btn">
+                                <button class="dk-btn dk-btn-success">ثبت آدرس
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                </div>
                             </td>
                         </tr>
 

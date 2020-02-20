@@ -29,6 +29,8 @@
                            <span class="fa fa-check" style="margin-left: 15px;"></span><span>برای <span class="badge alert-secondary">ویرایش</span> کافیست مشخصات را ویرایش و سپس ذخیره نمایید.</span>
                             <br><br>
                             <span class="fa fa-check" style="margin-left: 15px;"></span> <span>برای <span class="badge alert-secondary">حذف</span> کافیست مشخصات نام فیلتر را حذف و سپس ذخیره نمایید.</span>
+                            <br><br>
+                            <span class="fa fa-check" style="margin-left: 15px;"></span> <span>برای <span class="badge alert-secondary">دسته بندی</span> کافیست نام فیلتر مشخص شده را در دسته مربوط به آخرین زیر دسته در قسمت نام لاتین دسته اضافه نمایید.</span>
                         </div>
                         @if(isset($id))
                             <form id="myForm" method="post" action="{{url('admin/filter?id='.$id)}}">
@@ -65,14 +67,14 @@
 
                                                     @if($value->filed==1)
 
-                                                        <input type="text" value="{{ $value2->name }}" class="color_input_name" name="filter_child[{{ $value->id }}][{{ $value2->id }}]"/><span style="padding-right: 20px">filter_<'name'>[{{ $value2->id }}]</span>
+                                                        <input type="text" value="{{ $value2->name }}" class="color_input_name" name="filter_child[{{ $value->id }}][{{ $value2->id }}]"/><span style="padding-right: 20px;color: grey;">filter_{{ $value->ename }}_{{ $value2->id }}</span>
 
                                                     @else
                                                         <?php
                                                         $color=explode('@',$value2->name);
                                                         ?>
                                                         <input type="text" value="{{$color[0] }}" class="color_input_name" name="filter_child[{{ $value->id }}][{{ $value2->id }}]"/>
-                                                        <input type="text" value="{{$color[1] }}" class="jscolor color_input_code" name="filter_color[{{ $value->id }}][{{ $value2->id }}]"/> <span style="padding-right: 20px">filter_<'name'>[{{ $value2->id }}]</span>
+                                                        <input type="text" value="{{$color[1] }}" class="jscolor color_input_code" name="filter_color[{{ $value->id }}][{{ $value2->id }}]"/> <span style="padding-right: 20px;color: grey">filter_{{ $value->ename }}_{{ $value2->id }}</span>
 
                                                     @endif
                                                 </div>

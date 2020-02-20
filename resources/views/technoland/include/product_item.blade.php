@@ -1,12 +1,10 @@
 <div style="width:95%;margin:30px auto">
-    <h3>مشخصات فنی </h3>
-    <p style="font-size:13px;">{{ $product->title }}</p>
     @if(sizeof($item_value)>0)
         <table class="item_table">
             @foreach($items as $key=>$value)
 
                 <tr>
-                    <td colspan="2" style="padding-top:15px;padding-bottom:15px"><span class="icon_item_name"></span> <span style="font-size:16px">{{ $value->name }}</span></td>
+                    <td colspan="4" style="padding-top:15px;padding-bottom:15px"><span class="icon_item_name"></span> <span style="font-size:16px">{{ $value->name }}</span></td>
                 </tr>
                 <?php
                 $get_child_item=$value->get_child_item;

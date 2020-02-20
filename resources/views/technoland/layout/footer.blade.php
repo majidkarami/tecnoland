@@ -7,10 +7,10 @@
         <div class="footer-services">
             <div class="row">
                 <div class="service-item col">
-                    <a href="#" target="_blank">
+                    <a href="{{route('price.guarantee')}}" target="_blank">
                         <img src="{{ asset('user/img/svg/delivery.svg') }}" alt="">
                     </a>
-                    <p>تحویل اکسپرس</p>
+                    <p>تضمین قیمت کالا</p>
                 </div>
                 <div class="service-item col">
                     <a href="#" target="_blank">
@@ -18,20 +18,20 @@
                     </a>
                     <p>پشتیبانی 24 ساعته</p>
                 </div>
+{{--                <div class="service-item col">--}}
+{{--                    <a href="#" target="_blank">--}}
+{{--                        <img src="{{ asset('user/img/svg/payment-terms.svg') }}" alt="">--}}
+{{--                    </a>--}}
+{{--                    <p>پرداخت درمحل</p>--}}
+{{--                </div>--}}
                 <div class="service-item col">
-                    <a href="#" target="_blank">
-                        <img src="{{ asset('user/img/svg/payment-terms.svg') }}" alt="">
-                    </a>
-                    <p>پرداخت درمحل</p>
-                </div>
-                <div class="service-item col">
-                    <a href="#" target="_blank">
+                    <a href="{{route('return.policy')}}" target="_blank">
                         <img src="{{ asset('user/img/svg/return-policy.svg') }}" alt="">
                     </a>
                     <p>۷ روز ضمانت بازگشت</p>
                 </div>
                 <div class="service-item col">
-                    <a href="#" target="_blank">
+                    <a href="{{ route('guarantee.origin') }}" target="_blank">
                         <img src="{{ asset('user/img/svg/origin-guarantee.svg') }}" alt="">
                     </a>
                     <p>ضمانت اصل بودن کالا</p>
@@ -40,46 +40,46 @@
         </div>
         <div class="footer-widgets">
             <div class="row">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="widget-menu widget card">
-                        <header class="card-header">
-                            <h3 class="card-title">راهنمای خرید از تکنولند</h3>
-                        </header>
-                        <ul class="footer-menu">
-                            <li>
-                                <a href="#">نحوه ثبت سفارش</a>
-                            </li>
-                            <li>
-                                <a href="#">رویه ارسال سفارش</a>
-                            </li>
-                            <li>
-                                <a href="#">شیوه‌های پرداخت</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
+{{--                <div class="col-12 col-md-6 col-lg-3">--}}
+{{--                    <div class="widget-menu widget card">--}}
+{{--                        <header class="card-header">--}}
+{{--                            <h3 class="card-title">راهنمای خرید از تکنولند</h3>--}}
+{{--                        </header>--}}
+{{--                        <ul class="footer-menu">--}}
+{{--                            <li>--}}
+{{--                                <a href="#">نحوه ثبت سفارش</a>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="#">رویه ارسال سفارش</a>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="#">شیوه‌های پرداخت</a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="widget-menu widget card">
                         <header class="card-header">
                             <h3 class="card-title">خدمات مشتریان</h3>
                         </header>
                         <ul class="footer-menu">
+{{--                            <li>--}}
+{{--                                <a href="#">پاسخ به پرسش‌های متداول</a>--}}
+{{--                            </li>--}}
                             <li>
-                                <a href="#">پاسخ به پرسش‌های متداول</a>
+                                <a href="{{route('return.policy')}}">رویه‌های بازگرداندن کالا</a>
                             </li>
                             <li>
-                                <a href="#">رویه‌های بازگرداندن کالا</a>
+                                <a href="{{route('regulation')}}">مقررات وبسایت</a>
                             </li>
                             <li>
-                                <a href="#">شرایط استفاده</a>
-                            </li>
-                            <li>
-                                <a href="#">حریم خصوصی</a>
+                                <a href="{{route('privacy.policy')}}">حریم خصوصی</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="widget-menu widget card">
                         <header class="card-header">
                             <h3 class="card-title">با تکنولند</h3>
@@ -95,10 +95,10 @@
 {{--                                <a href="#">فرصت‌های شغلی</a>--}}
 {{--                            </li>--}}
                             <li>
-                                <a href="#">تماس با تکنولند</a>
+                                <a href="{{route('technoland.about')}}">تماس با تکنولند</a>
                             </li>
                             <li>
-                                <a href="#">درباره تکنولند</a>
+                                <a href="{{route('technoland.contact')}}">درباره تکنولند</a>
                             </li>
                         </ul>
                     </div>
@@ -117,7 +117,7 @@
                     <div class="socials">
                         <p>ما را در شبکه های اجتماعی دنبال کنید.</p>
                         <div class="footer-social">
-                            <a href="#" target="_blank"><i class="fa fa-instagram"></i>اینستاگرام تکنولند</a>
+                            <a href="{{setting('instagram')}}" target="_blank"><i class="fa fa-instagram"></i>اینستاگرام تکنولند</a>
                         </div>
                     </div>
                 </div>
@@ -130,12 +130,12 @@
                 </div>
                 <div class="col-12 col-lg-2"> شماره تماس : {{ setting('tel') }}</div>
                 <div class="col-12 col-lg-3">آدرس ایمیل :<a href="#">{{ setting('email') }}</a></div>
-                <div class="col-12 col-lg-3 text-center">
-                    <a href="#" target="_blank">
-                        <img src="{{ asset('user/img/bazzar.png') }}" width="159" height="48" alt=""></a>
-                    <a href="#" target="_blank">
-                        <img src="{{ asset('user/img/sibapp.png') }}" width="159" height="48" alt=""></a>
-                </div>
+{{--                <div class="col-12 col-lg-3 text-center">--}}
+{{--                    <a href="#" target="_blank">--}}
+{{--                        <img src="{{ asset('user/img/bazzar.png') }}" width="159" height="48" alt=""></a>--}}
+{{--                    <a href="#" target="_blank">--}}
+{{--                        <img src="{{ asset('user/img/sibapp.png') }}" width="159" height="48" alt=""></a>--}}
+{{--                </div>--}}
             </div>
         </div>
     </div>
@@ -153,7 +153,8 @@
                         ذهن شما خطور می‌کند در اینجا پیدا خواهید کرد.
                     </p>
                 </div>
-                <div class="symbol col-12 col-lg-5">
+                <div class="symbol col-12 col-lg-5 img_zar">
+                    <script src="https://cdn.zarinpal.com/trustlogo/v1/trustlogo.js" type="text/javascript"></script>
                     <a href="#" target="_blank"><img src="{{ asset('user/img/symbol-01.png') }}" alt=""></a>
                     <a href="#" target="_blank"><img src="{{ asset('user/img/symbol-02.png') }}" alt=""></a>
                 </div>
@@ -183,7 +184,7 @@
             <p>
                 استفاده از مطالب فروشگاه اینترنتی تکنولند فقط برای مقاصد غیرتجاری و با ذکر منبع بلامانع است.
                 کلیه حقوق این سایت متعلق
-                به شرکت نوآوران فن آوازه (فروشگاه آنلاین تکنولند) می‌باشد.
+                به (فروشگاه آنلاین تکنولند) می‌باشد.
             </p>
         </div>
     </div>

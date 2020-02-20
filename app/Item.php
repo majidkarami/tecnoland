@@ -63,4 +63,10 @@ class Item extends Model
         }
         return $item_id;
     }
+
+    public static function get_name($id)
+    {
+        $name_item = Item::find($id)->name;
+        return $name_item;
+    }
 }

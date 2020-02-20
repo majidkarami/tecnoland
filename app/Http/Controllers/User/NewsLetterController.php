@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Contact;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Email;
+use Illuminate\Support\Facades\Session;
 
 class NewsLetterController extends Controller
 {
@@ -31,5 +34,13 @@ class NewsLetterController extends Controller
         }
 
         return $data;
+    }
+
+    public function contact_us(ContactRequest $request)
+    {
+        $amazing = new Contact($request->all());
+        $amazing->saveOrFail();
+        Session::flash('success', 'ثبت تماس با موفقیت ایجاد گردید.');
+        return redirect()->back();
     }
 }

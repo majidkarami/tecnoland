@@ -58,12 +58,15 @@ class RegisterController extends Controller
             'username' => 'required|string|check_username|max:255|unique_username',
             'password' => 'required|string|min:6',
             'email' => ['string', 'email', 'max:255', 'unique:users'],
-            'captcha' => 'required|captcha'
+            'captcha' => 'required|captcha',
+            'term' => 'required',
+
         ], [], [
             'username' => 'شماره همراه یا پست الکترونیک',
             'password' => 'کلمه عبور',
             'email' => 'ایمیل',
-            'captcha' => 'کد امنیتی'
+            'captcha' => 'کد امنیتی',
+            'term' => 'شرایط و قوانین'
         ]);
 
     }

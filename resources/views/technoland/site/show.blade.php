@@ -2,95 +2,115 @@
 @section('title', __('توضیحات محصول'))
 
 @section('styles')
-    <style>
 
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url('user/css/flipclock.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('user/css/user.css') }}">
+
 @endsection
 @section('content')
-
     <!-- main -->
     <main class="single-product default">
         <div class="container">
             <div class="row">
                 <div class="col-12">
+
                     <nav>
                         <ul class="breadcrumb">
                             <li>
-                                <a href="#"><span>فروشگاه اینترنتی تاپ کالا</span></a>
+                                <a href="{{ url('') }}"><span>فروشگاه اینترنتی تکنولند</span></a>
                             </li>
-                            <li>
-                                <a href="#"><span>کالای دیجیتال</span></a>
-                            </li>
-                            <li>
-                                <a href="#"><span>موبایل</span></a>
-                            </li>
-                            <li>
-                                <a href="#"><span>گوشی موبایل</span></a>
-                            </li>
-                            <li>
-                                <span>گوشی موبایل اپل مدل iPhone X ظرفیت 256 گیگابایت</span>
-                            </li>
+                            @foreach ($product->get_cats as $a)
+                            @php
+                            $pro_cat = App\Category::orderBy('id', 'ASC')->findOrFail($a->cat_id);
+                            @endphp
+                                <li>
+                                   <a href="{{ url('category').'/'.$pro_cat->cat_ename }}"><span>{{ $pro_cat->cat_name }}</span></a>
+                                </li>
+                            @endforeach
+
                         </ul>
                     </nav>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <article class="product">
+                    <article class="product" style="border: 1px solid #05e4ff;">
                         <div class="row">
                             <div class="col-lg-4 col-md-6 col-sm-12">
-                                <div class="product-gallery default">
-                                    <img class="zoom-img" id="img-product-zoom" src="{{asset('user/img/product/1335154.jpg')}}"
-                                         data-zoom-image="{{asset('user/img/product/1335154.jpg')}}" width="411" />
 
+{{--                                    @if(!empty($pro_amazing))--}}
+{{--                                        <div class="product-gallery default">--}}
+{{--                                            <img class="amazing-title"--}}
+{{--                                                 src="{{ asset('user/img/shegeft.png') }}"--}}
+{{--                                                 alt="" width="190" height="25">--}}
+
+{{--                                            <div class="clock" style="float: left;margin: -5px 0px -10px 10px;"--}}
+{{--                                                 id="amazing_clock_{{$product->id}}">--}}
+
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <hr style="margin-top: 2.3rem;">--}}
+{{--                                    @endif--}}
+
+                                <div class="product-gallery default">
+
+                                    <?php
+                                    $images = $product->get_images;
+                                    ?>
+                                    @if(!empty($images[0]->url))
+                                        <img class="zoom-img" id="img-product-zoom" src="{{ url($images[0]->url )}}"
+                                             data-zoom-image="{{ url($images[0]->url )}}" width="411"/>
+                                    @else
+                                        <img class="zoom-img" id="img-product-zoom"
+                                             src="{{ asset('/user/img/not-img.png') }}"
+                                             data-zoom-image="{{ asset('/user/img/not-img.png') }}" width="411"/>
+                                    @endif
                                     <div id="gallery_01f" style="width:500px;float:left;">
                                         <ul class="gallery-items owl-carousel owl-theme" id="gallery-slider">
-                                            <li class="item">
-                                                <a href="#" class="elevatezoom-gallery active" data-update=""
-                                                   data-image="{{asset('user/img/product/2114766.jpg')}}"
-                                                   data-zoom-image="{{asset('user/img/product/2114766.jpg')}}">
-                                                    <img src="{{asset('user/img/product/2114766.jpg')}}" width="100" /></a>
-                                            </li>
-                                            <li class="item">
-                                                <a href="tester" class="elevatezoom-gallery"
-                                                   data-image="{{asset('user/img/product/1335154.jpg')}}"
-                                                   data-zoom-image="{{asset('user/img/product/1335154.jpg')}}">
-                                                    <img src="{{asset('user/img/product/1335154.jpg')}}" width="100" />
-                                                </a>
-                                            </li>
-                                            <li class="item">
-                                                <a href="#" class="elevatezoom-gallery"
-                                                   data-image="{{asset('user/img/product/3694075.jpg')}}"
-                                                   data-zoom-image="{{asset('user/img/product/3694075.jpg')}}"><img
-                                                            src="{{asset('user/img/product/3694075.jpg')}}" width="100" /></a>
-                                            </li>
-                                            <li class="item">
-                                                <a href="tester" class="elevatezoom-gallery"
-                                                   data-image="{{asset('user/img/product/1335154.jpg')}}"
-                                                   data-zoom-image="{{asset('user/img/product/1335154.jpg')}}">
-                                                    <img src="{{asset('user/img/product/1335154.jpg')}}" width="100" />
-                                                </a>
-                                            </li>
-                                            <li class="item">
-                                                <a href="tester" class="elevatezoom-gallery"
-                                                   data-image="{{asset('user/img/product/110197298.jpg')}}"
-                                                   data-zoom-image="{{asset('user/img/product/110197298.jpg')}}"
-                                                   class="slide-content"><img
-                                                            src="{{asset('user/img/product/110197298.jpg')}}" height="68" /></a>
-                                            </li>
+                                            @foreach($images as $key=>$value)
+                                                @if(!empty($value->url))
+                                                    <li class="item">
+                                                        <a href="#"
+                                                           class="elevatezoom-gallery {{ $loop->first ? 'active' : '' }}"
+                                                           data-update=""
+                                                           data-image="{{ url($value->url) }}"
+                                                           data-zoom-image="{{ url($value->url) }}">
+                                                            <img src="{{ url($value->url) }}" width="100"/></a>
+                                                    </li>
+                                                @else
+                                                    <li class="item">
+                                                        <a href="#"
+                                                           class="elevatezoom-gallery {{ $loop->first ? 'active' : '' }}"
+                                                           data-update=""
+                                                           data-image="{{ asset('/user/img/not-img.png') }}"
+                                                           data-zoom-image="{{ asset('/user/img/not-img.png') }}">
+                                                            <img src="{{ asset('/user/img/not-img.png') }}"
+                                                                 width="100"/></a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
-                                <ul class="gallery-options">
-                                    <li>
-                                        <button class="add-favorites"><i class="fa fa-heart"></i></button>
-                                        <span class="tooltip-option">افزودن به علاقمندی</span>
-                                    </li>
-                                    <li>
-                                        <button data-toggle="modal" data-target="#myModal"><i
-                                                    class="fa fa-share-alt"></i></button>
-                                        <span class="tooltip-option">اشتراک گذاری</span>
-                                    </li>
+
+                                <ul class="gallery-options" style="top: 52px;">
+                                    @if(Auth::check())
+                                        <li>
+                                            @if($bookmark)
+                                                <button id="bookmark_info" class="add-favorites favorites" onclick="dislike('<?= $product->id ?>')"><i class="fa fa-heart"></i></button>
+                                                <span id="tooltip-option" class="tooltip-option">حذف از علاقمندی</span>
+                                            @else
+                                                <button id="bookmark_info" class="add-favorites" onclick="like('<?= $product->id?>')"><i class="fa fa-heart"></i></button>
+                                                <span id="tooltip-option" class="tooltip-option">افزودن به علاقمندی</span>
+                                            @endif
+                                        </li>
+                                    @endif
+
+{{--                                    <li>--}}
+{{--                                        <button data-toggle="modal" data-target="#myModal"><i--}}
+{{--                                                    class="fa fa-share-alt"></i></button>--}}
+{{--                                        <span class="tooltip-option">اشتراک گذاری</span>--}}
+{{--                                    </li>--}}
                                 </ul>
                                 <!-- Modal Core -->
                                 <div class="modal-share modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -99,7 +119,8 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal"
-                                                        aria-hidden="true">&times;</button>
+                                                        aria-hidden="true">&times;
+                                                </button>
                                                 <h4 class="modal-title" id="myModalLabel">اشتراک گذاری</h4>
                                             </div>
                                             <div class="modal-body">
@@ -159,8 +180,8 @@
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="product-title default">
                                     <h1>
-                                        گوشی موبایل اپل مدل iPhone X ظرفیت 256 گیگابایت
-                                        <span>Apple iPhone X 256GB Mobile Phone</span></h1>
+                                        {{ $product->title }}
+                                        <span>{{ $product->code }}</span></h1>
                                 </div>
                                 <div class="product-directory default">
                                     <ul>
@@ -170,92 +191,206 @@
                                         </li>
                                         <li>
                                             <span>دسته‌بندی</span> :
-                                            <a href="#" class="btn-link-border">
-                                                ساعت هوشمند
-                                            </a>
+                                        @foreach ($product->get_cats as $a)
+                                            @php
+                                                $pro_cat = App\Category::orderBy('id', 'ASC')->findOrFail($a->cat_id);
+                                            @endphp
+                                            @if( $loop->last)
+                                                <a href="{{ url('category').'/'.$pro_cat->cat_ename }}" class="btn-link-border">
+                                                   {{$pro_cat->cat_name}}
+                                                </a>
+                                                @endif
+                                        @endforeach
+
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="product-variants default">
-                                    <span>انتخاب رنگ: </span>
-                                    <div class="radio">
-                                        <input type="radio" name="radio1" id="radio1" value="option1">
-                                        <label for="radio1">
-                                            خاکستری
-                                        </label>
-                                    </div>
+                                    @if($product->product_status==1)
 
-                                    <div class="radio">
-                                        <input type="radio" name="radio1" id="radio2" value="option2" checked="">
-                                        <label for="radio2">
-                                            نقره ای
-                                        </label>
-                                    </div>
+                                        <form method="post" action="{{ url('Cart') }}">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <?php
+                                            $colors=$product->get_colors;
+                                            $color_id=0;
+                                            ?>
+
+                                            <div id="product_info">
+                                                <?php
+                                                $color_id=0;
+                                                $service_id=0;
+                                                ?>
+                                                @if(sizeof($colors)>0)
+                                                    <p style="padding-top: 20px;">انتخاب رنگ</p>
+                                                    @foreach($colors as $key=>$value)
+                                                        @if($key==0)
+                                                            <?php $color_id=$value->id ?>
+                                                        @endif
+                                                        <div class="color_box" onclick="set_color('<?= $value->id ?>')">
+                                                            <label style="background:#{{ $value->color_code }}"> @if($key==0) <span class="tick"></span> @endif</label>
+                                                            <span>{{ $value->color_name }}</span>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                                <input type="hidden" name="color_id" id="color_id" value="{{ $color_id }}">
+
+                                                <div style="width:100%;float: right;">
+
+                                                    @if(sizeof($product->get_service_name)>0)
+
+                                                        <p style="padding-top:20px">انتخاب گارانتی</p>
+
+                                                        <?php
+                                                        $c=0;
+                                                        ?>
+                                                        @foreach($product->get_service_name as $key=>$value)
+
+                                                            @if($color_id==0)
+
+                                                                @if($key==0)
+                                                                    <div class="service_title" onclick="show_service()">
+                                                                        <span>{{ $value->service_name }}</span>
+                                                                        <a class="service_ic" id="service_ic"></a>
+                                                                    </div>
+                                                                    <?php
+                                                                    $service_id=$value->id;
+                                                                    ?>
+                                                                @endif
+                                                            @else
+
+                                                                <?php
+
+                                                                if($c==0)
+                                                                {
+                                                                $check=DB::table('service')->where(['parent_id'=>$value->id,'color_id'=>$color_id])->first();
+                                                                if($check)
+                                                                {
+                                                                $c=1;
+                                                                ?>
+                                                                <div class="service_title" onclick="show_service()">
+                                                                    <span>{{ $value->service_name }}</span>
+                                                                    <a class="service_ic" id="service_ic"></a>
+                                                                </div>
+                                                                <?php
+                                                                $service_id=$value->id;
+                                                                ?>
+                                                                <?php
+                                                                }
+                                                                }
+                                                                ?>
+                                                            @endif
+
+                                                        @endforeach
+
+                                                        <div class="service_box" id="service_box">
+                                                            @foreach($product->get_service_name as $key=>$value)
+                                                                <div onclick="set_service('<?= $value->id ?>')">
+                                                                    {{ $value->service_name }}
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+
+                                                    @endif
+                                                    <input type="hidden" name="service_id" value="{{ $service_id }}" id="service_id">
+
+
+                                                </div>
+
+{{--                                                @if(!empty($pro_amazing) and $pro_amazing->timestamp < time())--}}
+{{--                                                        <div class="price-product defualt">--}}
+{{--                                                            <div style="width:100%;float:right;margin-top: 70px;">--}}
+{{--                                                                <del><span>--}}
+{{--                                                                    @if(!empty($pro_amazing->price1))--}}
+{{--                                                                            {{ number_format($pro_amazing->price1) }}--}}
+{{--                                                                        @endif--}}
+{{--                                                            <span>تومان</span></span></del>--}}
+{{--                                                                <div class="price-value">--}}
+{{--                                                                    <span>{{ number_format($pro_amazing->price2) }} </span>--}}
+{{--                                                                    <span class="price-currency">تومان</span>--}}
+{{--                                                                </div>--}}
+{{--                                                                <div class="price-discount" data-title="تخفیف" style="margin-right: 85px;">--}}
+{{--                                                                    <span>{{difference($pro_amazing->price1,$pro_amazing->price2,1)}}</span>--}}
+
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+
+{{--                                                            <div class="product-add default" style="margin-top: 50px">--}}
+{{--                                                                <div class="parent-btn">--}}
+{{--                                                                    <button type="submit" class="dk-btn dk-btn-info" style="font-size: 14px;padding: 18px 66px;">--}}
+{{--                                                                        افزودن به سبد خرید--}}
+{{--                                                                        <i class="now-ui-icons shopping_cart-simple"></i>--}}
+{{--                                                                    </button>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                @else--}}
+                                                        <div class="price-product defualt">
+                                                            <div style="width:100%;float:right;margin-top: 70px;">
+                                                                <div class="price">
+                                                                    <span style="color: green;">
+                                                                        {{ number_format($product->price) }}
+                                                                        <span>تومان</span>
+                                                                     </span>
+                                                                </div>
+                                                                @if(!empty($product->discounts))
+                                                                    <div class="price-value">با تخفیف
+                                                                        <span>{{ number_format($product->price-$product->discounts) }}</span>
+                                                                        <span class="price-currency">تومان</span>
+                                                                    </div>
+                                                                @endif
+                                                                <div class="price-discount" data-title="تخفیف" style="margin-right: 85px;">
+                                                                    <span>{{difference($product->price,$product->discounts,1)}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-add default" style="margin-top: 50px">
+                                                                <div class="parent-btn">
+                                                                    <button type="submit" class="dk-btn dk-btn-info" style="font-size: 14px;padding: 18px 66px;">
+                                                                        افزودن به سبد خرید
+                                                                        <i class="now-ui-icons shopping_cart-simple"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+{{--                                                @endif--}}
+                                            </div>
+                                        </form>
+                                    @endif
 
                                 </div>
-                                <div class="product-guarantee default">
-                                    <i class="fa fa-check-circle"></i>
-                                    <p class="product-guarantee-text">گارانتی اصالت و سلامت فیزیکی کالا</p>
-                                </div>
-                                <div class="product-delivery-seller default">
-                                    <p>
-                                        <i class="now-ui-icons shopping_shop"></i>
-                                        <span>فروشنده:‌</span>
-                                        <a href="#" class="btn-link-border">ناسا</a>
-                                    </p>
-                                </div>
-                                <div class="price-product defualt">
-                                    <div class="price-value">
-                                        <span> ۱۵,۳۹۰,۰۰۰ </span>
-                                        <span class="price-currency">تومان</span>
-                                    </div>
-                                    <div class="price-discount" data-title="تخفیف">
-                                            <span>
-                                                ۰
-                                            </span>
-                                        <span>%</span>
-                                    </div>
-                                </div>
-                                <div class="product-add default">
-                                    <div class="parent-btn">
-                                        <a href="#" class="dk-btn dk-btn-info">
-                                            افزودن به سبد خرید
-                                            <i class="now-ui-icons shopping_cart-simple"></i>
-                                        </a>
-                                    </div>
-                                </div>
+
                             </div>
+
                             <div class="col-lg-4 col-md-6 col-sm-12 center-breakpoint">
+                                <?php
+                                $avg = collect($score_data['score'])->avg();
+                                $avg = substr($avg, 0, 4);
+                                $width = $avg * 20;
+                                ?>
                                 <div class="product-guaranteed default">
-                                    بیش از ۱۸۰ نفر از خریداران این محصول را پیشنهاد داده‌اند
+                                    بیش از {{ $score_data['total'] }} نفر از خریداران این محصول را پیشنهاد داده‌اند
                                 </div>
                                 <div class="product-params default">
                                     <ul data-title="ویژگی‌های محصول">
-                                        <li>
-                                            <span>حافظه داخلی: </span>
-                                            <span> 256 گیگابایت </span>
-                                        </li>
-                                        <li>
-                                            <span>شبکه های ارتباطی: </span>
-                                            <span> 2G,3G,4G </span>
-                                        </li>
-                                        <li>
-                                            <span>رزولوشن عکس: </span>
-                                            <span> 12.0 مگاپیکسل</span>
-                                        </li>
-                                        <li>
-                                            <span>تعداد سیم کارت: </span>
-                                            <span> تک </span>
-                                        </li>
-                                        <li>
-                                            <span>ویژگی‌های خاص: </span>
-                                            <span> مقاوم در برابر آب
-                                                    مناسب عکاسی
-                                                    مناسب عکاسی سلفی
-                                                    مناسب بازی
-                                                    مجهز به حس‌گر تشخیص چهره
-                                                </span>
-                                        </li>
+                                        <?php $count = 0; ?>
+                                        @foreach ($product->get_items as $key=>$value)
+                                            <?php if($count == 8) break; ?>
+                                            <li>
+                                                @php
+                                                 $item_name = App\Item::get_name($value->item_id);
+                                                @endphp
+                                                @if( empty( $item_name) )
+                                                    <span></span>
+                                                    <span></span>
+                                                @else
+                                                    <span>{{ $item_name }} : </span>
+                                                    <span>{{ $value->value }} </span>
+                                                @endif
+
+                                            </li>
+                                                <?php $count++; ?>
+                                        @endforeach
+
                                     </ul>
                                 </div>
                             </div>
@@ -263,30 +398,116 @@
                     </article>
                 </div>
             </div>
+            <div class="row banner-ads">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="widget widget-banner card">
+                                <a href="#" target="_blank">
+                                    <img class="img-fluid" src="{{asset('user/img/banner/banner-11.jpg')}}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="widget widget-product card widget-suggestion">
+                        <header class="card-header">
+                            <h3 class="card-title">
+                                <span>محصولات مرتبط</span>
+                            </h3>
+{{--                            <a href="#" class="view-all">مشاهده همه</a>--}}
+                        </header>
+                        <div class="product-carousel owl-carousel owl-theme">
+                            @foreach($products_linked as $key)
+                                @php
+                                    $value = App\Product::findOrFail($key);
+                                @endphp
+                                <div class="item">
+                                    @if(!empty($value->get_img->url))
+                                        <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
+                                            <img src="{{ url($value->get_img->url) }}"
+                                                 class="img-fluid" alt="{{$value->title}}">
+                                        </a>
+                                    @else
+                                        <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
+                                            <img src="{{ asset('/user/img/not-img.png') }}"
+                                                 class="img-fluid" alt="{{$value->title}}">
+                                        </a>
+                                    @endif
+                                    <h2 class="post-title">
+                                        <a href="{{ url('product').'/'.$value->code_url.'/'.$value->title_url }}">
+                                            @if(strlen($value->title)>50)
+                                                {{ mb_substr($value->title,0,33).' ... ' }}
+                                            @else
+                                                {{ $value->title }}
+                                            @endif
+                                        </a>
+                                    </h2>
+                                    <div class="price">
+                                        <div class="text-center" @if(!empty($value->discounts) && !empty($value->price)) style="background: #F5F6F7;border-radius: 5px" @endif>
+                                            <del>
+                                                    <span>
+                                                        @if(!empty($value->discounts) && !empty($value->price))
+                                                            {{ number_format($value->price) }}
+                                                            <span>تومان</span>
+                                                        @endif
+                                                    </span>
+                                            </del>
+                                        </div>
+                                        <div class="text-center">
+                                            <ins>
+                                                    <span>
+                                                           @if(!empty($value->discounts) && !empty($value->price))
+                                                            {{ number_format($value->price-$value->discounts) }}
+                                                            <span>تومان</span>
+                                                        @elseif(!empty($value->price))
+                                                            {{ number_format($value->price) }}
+                                                            <span>تومان</span>
+                                                        @endif
+
+                                                    </span>
+                                            </ins>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
             <div class="row">
                 <div class="container">
                     <div class="col-12 default no-padding">
                         <div class="product-tabs default">
                             <div class="box-tabs default">
-                                <ul class="nav" role="tablist">
+                                <ul class="nav" role="tablist" id="myTabs">
                                     <li class="box-tabs-tab">
-                                        <a class="active" data-toggle="tab" href="#desc" role="tab"
+                                        <a  id="tab_review" class="active" data-toggle="tab" href="#review" role="tab"
                                            aria-expanded="true">
                                             <i class="now-ui-icons education_glasses"></i> نقد و بررسی
                                         </a>
                                     </li>
                                     <li class="box-tabs-tab">
-                                        <a data-toggle="tab" href="#params" role="tab" aria-expanded="false">
+                                        <a  id="tab_item" data-toggle="tab" href="#item" role="tab" aria-expanded="false">
                                             <i class="now-ui-icons design_bullet-list-67"></i> مشخصات
                                         </a>
                                     </li>
                                     <li class="box-tabs-tab">
-                                        <a data-toggle="tab" href="#comments" role="tab" aria-expanded="false">
+                                        <a id="tab_comment" data-toggle="tab" href="#comment" role="tab" aria-expanded="false">
                                             <i class="now-ui-icons ui-2_chat-round"></i> نظرات کاربران
                                         </a>
                                     </li>
                                     <li class="box-tabs-tab">
-                                        <a data-toggle="tab" href="#questions" role="tab" aria-expanded="false">
+                                        <a id="tab_question" data-toggle="tab" href="#question" role="tab" aria-expanded="false">
                                             <i class="now-ui-icons travel_info"></i> پرسش و پاسخ
                                         </a>
                                     </li>
@@ -294,377 +515,63 @@
                                 <div class="card-body default">
                                     <!-- Tab panes -->
                                     <div class="tab-content">
-                                        <div class="tab-pane fade show active" id="desc" role="tabpanel" aria-expanded="true">
+
+                                        <div class="tab-pane fade show active" id="review" role="tabpanel"
+                                             aria-expanded="true">
                                             <article>
-                                                <h2 class="param-title">
-                                                    نقد و بررسی تخصصی
-                                                    <span>گوشی موبایل اپل مدل iPhone X ظرفیت 256 گیگابایت</span>
+                                                <h2 class="param-title" style="margin-top: 20px;color: #00bfd6">
+                                                    نقد و بررسی تخصصی تکنولند
+                                                    <span style="font-size: 14px;margin-top: 30px;">{{$product->title}}</span>
                                                 </h2>
-                                                <div class="parent-expert default">
-                                                    <div class="content-expert">
-                                                        <p>
-                                                            اپل پس از شایعات فراوان از جدیدترین آیپد خود رونمایی کرد
-                                                            تا
-                                                            به پرسش‌های فراوان علاقه‌مندان به محصولاتش
-                                                            پاسخ دهد. این آیپد با شباهت‌های فراوان به نسخه قبلی
-                                                            تولید
-                                                            شده، اما از نظر برخی مشخصات فنی در رده
-                                                            پایین‌تری قرار گرفته تا کاهش قیمتش توجیه منطقی داشته
-                                                            باشد.
-                                                            اندازه و دقت نمایشگر آیپد جدید کاملا مشابه با
-                                                            نمایشگر نسخه قبلی این محصول است. اما در همین ابتدای کار
-                                                            لازم
-                                                            می‌دانیم که بگوییم این دو تبلت هیچ ارتباطی
-                                                            با یکدیگر ندارند و از دو خانواده‌ی متفاوت و با قیمت‌های
-                                                            مختلف هستند. صفحه‌نمایش آیپد جدید 9.7 اینچی
-                                                            دارای وضوح تصویر 1536 × 2048 پیکسل است و تراکم پیکسلی
-                                                            266
-                                                            پیکسل را ارائه می‌دهد. این تبلت به تراشه به
-                                                            روزتر A9 و پردازنده‌ی کمکی M9 مجهز است. اما میزان
-                                                            حافظه‌ی رم
-                                                            آن از آیپد پروی 12.9 کمتر است. پردازنده‌ی
-                                                            دو هسته‌ای این تبلت سرعتی برابر با 1.84گیگاهرتز دارد و
-                                                            دو
-                                                            گیگابایت حافظه‌ی رم این پردازنده را همراهی
-                                                            می‌کند. در زمینه‌ی دوربین، آیپد جدید 9.7 اینچی نه‌تنها
-                                                            پیشرفتی نداشته بلکه به سنسورهای ضعیف‌تری هم مجهز
-                                                            است. اپل، یک حسگر 8 مگاپیکسلی برای دوربین اصلی تبلت 9.7
-                                                            اینچی به کار برده که می‌تواند با حداکثر کیفیت
-                                                            FullHD فیلم‌برداری کند. شاید بد نباشد بدانید که هیچ‌گونه
-                                                            فلشی این سنسور را همراهی نمی‌کند و عکاسی در
-                                                            محیط‌های بسته توسط این سنسور چندان رضایت‌بخش نخواهد بود.
-                                                            دوربین دوم این تبلت را یک حسگر 1.2 مگاپیکسلی
-                                                            تشکیل می‌دهد که از ویژگی قابلیت تشخیص چهره (Face
-                                                            Detection)
-                                                            بهره می‌برد. پرو 9.7 علاوه بر حافظه‌ی داخلی
-                                                            128 گیگابایتی، در نسخه‌ی 32 گیگابایتی هم عرضه شده است.
-                                                            همچنین این تبلت در دو نسخه‌ی LTE و WiFi تولید شده
-                                                            که مجموعا چهار انتخاب پیش روی کاربران قرار خواهد داشت.
-                                                            اما
-                                                            مهم‌ترین تغییر ظاهری آیپد 9.7 اینچی مربوط به
-                                                            حذف رنگ صورتی از رنگ‌های آن است. بنابراین، آیپد جدید 9.7
-                                                            اینچی در سه رنگ نقره‌ای، خاکستری و طلایی عرضه
-                                                            خواهد شد. درنهایت باید بگوییم که اپل تغییرات انقلابی و
-                                                            رادیکال محوری در جدیدترین تبلت خود ایجاد نکرده
-                                                            است. اما بااین‌وجود باید گفت که آیپد 9.7 اینچی
-                                                            ارزان‌ترین
-                                                            تبلت 10 اینچی تولیدشده‌ی تاریخ اپل تاکنون است.
-                                                            آیپد 9.7 بهترین تبلت برای افرادی است که می‌خواهند درازای
-                                                            پرداخت هزینه‌ی کمتر صاحب یک آیپد از شرکت مطرح
-                                                            اپل شوند.
-                                                        </p>
-                                                    </div>
-                                                    <div class="sum-more">
-                                                            <span class="show-more btn-link-border">
-                                                                نمایش بیشتر
-                                                            </span>
-                                                        <span class="show-less btn-link-border">
-                                                                بستن
-                                                            </span>
-                                                    </div>
-                                                    <div class="shadow-box"></div>
-                                                </div>
+                                                        @if($review)
 
-                                                <div class="accordion default" id="accordionExample">
-                                                    <div class="card">
-                                                        <div class="card-header" id="headingOne">
-                                                            <h5 class="mb-0">
-                                                                <button class="btn btn-link" type="button"
-                                                                        data-toggle="collapse"
-                                                                        data-target="#collapseOne" aria-expanded="true"
-                                                                        aria-controls="collapseOne">
-                                                                    Face ID (کسی به‌غیراز تو را نمی‌شناسم)
-                                                                </button>
-                                                            </h5>
-                                                        </div>
+                                                            <?php
 
-                                                        <div id="collapseOne" class="collapse show"
-                                                             aria-labelledby="headingOne"
-                                                             data-parent="#accordionExample">
-                                                            <div class="card-body">
-                                                                <img src="user/img/single-product/1406986.jpg"
-                                                                     alt="">
-                                                                <p>
-                                                                    در فناوری تشخیص چهره‌ی اپل، یک دوربین و
-                                                                    فرستنده‌ی مادون‌قرمز در بالای نمایشگر قرار داده
-                                                                    ‌شده‌ است؛ هنگامی‌که آیفون
-                                                                    می‌خواهد چهره‌ی شما را تشخیص دهد، فرستنده‌ی نوری
-                                                                    نامرئی را به ‌صورت شما می‌تاباند. دوربین
-                                                                    مادون‌قرمز، این نور را تشخیص
-                                                                    داده و با الگویی که قبلا از صورت شما ثبت کرده،
-                                                                    مطابقت می‌دهد و در صورت یکی‌بودن، قفل گوشی را
-                                                                    باز می‌کند. اپل ادعا کرده،
-                                                                    الگوی صورت را با استفاده از سی هزار نقطه ذخیره
-                                                                    می‌کند که دورزدن آن اصلا کار ساده‌ای نیست.
-                                                                    استفاده از ماسک، عکس یا موارد
-                                                                    مشابه نمی‌تواند امنیت اطلاعات شما را به خطر
-                                                                    اندازد؛ اما اگر برادر یا خواهر دوقلو دارید، باید
-                                                                    برای امنیت اطلاعاتتان نگران
-                                                                    باشید.
-                                                                </p>
-                                                                <img src="assets/img/single-product/1431842.jpg"
-                                                                     alt="">
-                                                                <p>
-                                                                    فقط یک نکته‌ی مثبت در مورد Face ID وجود ندارد؛
-                                                                    بلکه موارد زیادی هستند که دانستن آن‌ها ضروری به
-                                                                    نظر می‌رسد. آیفون 10 فقط
-                                                                    چهره‌ی یک نفر را می‌شناسد و نمی‌توانید مثل
-                                                                    اثرانگشت، چند چهره را به آیفون معرفی کنید تا از
-                                                                    آن‌ها برای بازکردنش استفاده
-                                                                    کنید. اگر آیفون در تلاش اول، صورت شما را نشناسد،
-                                                                    باید نمایشگر را برای شناختن مجدد خاموش و روشن
-                                                                    کنید یا اینکه آن را پایین
-                                                                    ببرید و دوباره روبه‌روی صورتتان قرار دهید. این
-                                                                    تمام ماجرا نیست؛ اگر آیفون 10 بین افراد زیادی که
-                                                                    چهره‌شان را نمی‌شناسد
-                                                                    دست‌به‌دست شود، دیگر به شناخت چهره عکس‌العمل
-                                                                    نشان نمی‌دهد و حتما باید از پین یا پسوورد برای
-                                                                    بازکردن آن استفاده کنید تا
-                                                                    دوباره صورتتان را بشناسد.
-                                                                </p>
-                                                                <img src="assets/img/single-product/1439653.jpg"
-                                                                     alt="">
-                                                                <p>
-                                                                    اپل سعی کرده نهایت استفاده را از این فناوری جدید
-                                                                    بکند؛ استفاده از آن برای ثبت تصاویر پرتره با
-                                                                    دوربین سلفی، استفاده برای
-                                                                    ساختن شکلک‌های بامزه که آن‌ها را Animoji نامیده
-                                                                    است و همچنین استفاده برای روشن نگه‌داشتن گوشی
-                                                                    زمانی که کاربر به آن نگاه
-                                                                    می‌کند، مواردی هستند که iPhone X به کمک حسگر
-                                                                    اینفرارد، بدون نقص آن‌ها را انجام می‌دهد.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card">
-                                                        <div class="card-header" id="headingTwo">
-                                                            <h5 class="mb-0">
-                                                                <button class="btn btn-link collapsed" type="button"
-                                                                        data-toggle="collapse"
-                                                                        data-target="#collapseTwo" aria-expanded="false"
-                                                                        aria-controls="collapseTwo">
-                                                                    نمایش‌گر (رنگی‌تر از همیشه)
-                                                                </button>
-                                                            </h5>
-                                                        </div>
-                                                        <div id="collapseTwo" class="collapse"
-                                                             aria-labelledby="headingTwo"
-                                                             data-parent="#accordionExample">
-                                                            <div class="card-body">
-                                                                <img src="assets/img/single-product/1429172.jpg"
-                                                                     alt="">
-                                                                <p>
-                                                                    اولین تجربه‌ی استفاده از پنل‌های اولد سامسونگ
-                                                                    روی گوشی‌های اپل، نتیجه‌ای جذاب برای همه به
-                                                                    همراه آورده است. مهندسی
-                                                                    افزوده‌ی اپل روی این پنل‌ها باعث شده تا غلظت
-                                                                    رنگ‌ها کاملا متعادل باشد، نه مثل آیفون 8 کم باشد
-                                                                    و نه مثل گلکسی S8 اشباع
-                                                                    باشد تا از حد تعادل خارج شود. اپل این نمایشگر را
-                                                                    Super Retina نامیده تا ثابت کند، بهترین نمایشگر
-                                                                    موجود در دنیا را طراحی
-                                                                    کرده و از آن روی iPhone X استفاده کرده است.
-                                                                </p>
-                                                                <img src="assets/img/single-product/1436228.jpg"
-                                                                     alt="">
-                                                                <p>
-                                                                    این نمایشگر در مقایسه با پنل‌های معمولی، مصرف
-                                                                    انرژی کمتری دارد و این به خاطر استفاده از
-                                                                    پنل‌های اولد است؛ اما این مشخصه
-                                                                    باعث نشده تا نور نمایشگر مثل محصولات دیگری که
-                                                                    پنل اولد دارند کم باشد؛ بلکه این پنل در هر
-                                                                    شرایطی بهترین بازده‌ی ممکن را
-                                                                    دارد. استفاده زیر نور شدید خورشید یا تاریکی مطلق
-                                                                    فرقی ندارد، آیفون 10 خود را با شرایط تطبیق
-                                                                    می‌دهد. این تمام ماجرا نیست.
-                                                                    در نمایشگر آیفون 10 نقطه‌ی حساس به تراز سفیدی
-                                                                    نور محیط قرار داده ‌شده‌اند تا آیفون 10 را با
-                                                                    شرایط نوری محیطی که از آن
-                                                                    استفاده می‌کنید، هماهنگ کند و تراز سفیدی نمایشگر
-                                                                    را به‌صورت خودکار تغییر دهد. این فناوری که با
-                                                                    نام True-Tone نام‌گذاری
-                                                                    شده، کمک می‌کند رنگ‌های نمایشگر در هر نوری
-                                                                    نزدیک‌ترین غلظت و تراز سفیدی ممکن را به رنگ‌های
-                                                                    طبیعی داشته باشد.
-                                                                </p>
-                                                                <img src="assets/img/single-product/1406339.jpg"
-                                                                     alt="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card">
-                                                        <div class="card-header" id="headingThree">
-                                                            <h5 class="mb-0">
-                                                                <button class="btn btn-link collapsed" type="button"
-                                                                        data-toggle="collapse"
-                                                                        data-target="#collapseThree"
-                                                                        aria-expanded="false"
-                                                                        aria-controls="collapseThree">
-                                                                    طراحی و ساخت (قربانی کردن سنت برای امروزی شدن)
-                                                                </button>
-                                                            </h5>
-                                                        </div>
-                                                        <div id="collapseThree" class="collapse"
-                                                             aria-labelledby="headingThree"
-                                                             data-parent="#accordionExample">
-                                                            <div class="card-body">
-                                                                <img src="assets/img/single-product/1398679.jpg"
-                                                                     alt="">
-                                                                <p>
-                                                                    اپل پا جای پای سامسونگ گذاشته و برای داشتن ظاهری
-                                                                    امروزی و استفاده از جدیدترین فناوری‌های روز، سنت
-                                                                    ده‌ساله‌ی طراحی
-                                                                    گوشی‌هایش را شکسته است. دیگر کلید خانه‌ای وجود
-                                                                    ندارد و تمام قاب جلویی را نمایشگر پر کرده است.
-                                                                    حتی نمایشگر هم برای
-                                                                    استفاده از فناوری تشخیص چهره قربانی شده و قسمت
-                                                                    بالایی آن بریده ‌شده است و لبه‌ی بالایی آن در
-                                                                    مقایسه با هر گوشی دیگری که
-                                                                    تا به امروز دیده بودیم، حالت متفاوتی دارد. ابعاد
-                                                                    iPhone X کمی بزرگ‌تر از ابعاد آیفون 6 است؛ اما
-                                                                    نمایشگرش حدود یک اینچ
-                                                                    بزرگ‌تر از آیفون 6 است. این نشان می‌دهد، فاصله‌ی
-                                                                    لبه‌ها تا نمایشگر تا جای ممکن از طراحی جدیدترین
-                                                                    آیفون اپل حذف‌ شده‌
-                                                                    است.
-                                                                </p>
-                                                                <img src="assets/img/single-product/1441226.jpg"
-                                                                     alt="">
-                                                                <p>
-                                                                    زبان طراحی جدید، آیفون 10 را به‌طور عجیبی به سمت
-                                                                    تبدیل‌شدنش به یک کالای لوکس پیش برده است. نگاه
-                                                                    کلی به طراحی این گوشی
-                                                                    نشان می‌دهد، اپل سنت‌شکنی کرده و کالایی تولید
-                                                                    کرده تا از هر نظر با نسخه‌های قبلی آیفون متفاوت
-                                                                    باشد. استفاده از شیشه برای
-                                                                    قاب پشتی، فلزی براق برای قاب اصلی، حذف کلید خانه
-                                                                    و در انتها استفاده از نمایشگری بزرگ مواردی هستند
-                                                                    که نشان‌دهنده‌ی تفاوت
-                                                                    iPhone X با نسخه‌های قبلی آیفون است. تمام سطوح
-                                                                    آیفون براق و صیقلی طراحی ‌شده‌اند و تنها برآمدگی
-                                                                    آیفون جدید مربوط به
-                                                                    مجموعه‌ی دوربین آن می‌شود که حدود یک میلی‌متری
-                                                                    از قاب پشتی بیرون زده است. برخلاف آیفون 8پلاس،
-                                                                    دوربین‌های روی قاب پشتی به
-                                                                    حالت عمودی روی قاب پشتی قرار گرفته‌اند.
-                                                                </p>
-                                                                <img src="assets/img/single-product/1418947.jpg"
-                                                                     alt="">
-                                                                <p>
-                                                                    آیفون جدید در دو رنگ خاکستری و نقره‌ای راهی
-                                                                    بازار شده که در هر دو مدل قاب جلویی به رنگ مشکی
-                                                                    است و این بابت استفاده از
-                                                                    سنسورهای متعدد در بخش بالایی نمایشگر است. برخلاف
-                                                                    تمام آیفون‌های فلزی که تا امروز ساخته‌ شده‌اند،
-                                                                    قاب اصلی از فلزی براق
-                                                                    ساخته ‌شده تا زیر نور خودنمایی کند.
+                                                            $review_tozihat=$review->review_tozihat;
+                                                            $f=strpos($review_tozihat,'start_review');
+                                                            $t=substr($review_tozihat,0,$f);
+                                                            echo strip_tags($t,'<img><p>');
+                                                            $t2=substr($review_tozihat,$f,strlen($review_tozihat));
+                                                            $text=explode('start_review',$t2);
+                                                            foreach ($text as $key=>$value)
+                                                            {
+                                                                if(!empty($value))
+                                                                {
+                                                                    $d="<div class='review_title' onclick='show_review($key)' id='review_title_$key'>";
+                                                                    $d2="</div><div class='review_div' id='review_div_$key'>";
+                                                                    $v=str_replace('start_item',$d,$value);
 
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                                    $v=str_replace('end_item',$d2,$v).'<div style="clear: both;"></div></div>';
+
+                                                                    echo strip_tags($v,'<img><p><div>');
+                                                                }
+                                                            }
+                                                            ?>
+                                                        @else
+                                                            <p style="color:red;padding-top:30px;padding-bottom:30px;text-align:center">نقد و بررسی تخصصی برای این محصول ثبت نشد</p>
+                                                        @endif
 
                                             </article>
                                         </div>
-                                        <div class="tab-pane fade params" id="params" role="tabpanel"
+
+                                        <div class="tab-pane fade params" id="item" role="tabpanel"
                                              aria-expanded="false">
                                             <article>
-                                                <h2 class="param-title">
+                                                <h2 class="param-title" style="margin-top: 20px;color: #00bfd6">
                                                     مشخصات فنی
-                                                    <span>Apple iPhone X 256GB Mobile Phone</span>
+                                                    <span style="font-size: 14px;margin-top: 30px;">{{$product->title}}</span>
                                                 </h2>
-                                                <section>
-                                                    <h3 class="params-title">مشخصات کلی</h3>
-                                                    <ul class="params-list">
-                                                        <li>
-                                                            <div class="params-list-key">
-                                                                <span class="block">ابعاد</span>
-                                                            </div>
-                                                            <div class="params-list-value">
-                                                                    <span class="block">
-                                                                        7.7 × 70.9 × 143.6 میلی‌متر
-                                                                    </span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="params-list-key">
-                                                                <span class="block">توضیحات سیم کارت</span>
-                                                            </div>
-                                                            <div class="params-list-value">
-                                                                    <span class="block">
-                                                                        سایز نانو (8.8 × 12.3 میلی‌متر)
-                                                                    </span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="params-list-key">
-                                                                <span class="block">وزن</span>
-                                                            </div>
-                                                            <div class="params-list-value">
-                                                                    <span class="block">
-                                                                        174 گرم
-                                                                    </span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="params-list-key">
-                                                                <span class="block">ویژگی‌های خاص</span>
-                                                            </div>
-                                                            <div class="params-list-value">
-                                                                    <span class="block">
-                                                                        مقاوم در برابر آب , مناسب عکاسی , مناسب عکاسی
-                                                                        سلفی , مناسب بازی , مجهز به حس‌گر تشخیص چهره
-                                                                    </span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="params-list-key">
-                                                                <span class="block">تعداد سیم کارت</span>
-                                                            </div>
-                                                            <div class="params-list-value">
-                                                                    <span class="block">
-                                                                        تک سیم کارت
-                                                                    </span>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </section>
-                                                <section>
-                                                    <h3 class="params-title">پردازنده</h3>
-                                                    <ul class="params-list">
-                                                        <li>
-                                                            <div class="params-list-key">
-                                                                <span class="block">تراشه</span>
-                                                            </div>
-                                                            <div class="params-list-value">
-                                                                    <span class="block">
-                                                                        Apple A11 Bionic Chipset
-                                                                    </span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="params-list-key">
-                                                                <span class="block">نوع پردازنده</span>
-                                                            </div>
-                                                            <div class="params-list-value">
-                                                                    <span class="block">
-                                                                        64 بیت
-                                                                    </span>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </section>
+                                                @include('technoland.include.product_item',['product'=>$product,'item_value'=>$item_value,'items'=>$items])
                                             </article>
                                         </div>
-                                        <div class="tab-pane fade" id="comments" role="tabpanel"
+
+                                        <div class="tab-pane fade" id="comment" role="tabpanel"
                                              aria-expanded="false">
                                             <article>
-                                                <h2 class="comments-headline">امتیاز کاربران به:
+                                                <h2 class="comments-headline">امتیاز کاربران به :
                                                     <span>
                                                             <span>
-                                                                ماشین لباسشویی سامسونگ مدل J1466 ظرفیت 7 کیلوگرم
+                                                               {{$product->title}}
                                                             </span>
                                                             <span> |</span>
                                                             <span>۴</span>
@@ -673,442 +580,133 @@
                                                             </span>
                                                         </span>
                                                 </h2>
-                                                <div class="row">
-                                                    <div class="col-md-6 col-sm-12">
-                                                        <ul class="content-expert-rating">
-                                                            <li>
-                                                                <div class="cell">طراحی</div>
-                                                                <div class="cell">
-                                                                    <div class="rating rating--general"
-                                                                         data-rate-digit="عالی">
-                                                                        <div class="rating-rate"
-                                                                             data-rate-value="100%"
-                                                                             style="width: 70%;"></div>
+                                                <div class="row" style="margin-top:30px;margin-bottom:20px">
+
+                                                    <div class="col-md-7" >
+                                                        <ul class="rang_ul" >
+                                                            <?php
+
+                                                            $item_name=array();
+                                                            $item_name[1]='کيفيت ساخت';
+                                                            $item_name[2]='ارزش خريد به نسبت قيمت';
+                                                            $item_name[3]='نوآوري';
+                                                            $item_name[4]='امکانات و قابليت ها';
+                                                            $item_name[5]='سهولت استفاده';
+                                                            $item_name[6]='طراحي و ظاهر';
+
+
+                                                            function get_width($value,$n)
+                                                            {
+                                                                if($value>=$n)
+                                                                {
+                                                                    return 100;
+                                                                }
+                                                                else
+                                                                {
+                                                                    $c=$n-$value;
+                                                                    if($c<1)
+                                                                    {
+                                                                        return $c*100;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        return 0;
+                                                                    }
+                                                                }
+                                                            }
+                                                            ?>
+
+                                                            @foreach($item_name as $key=>$value)
+                                                                    <li>
+                                                                    <span>{{ $value }}</span>
+                                                                    <div class="rating-container">
+                                                                        <div class="bar2">
+                                                                            <div style="width:{{ get_width($score_data['score'][$key],1) }}%" class="holder2"></div>
+                                                                            @if($score_data['score'][$key]<1)
+                                                                                <div class="number_score rating" data-rate-digit="{{ substr($score_data['score'][$key],0,3) }}"></div>
+                                                                            @endif
+                                                                        </div>
+
+                                                                        <div class="bar2"><div style="width:{{ get_width($score_data['score'][$key],2) }}%" class="holder2"></div>
+                                                                            @if($score_data['score'][$key]>1 && $score_data['score'][$key]<2)
+                                                                                <div class="number_score rating" data-rate-digit="{{ substr($score_data['score'][$key],0,3) }}"></div>
+                                                                            @endif
+                                                                        </div>
+
+                                                                        <div class="bar2"><div style="width:{{ get_width($score_data['score'][$key],3) }}%" class="holder2"></div>
+                                                                            @if($score_data['score'][$key]>=2 && $score_data['score'][$key]<3)
+                                                                                <div class="number_score rating" data-rate-digit="{{ substr($score_data['score'][$key],0,3) }}"></div>
+                                                                            @endif
+
+                                                                        </div>
+
+                                                                        <div class="bar2"><div style="width:{{ get_width($score_data['score'][$key],4) }}%" class="holder2"></div>
+                                                                            @if($score_data['score'][$key]>=3 && $score_data['score'][$key]<4)
+                                                                                <div class="number_score rating" data-rate-digit="{{ substr($score_data['score'][$key],0,3)  }}"></div>
+                                                                            @endif
+                                                                        </div>
+
+                                                                        <div class="bar2"><div style="width:{{ get_width($score_data['score'][$key],5) }}%" class="holder2"></div>
+                                                                            @if($score_data['score'][$key]>=4 && $score_data['score'][$key]<=5)
+                                                                                <div class="number_score rating" data-rate-digit="{{ substr($score_data['score'][$key],0,3) }}"></div>
+                                                                            @endif
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">ارزش خرید</div>
-                                                                <div class="cell">
-                                                                    <div class="rating rating--general"
-                                                                         data-rate-digit="عالی">
-                                                                        <div class="rating-rate"
-                                                                             data-rate-value="100%"
-                                                                             style="width: 20%;"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">کیفیت ساخت</div>
-                                                                <div class="cell">
-                                                                    <div class="rating rating--general"
-                                                                         data-rate-digit="عالی">
-                                                                        <div class="rating-rate"
-                                                                             data-rate-value="100%"
-                                                                             style="width: 100%;"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">صدای مزاحم</div>
-                                                                <div class="cell">
-                                                                    <div class="rating rating--general"
-                                                                         data-rate-digit="عالی">
-                                                                        <div class="rating-rate"
-                                                                             data-rate-value="100%"
-                                                                             style="width: 100%;"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">مصرف انرژی و آب</div>
-                                                                <div class="cell">
-                                                                    <div class="rating rating--general"
-                                                                         data-rate-digit="عالی">
-                                                                        <div class="rating-rate"
-                                                                             data-rate-value="100%"
-                                                                             style="width: 100%;"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">امکانات و قابلیت ها</div>
-                                                                <div class="cell">
-                                                                    <div class="rating rating--general"
-                                                                         data-rate-digit="عالی">
-                                                                        <div class="rating-rate"
-                                                                             data-rate-value="100%"
-                                                                             style="width: 100%;"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
+
+                                                                </li>
+                                                            @endforeach
+
                                                         </ul>
                                                     </div>
-                                                    <div class="col-md-6 col-sm-12">
-                                                        <div class="comments-summary-note">
-                                                                <span>شما هم می‌توانید در مورد این کالا نظر
-                                                                    بدهید.</span>
-                                                            <p>برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود
-                                                                شوید. اگر این محصول را قبلا از دیجی‌کالا خریده
-                                                                باشید، نظر
-                                                                شما به عنوان مالک محصول ثبت خواهد شد.
-                                                            </p>
+                                                    <div class="col-md-5">
+
+                                                        <p> شما هم می توانید در مورد این کالا نظر بدهید.</p>
+
+                                                        @if(Auth::check())
                                                             <div class="parent-btn">
-                                                                <a href="#" class="dk-btn dk-btn-grey" data-toggle="modal" data-target="#loginModal">
+                                                                <a href="{{ url('AddComment/Com').'-'.$product->id }}" class="dk-btn dk-btn-info">
                                                                     افزودن نظر جدید
                                                                     <i class="now-ui-icons ui-2_chat-round"></i>
                                                                 </a>
                                                             </div>
-                                                        </div>
+                                                        @else
+                                                            <p>
+                                                                برای ثبت نظرات، نقد و بررسی شما لازم است ابتدا وارد حساب کاربری خود شوید. اگر این محصول را قبلا از تکنولند خریده باشید، نظر شما به عنوان مالک محصول ثبت خواهد شد.
+                                                            </p>
+                                                        @endif
                                                     </div>
                                                 </div>
-                                                <h2 class="param-title mt-5">
-                                                    نظرات کاربران
-                                                    <span>۱۲۳ نظر</span>
-                                                </h2>
-                                                <div class="comments-area default">
-                                                    <ol class="comment-list">
-                                                        <!-- #comment-## -->
-                                                        <li>
-                                                            <div class="comment-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-3 col-sm-12">
-                                                                        <div
-                                                                                class="message-light message-light--purchased">
-                                                                            خریدار این محصول</div>
-                                                                        <ul class="comments-user-shopping">
-                                                                            <li>
-                                                                                <div class="cell">رنگ خریداری
-                                                                                    شده:</div>
-                                                                                <div class="cell color-cell">
-                                                                                        <span
-                                                                                                class="shopping-color-value"
-                                                                                                style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="cell">خریداری شده
-                                                                                    از:</div>
-                                                                                <div class="cell seller-cell">
-                                                                                        <span
-                                                                                                class="o-text-blue">دیجی‌کالا</span>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <div
-                                                                                class="message-light message-light--opinion-positive">
-                                                                            خرید این محصول را توصیه می‌کنم</div>
-                                                                    </div>
-                                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                                        <div class="comment-title">
-                                                                            لباسشویی سامسونگ
-                                                                        </div>
-                                                                        <div class="comment-author">
-                                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                                        </div>
 
-                                                                        <p>لورم ایپسوم متن ساختگی</p>
-
-                                                                        <div class="footer">
-                                                                            <div class="comments-likes">
-                                                                                آیا این نظر برایتان مفید بود؟
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۱۱">بله
-                                                                                </button>
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۶">خیر
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <!-- #comment-## -->
-                                                        <li>
-                                                            <div class="comment-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-3 col-sm-12">
-                                                                        <div
-                                                                                class="message-light message-light--purchased">
-                                                                            خریدار این محصول</div>
-                                                                        <ul class="comments-user-shopping">
-                                                                            <li>
-                                                                                <div class="cell">رنگ خریداری
-                                                                                    شده:</div>
-                                                                                <div class="cell color-cell">
-                                                                                        <span
-                                                                                                class="shopping-color-value"
-                                                                                                style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="cell">خریداری شده
-                                                                                    از:</div>
-                                                                                <div class="cell seller-cell">
-                                                                                        <span
-                                                                                                class="o-text-blue">دیجی‌کالا</span>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <div
-                                                                                class="message-light message-light--opinion-positive">
-                                                                            خرید این محصول را توصیه می‌کنم</div>
-                                                                    </div>
-                                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                                        <div class="comment-title">
-                                                                            لباسشویی سامسونگ
-                                                                        </div>
-                                                                        <div class="comment-author">
-                                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-4 col-sm-6 col-12">
-                                                                                <div
-                                                                                        class="content-expert-evaluation-positive">
-                                                                                    <span>نقاط قوت</span>
-                                                                                    <ul>
-                                                                                        <li>دوربین‌های 4گانه پرقدرت
-                                                                                        </li>
-                                                                                        <li>باتری باظرفیت بالا</li>
-                                                                                        <li>حسگر اثرانگشت زیر قاب
-                                                                                            جلویی</li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-4 col-sm-6 col-12">
-                                                                                <div
-                                                                                        class="content-expert-evaluation-negative">
-                                                                                    <span>نقاط ضعف</span>
-                                                                                    <ul>
-                                                                                        <li>نرم‌افزار دوربین</li>
-                                                                                        <li>نبودن Nano SD در بازار
-                                                                                        </li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <p>
-                                                                            بعد از چندین هفته بررسی تصمیم به خرید
-                                                                            این مدل از ماشین لباسشویی گرفتم ولی
-                                                                            متاسفانه نتونست انتظارات منو برآورده کنه
-                                                                            .
-                                                                            دو تا ایراد داره یکی اینکه حدودا تا 20
-                                                                            دقیقه اول شستشو یه صدایی شبیه به صدای
-                                                                            پمپ تخلیه همش به گوش میاد که رو مخه یکی
-                                                                            هم با اینکه خشک کنش تا 1400 دور در دقیقه
-                                                                            میچرخه، ولی اون طوری که دوستان تعریف
-                                                                            میکردن لباسها رو خشک نمیکنه .ضمنا برای
-                                                                            این صدایی که گفتم زنگ زدم نمایندگی اومدن
-                                                                            دیدن، وتعمیرکار گفتش که این صدا طبیعیه و
-                                                                            تا چند دقیقه اول شستشو عادیه.بدجوری خورد
-                                                                            تو ذوقم. اگه بیشتر پول میذاشتم میتونستم
-                                                                            یه مدل میان رده از مارکهای بوش یا آ ا گ
-                                                                            میخریدم که خیلی بهتر از جنس مونتاژی کره
-                                                                            ای هستش.
-                                                                        </p>
-
-                                                                        <div class="footer">
-                                                                            <div class="comments-likes">
-                                                                                آیا این نظر برایتان مفید بود؟
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۱۱">بله
-                                                                                </button>
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۶">خیر
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <!-- #comment-## -->
-                                                        <li>
-                                                            <div class="comment-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-3 col-sm-12">
-                                                                        <div
-                                                                                class="message-light message-light--purchased">
-                                                                            خریدار این محصول</div>
-                                                                        <ul class="comments-user-shopping">
-                                                                            <li>
-                                                                                <div class="cell">رنگ خریداری
-                                                                                    شده:</div>
-                                                                                <div class="cell color-cell">
-                                                                                        <span
-                                                                                                class="shopping-color-value"
-                                                                                                style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="cell">خریداری شده
-                                                                                    از:</div>
-                                                                                <div class="cell seller-cell">
-                                                                                        <span
-                                                                                                class="o-text-blue">دیجی‌کالا</span>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <div
-                                                                                class="message-light message-light--opinion-positive">
-                                                                            خرید این محصول را توصیه می‌کنم</div>
-                                                                    </div>
-                                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                                        <div class="comment-title">
-                                                                            لباسشویی سامسونگ
-                                                                        </div>
-                                                                        <div class="comment-author">
-                                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                                        </div>
-
-                                                                        <p>لورم ایپسوم متن ساختگی</p>
-
-                                                                        <div class="footer">
-                                                                            <div class="comments-likes">
-                                                                                آیا این نظر برایتان مفید بود؟
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۱۱">بله
-                                                                                </button>
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۶">خیر
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <!-- #comment-## -->
-                                                        <li>
-                                                            <div class="comment-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-3 col-sm-12">
-                                                                        <div
-                                                                                class="message-light message-light--purchased">
-                                                                            خریدار این محصول</div>
-                                                                        <ul class="comments-user-shopping">
-                                                                            <li>
-                                                                                <div class="cell">رنگ خریداری
-                                                                                    شده:</div>
-                                                                                <div class="cell color-cell">
-                                                                                        <span
-                                                                                                class="shopping-color-value"
-                                                                                                style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="cell">خریداری شده
-                                                                                    از:</div>
-                                                                                <div class="cell seller-cell">
-                                                                                        <span
-                                                                                                class="o-text-blue">دیجی‌کالا</span>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <div
-                                                                                class="message-light message-light--opinion-positive">
-                                                                            خرید این محصول را توصیه می‌کنم</div>
-                                                                    </div>
-                                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                                        <div class="comment-title">
-                                                                            لباسشویی سامسونگ
-                                                                        </div>
-                                                                        <div class="comment-author">
-                                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                                        </div>
-
-                                                                        <p>لورم ایپسوم متن ساختگی</p>
-
-                                                                        <div class="footer">
-                                                                            <div class="comments-likes">
-                                                                                آیا این نظر برایتان مفید بود؟
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۱۱">بله
-                                                                                </button>
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۶">خیر
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <!-- #comment-## -->
-                                                        <li>
-                                                            <div class="comment-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-3 col-sm-12">
-                                                                        <div
-                                                                                class="message-light message-light--purchased">
-                                                                            خریدار این محصول</div>
-                                                                        <ul class="comments-user-shopping">
-                                                                            <li>
-                                                                                <div class="cell">رنگ خریداری
-                                                                                    شده:</div>
-                                                                                <div class="cell color-cell">
-                                                                                        <span
-                                                                                                class="shopping-color-value"
-                                                                                                style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="cell">خریداری شده
-                                                                                    از:</div>
-                                                                                <div class="cell seller-cell">
-                                                                                        <span
-                                                                                                class="o-text-blue">دیجی‌کالا</span>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <div
-                                                                                class="message-light message-light--opinion-positive">
-                                                                            خرید این محصول را توصیه می‌کنم</div>
-                                                                    </div>
-                                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                                        <div class="comment-title">
-                                                                            لباسشویی سامسونگ
-                                                                        </div>
-                                                                        <div class="comment-author">
-                                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                                        </div>
-
-                                                                        <p>لورم ایپسوم متن ساختگی</p>
-
-                                                                        <div class="footer">
-                                                                            <div class="comments-likes">
-                                                                                آیا این نظر برایتان مفید بود؟
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۱۱">بله
-                                                                                </button>
-                                                                                <button class="btn-like"
-                                                                                        data-counter="۶">خیر
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ol>
+                                                <div class="loading_box" id="loading_comment" style="padding-top:50px;padding-bottom: 40px;">
+                                                    <div class="loading"></div>
+                                                    <span style="color: #d64b4a">در حال دریافت اطلاعات</span>
                                                 </div>
+
+                                                <div id="comment_box"></div>
                                             </article>
                                         </div>
-                                        <div class="tab-pane fade form-comment" id="questions" role="tabpanel"
-                                             aria-expanded="false">
+
+                                        <div class="tab-pane fade form-comment" id="question" role="tabpanel" aria-expanded="false">
                                             <article>
-                                                <h2 class="param-title">
+                                                <h2 class="param-title" style="margin-top: 20px;color: #00bfd6;">
                                                     افزودن نظر
-                                                    <span>نظر خود را در مورد محصول مطرح نمایید</span>
+{{--                                                    <span>نظر خود را در مورد محصول مطرح نمایید</span>--}}
                                                 </h2>
-                                                <form action="" class="comment">
-                                                        <textarea class="form-control" placeholder="نظر"
-                                                                  rows="5"></textarea>
-                                                    <button class="btn btn-default">ارسال نظر</button>
-                                                </form>
+
+                                                <div id="loading_question" class="loading_box" style="padding-top:50px;padding-bottom: 40px;">
+                                                    <div class="loading"></div>
+                                                    <span>در حال دریافت اطلاعات</span>
+                                                </div>
+
+                                                <div id="question_box"></div>
+                                                @if($errors->has('question'))
+                                                    <?php
+                                                    Session::flash('error_question',$errors->first('question'));
+                                                    ?>
+                                                @endif
                                             </article>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -1123,14 +721,166 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('user/js/plugins/3deye.min.js')}}" type="text/javascript"></script>
+    {{--    <script src="{{asset('user/js/plugins/3deye.min.js')}}" type="text/javascript"></script>--}}
+    <?php
+    $url = url('site/ajax_set_service');
+    $url2 = url('site/ajax_get_tab_data');
+    $url3 = url('site/add/bookmark');
+    $url4 = url('site/delete/bookmark');
+    ?>
     <script>
-        // $(document).ready(function(){
-        //     $("#demo").vc3dEye({
-        //         imagePath:"images/",
-        //         totalImages:51,
-        //         imageExtension:"png"
-        //     });
-        // });
+        $('#myTabs a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+            var product_id = '<?= $product->id ?>';
+            var id = this.id.replace('tab_', '');
+            var check_data = document.getElementById('data_' + id);
+
+            if (id == "question" || id == "comment") {
+
+
+                if (!check_data) {
+                    $("#loading_" + id).show();
+                    $.ajaxSetup(
+                        {
+                            'headers': {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+
+                    $.ajax({
+                        url: '{{ $url2 }}',
+                        type: 'POST',
+                        data: 'tab_id=' + id + '&product_id=' + product_id,
+                        success: function (data) {
+                            $("#loading_" + id).hide();
+                            $("#" + id + "_box").html(data);
+                        }
+                    });
+                }
+
+            }
+        });
+        set_service = function (service_id) {
+            $("#service_box").slideUp();
+            var product_id = '<?= $product->id ?>';
+            var color_id = document.getElementById('color_id').value;
+            $.ajaxSetup(
+                {
+                    'headers': {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+            $.ajax({
+                url: '{{ $url }}',
+                type: 'POST',
+                data: 'service_id=' + service_id + '&product_id=' + product_id + '&color_id=' + color_id,
+                success: function (data) {
+                    $("#loading_box").hide();
+                    $("#product_info").html(data);
+                }
+            });
+        };
+        set_color = function (color_id) {
+
+            var product_id = '<?= $product->id ?>';
+            var service_id = document.getElementById('service_id').value;
+            $.ajaxSetup(
+                {
+                    'headers': {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+            $.ajax({
+                url: '{{ $url }}',
+                type: 'POST',
+                data: 'service_id=' + service_id + '&product_id=' + product_id + '&color_id=' + color_id,
+                success: function (data) {
+                    $("#product_info").html(data);
+                }
+            });
+        };
     </script>
+
+    <script type="text/javascript" src="{{ url('user/js/flipclock.min.js') }}"></script>
+    <script>
+        var amazing_time = new Array;
+        var i = 0;
+        <?php
+            foreach ($amazing as $key=>$value)
+            {
+            $time = ($value->timestamp - time() > 0) ? $value->timestamp - time() : 0;
+            ?>
+            amazing_time[i] ={{$time}};
+        i++;
+        <?php
+        }
+        ?>
+
+    </script>
+    <script>
+        for (var j = 0; j < 2; j++) {
+            var clock;
+            clock = $('#amazing_clock_' + j).FlipClock({
+
+                clockFace: 'HourlyCounter',
+                autoStart: false,
+                id: 'c_' + j,
+                callbacks: {
+                    stop: function () {
+                        var a = this.id.replace('c_', '');
+                        $('#amazing_clock_' + a).hide();
+                        $('#amazing_img_' + a).show();
+                    }
+                }
+            });
+            clock.setTime(amazing_time[j]);
+            clock.setCountdown(true);
+            clock.start();
+        }
+    </script>
+
+    <script>
+        like = function (product_id) {
+
+            $.ajaxSetup(
+                {
+                    'headers': {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+            $.ajax({
+                url: '{{ $url3 }}',
+                type: 'POST',
+                data: 'product_id=' + product_id,
+                success: function (data) {
+                    $("#bookmark_info").addClass('favorites');
+                    $("#tooltip-option").text('حذف از علاقمندی');
+                }
+            });
+        };
+
+        dislike = function (product_id) {
+            $.ajaxSetup(
+                {
+                    'headers': {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+            $.ajax({
+                url: '{{ $url4 }}',
+                type: 'POST',
+                data: 'product_id=' + product_id,
+                success: function (data) {
+                    $("#bookmark_info").removeClass('favorites');
+                    $("#tooltip-option").text('افزودن به علاقمندی');
+                }
+            });
+        };
+    </script>
+
 @endsection
