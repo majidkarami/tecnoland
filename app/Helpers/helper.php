@@ -80,7 +80,6 @@ if (!function_exists('make_slug')) {
     }
 }
 
-
 if (!function_exists('difference')) {
     function difference($number1, $number2, $precision = 2)
     {
